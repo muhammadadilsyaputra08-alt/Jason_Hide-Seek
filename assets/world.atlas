@@ -1,0 +1,1041 @@
+world.png
+size: 1024,256
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+fx_blood_pool_0
+  rotate: false
+  xy: 172, 154
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+fx_blood_pool_1
+  rotate: false
+  xy: 206, 154
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+fx_blood_pool_2
+  rotate: false
+  xy: 240, 154
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+fx_blood_pool_3
+  rotate: false
+  xy: 274, 154
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+fx_blood_pool_4
+  rotate: false
+  xy: 308, 154
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+fx_debris_blood
+  rotate: false
+  xy: 502, 154
+  size: 4, 4
+  orig: 4, 4
+  offset: 0, 0
+  index: 0
+fx_debris_blood
+  rotate: false
+  xy: 508, 154
+  size: 4, 4
+  orig: 4, 4
+  offset: 0, 0
+  index: 1
+fx_debris_blood
+  rotate: false
+  xy: 514, 154
+  size: 4, 4
+  orig: 4, 4
+  offset: 0, 0
+  index: 2
+fx_debris_blood
+  rotate: false
+  xy: 520, 154
+  size: 4, 4
+  orig: 4, 4
+  offset: 0, 0
+  index: 3
+fx_debris_card
+  rotate: false
+  xy: 462, 154
+  size: 8, 8
+  orig: 8, 8
+  offset: 0, 0
+  index: 0
+fx_debris_card
+  rotate: false
+  xy: 472, 154
+  size: 8, 8
+  orig: 8, 8
+  offset: 0, 0
+  index: 1
+fx_debris_card
+  rotate: false
+  xy: 482, 154
+  size: 8, 8
+  orig: 8, 8
+  offset: 0, 0
+  index: 2
+fx_debris_card
+  rotate: false
+  xy: 492, 154
+  size: 8, 8
+  orig: 8, 8
+  offset: 0, 0
+  index: 3
+fx_debris_hay
+  rotate: false
+  xy: 422, 154
+  size: 8, 8
+  orig: 8, 8
+  offset: 0, 0
+  index: 0
+fx_debris_hay
+  rotate: false
+  xy: 432, 154
+  size: 8, 8
+  orig: 8, 8
+  offset: 0, 0
+  index: 1
+fx_debris_hay
+  rotate: false
+  xy: 442, 154
+  size: 8, 8
+  orig: 8, 8
+  offset: 0, 0
+  index: 2
+fx_debris_hay
+  rotate: false
+  xy: 452, 154
+  size: 8, 8
+  orig: 8, 8
+  offset: 0, 0
+  index: 3
+fx_debris_metal
+  rotate: false
+  xy: 382, 154
+  size: 8, 8
+  orig: 8, 8
+  offset: 0, 0
+  index: 0
+fx_debris_metal
+  rotate: false
+  xy: 392, 154
+  size: 8, 8
+  orig: 8, 8
+  offset: 0, 0
+  index: 1
+fx_debris_metal
+  rotate: false
+  xy: 402, 154
+  size: 8, 8
+  orig: 8, 8
+  offset: 0, 0
+  index: 2
+fx_debris_metal
+  rotate: false
+  xy: 412, 154
+  size: 8, 8
+  orig: 8, 8
+  offset: 0, 0
+  index: 3
+fx_debris_wood
+  rotate: false
+  xy: 342, 154
+  size: 8, 8
+  orig: 8, 8
+  offset: 0, 0
+  index: 0
+fx_debris_wood
+  rotate: false
+  xy: 352, 154
+  size: 8, 8
+  orig: 8, 8
+  offset: 0, 0
+  index: 1
+fx_debris_wood
+  rotate: false
+  xy: 362, 154
+  size: 8, 8
+  orig: 8, 8
+  offset: 0, 0
+  index: 2
+fx_debris_wood
+  rotate: false
+  xy: 372, 154
+  size: 8, 8
+  orig: 8, 8
+  offset: 0, 0
+  index: 3
+fx_slash
+  rotate: false
+  xy: 2, 2
+  size: 48, 48
+  orig: 48, 48
+  offset: 0, 0
+  index: 0
+fx_slash
+  rotate: false
+  xy: 52, 2
+  size: 48, 48
+  orig: 48, 48
+  offset: 0, 0
+  index: 1
+fx_slash
+  rotate: false
+  xy: 102, 2
+  size: 48, 48
+  orig: 48, 48
+  offset: 0, 0
+  index: 2
+obj_basement_drum_broken_bloody
+  rotate: false
+  xy: 818, 86
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+obj_basement_drum_broken_clean
+  rotate: false
+  xy: 784, 86
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+obj_basement_drum_checked
+  rotate: false
+  xy: 750, 86
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+obj_basement_drum_intact
+  rotate: false
+  xy: 716, 86
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+obj_car_trunk_broken_bloody
+  rotate: false
+  xy: 934, 2
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+obj_car_trunk_broken_clean
+  rotate: false
+  xy: 900, 2
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+obj_car_trunk_checked
+  rotate: false
+  xy: 866, 2
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+obj_car_trunk_intact
+  rotate: false
+  xy: 832, 2
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+obj_cargo_crate_broken_bloody
+  rotate: false
+  xy: 2, 86
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+obj_cargo_crate_broken_clean
+  rotate: false
+  xy: 988, 52
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+obj_cargo_crate_checked
+  rotate: false
+  xy: 954, 52
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+obj_cargo_crate_intact
+  rotate: false
+  xy: 920, 52
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+obj_drum_barrel_broken_bloody
+  rotate: false
+  xy: 138, 86
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+obj_drum_barrel_broken_clean
+  rotate: false
+  xy: 104, 86
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+obj_drum_barrel_checked
+  rotate: false
+  xy: 70, 86
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+obj_drum_barrel_intact
+  rotate: false
+  xy: 36, 86
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+obj_farm_box_broken_bloody
+  rotate: false
+  xy: 614, 52
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+obj_farm_box_broken_clean
+  rotate: false
+  xy: 580, 52
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+obj_farm_box_checked
+  rotate: false
+  xy: 546, 52
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+obj_farm_box_intact
+  rotate: false
+  xy: 512, 52
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+obj_garage_crate_broken_bloody
+  rotate: false
+  xy: 70, 52
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+obj_garage_crate_broken_clean
+  rotate: false
+  xy: 36, 52
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+obj_garage_crate_checked
+  rotate: false
+  xy: 2, 52
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+obj_garage_crate_intact
+  rotate: false
+  xy: 968, 2
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+obj_hall_chest_broken_bloody
+  rotate: false
+  xy: 662, 2
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+obj_hall_chest_broken_clean
+  rotate: false
+  xy: 628, 2
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+obj_hall_chest_checked
+  rotate: false
+  xy: 594, 2
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+obj_hall_chest_intact
+  rotate: false
+  xy: 560, 2
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+obj_harvest_crate_broken_bloody
+  rotate: false
+  xy: 478, 52
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+obj_harvest_crate_broken_clean
+  rotate: false
+  xy: 444, 52
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+obj_harvest_crate_checked
+  rotate: false
+  xy: 410, 52
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+obj_harvest_crate_intact
+  rotate: false
+  xy: 376, 52
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+obj_hay_stack_broken_bloody
+  rotate: false
+  xy: 342, 52
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+obj_hay_stack_broken_clean
+  rotate: false
+  xy: 308, 52
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+obj_hay_stack_checked
+  rotate: false
+  xy: 274, 52
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+obj_hay_stack_intact
+  rotate: false
+  xy: 240, 52
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+obj_heavy_curtain_broken_bloody
+  rotate: false
+  xy: 526, 2
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+obj_heavy_curtain_broken_clean
+  rotate: false
+  xy: 492, 2
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+obj_heavy_curtain_checked
+  rotate: false
+  xy: 458, 2
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+obj_heavy_curtain_intact
+  rotate: false
+  xy: 424, 2
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+obj_large_cardboard_broken_bloody
+  rotate: false
+  xy: 886, 52
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+obj_large_cardboard_broken_clean
+  rotate: false
+  xy: 852, 52
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+obj_large_cardboard_checked
+  rotate: false
+  xy: 818, 52
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+obj_large_cardboard_intact
+  rotate: false
+  xy: 784, 52
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+obj_metal_locker_broken_bloody
+  rotate: false
+  xy: 410, 86
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+obj_metal_locker_broken_clean
+  rotate: false
+  xy: 376, 86
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+obj_metal_locker_checked
+  rotate: false
+  xy: 342, 86
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+obj_metal_locker_intact
+  rotate: false
+  xy: 308, 86
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+obj_oil_barrel_broken_bloody
+  rotate: false
+  xy: 798, 2
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+obj_oil_barrel_broken_clean
+  rotate: false
+  xy: 764, 2
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+obj_oil_barrel_checked
+  rotate: false
+  xy: 730, 2
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+obj_oil_barrel_intact
+  rotate: false
+  xy: 696, 2
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+obj_pallet_gap_broken_bloody
+  rotate: false
+  xy: 274, 86
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+obj_pallet_gap_broken_clean
+  rotate: false
+  xy: 240, 86
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+obj_pallet_gap_checked
+  rotate: false
+  xy: 206, 86
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+obj_pallet_gap_intact
+  rotate: false
+  xy: 172, 86
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+obj_tarp_curtain_broken_bloody
+  rotate: false
+  xy: 682, 86
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+obj_tarp_curtain_broken_clean
+  rotate: false
+  xy: 648, 86
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+obj_tarp_curtain_checked
+  rotate: false
+  xy: 614, 86
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+obj_tarp_curtain_intact
+  rotate: false
+  xy: 580, 86
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+obj_under_bed_broken_bloody
+  rotate: false
+  xy: 390, 2
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+obj_under_bed_broken_clean
+  rotate: false
+  xy: 356, 2
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+obj_under_bed_checked
+  rotate: false
+  xy: 322, 2
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+obj_under_bed_intact
+  rotate: false
+  xy: 288, 2
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+obj_under_cot_broken_bloody
+  rotate: false
+  xy: 546, 86
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+obj_under_cot_broken_clean
+  rotate: false
+  xy: 512, 86
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+obj_under_cot_checked
+  rotate: false
+  xy: 478, 86
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+obj_under_cot_intact
+  rotate: false
+  xy: 444, 86
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+obj_under_workbench_broken_bloody
+  rotate: false
+  xy: 206, 52
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+obj_under_workbench_broken_clean
+  rotate: false
+  xy: 172, 52
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+obj_under_workbench_checked
+  rotate: false
+  xy: 138, 52
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+obj_under_workbench_intact
+  rotate: false
+  xy: 104, 52
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+obj_wardrobe_broken_bloody
+  rotate: false
+  xy: 254, 2
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+obj_wardrobe_broken_clean
+  rotate: false
+  xy: 220, 2
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+obj_wardrobe_checked
+  rotate: false
+  xy: 186, 2
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+obj_wardrobe_intact
+  rotate: false
+  xy: 152, 2
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+obj_water_barrel_broken_bloody
+  rotate: false
+  xy: 750, 52
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+obj_water_barrel_broken_clean
+  rotate: false
+  xy: 716, 52
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+obj_water_barrel_checked
+  rotate: false
+  xy: 682, 52
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+obj_water_barrel_intact
+  rotate: false
+  xy: 648, 52
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+tile_map1_door
+  rotate: false
+  xy: 2, 120
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+tile_map1_floor_a
+  rotate: false
+  xy: 852, 86
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+tile_map1_floor_b
+  rotate: false
+  xy: 886, 86
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+tile_map1_floor_c
+  rotate: false
+  xy: 920, 86
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+tile_map1_prop_a
+  rotate: false
+  xy: 36, 120
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+tile_map1_prop_b
+  rotate: false
+  xy: 70, 120
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+tile_map1_wall_face
+  rotate: false
+  xy: 954, 86
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+tile_map1_wall_top
+  rotate: false
+  xy: 988, 86
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+tile_map2_door
+  rotate: false
+  xy: 274, 120
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+tile_map2_floor_a
+  rotate: false
+  xy: 104, 120
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+tile_map2_floor_b
+  rotate: false
+  xy: 138, 120
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+tile_map2_floor_c
+  rotate: false
+  xy: 172, 120
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+tile_map2_prop_a
+  rotate: false
+  xy: 308, 120
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+tile_map2_prop_b
+  rotate: false
+  xy: 342, 120
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+tile_map2_wall_face
+  rotate: false
+  xy: 206, 120
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+tile_map2_wall_top
+  rotate: false
+  xy: 240, 120
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+tile_map3_door
+  rotate: false
+  xy: 546, 120
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+tile_map3_floor_a
+  rotate: false
+  xy: 376, 120
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+tile_map3_floor_b
+  rotate: false
+  xy: 410, 120
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+tile_map3_floor_c
+  rotate: false
+  xy: 444, 120
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+tile_map3_prop_a
+  rotate: false
+  xy: 580, 120
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+tile_map3_prop_b
+  rotate: false
+  xy: 614, 120
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+tile_map3_wall_face
+  rotate: false
+  xy: 478, 120
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+tile_map3_wall_top
+  rotate: false
+  xy: 512, 120
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+tile_map4_door
+  rotate: false
+  xy: 818, 120
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+tile_map4_floor_a
+  rotate: false
+  xy: 648, 120
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+tile_map4_floor_b
+  rotate: false
+  xy: 682, 120
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+tile_map4_floor_c
+  rotate: false
+  xy: 716, 120
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+tile_map4_prop_a
+  rotate: false
+  xy: 852, 120
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+tile_map4_prop_b
+  rotate: false
+  xy: 886, 120
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+tile_map4_wall_face
+  rotate: false
+  xy: 750, 120
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+tile_map4_wall_top
+  rotate: false
+  xy: 784, 120
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+tile_map5_door
+  rotate: false
+  xy: 70, 154
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+tile_map5_floor_a
+  rotate: false
+  xy: 920, 120
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+tile_map5_floor_b
+  rotate: false
+  xy: 954, 120
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+tile_map5_floor_c
+  rotate: false
+  xy: 988, 120
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+tile_map5_prop_a
+  rotate: false
+  xy: 104, 154
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+tile_map5_prop_b
+  rotate: false
+  xy: 138, 154
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+tile_map5_wall_face
+  rotate: false
+  xy: 2, 154
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+tile_map5_wall_top
+  rotate: false
+  xy: 36, 154
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1

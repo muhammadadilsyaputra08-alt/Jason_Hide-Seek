@@ -1,0 +1,242 @@
+[
+ {
+  "id": "wardrobe",
+  "spot_enum": "WARDROBE",
+  "map": 1,
+  "material": "wood",
+  "states": [
+   "INTACT",
+   "BEING_CHECKED",
+   "BROKEN_CLEAN",
+   "BROKEN_BLOODY"
+  ]
+ },
+ {
+  "id": "under_bed",
+  "spot_enum": "UNDER_BED",
+  "map": 1,
+  "material": "wood",
+  "states": [
+   "INTACT",
+   "BEING_CHECKED",
+   "BROKEN_CLEAN",
+   "BROKEN_BLOODY"
+  ]
+ },
+ {
+  "id": "heavy_curtain",
+  "spot_enum": "HEAVY_CURTAIN",
+  "map": 1,
+  "material": "cloth",
+  "states": [
+   "INTACT",
+   "BEING_CHECKED",
+   "BROKEN_CLEAN",
+   "BROKEN_BLOODY"
+  ]
+ },
+ {
+  "id": "hall_chest",
+  "spot_enum": "HALL_CHEST",
+  "map": 1,
+  "material": "wood",
+  "states": [
+   "INTACT",
+   "BEING_CHECKED",
+   "BROKEN_CLEAN",
+   "BROKEN_BLOODY"
+  ]
+ },
+ {
+  "id": "oil_barrel",
+  "spot_enum": "OIL_BARREL",
+  "map": 2,
+  "material": "metal",
+  "states": [
+   "INTACT",
+   "BEING_CHECKED",
+   "BROKEN_CLEAN",
+   "BROKEN_BLOODY"
+  ]
+ },
+ {
+  "id": "car_trunk",
+  "spot_enum": "CAR_TRUNK",
+  "map": 2,
+  "material": "metal",
+  "states": [
+   "INTACT",
+   "BEING_CHECKED",
+   "BROKEN_CLEAN",
+   "BROKEN_BLOODY"
+  ]
+ },
+ {
+  "id": "garage_crate",
+  "spot_enum": "GARAGE_CRATE",
+  "map": 2,
+  "material": "wood",
+  "states": [
+   "INTACT",
+   "BEING_CHECKED",
+   "BROKEN_CLEAN",
+   "BROKEN_BLOODY"
+  ]
+ },
+ {
+  "id": "under_workbench",
+  "spot_enum": "UNDER_WORKBENCH",
+  "map": 2,
+  "material": "wood",
+  "states": [
+   "INTACT",
+   "BEING_CHECKED",
+   "BROKEN_CLEAN",
+   "BROKEN_BLOODY"
+  ]
+ },
+ {
+  "id": "hay_stack",
+  "spot_enum": "HAY_STACK",
+  "map": 3,
+  "material": "hay",
+  "states": [
+   "INTACT",
+   "BEING_CHECKED",
+   "BROKEN_CLEAN",
+   "BROKEN_BLOODY"
+  ]
+ },
+ {
+  "id": "harvest_crate",
+  "spot_enum": "HARVEST_CRATE",
+  "map": 3,
+  "material": "wood",
+  "states": [
+   "INTACT",
+   "BEING_CHECKED",
+   "BROKEN_CLEAN",
+   "BROKEN_BLOODY"
+  ]
+ },
+ {
+  "id": "farm_box",
+  "spot_enum": "FARM_BOX",
+  "map": 3,
+  "material": "card",
+  "states": [
+   "INTACT",
+   "BEING_CHECKED",
+   "BROKEN_CLEAN",
+   "BROKEN_BLOODY"
+  ]
+ },
+ {
+  "id": "water_barrel",
+  "spot_enum": "WATER_BARREL",
+  "map": 3,
+  "material": "wood",
+  "states": [
+   "INTACT",
+   "BEING_CHECKED",
+   "BROKEN_CLEAN",
+   "BROKEN_BLOODY"
+  ]
+ },
+ {
+  "id": "large_cardboard",
+  "spot_enum": "LARGE_CARDBOARD",
+  "map": 4,
+  "material": "card",
+  "states": [
+   "INTACT",
+   "BEING_CHECKED",
+   "BROKEN_CLEAN",
+   "BROKEN_BLOODY"
+  ]
+ },
+ {
+  "id": "cargo_crate",
+  "spot_enum": "CARGO_CRATE",
+  "map": 4,
+  "material": "metal",
+  "states": [
+   "INTACT",
+   "BEING_CHECKED",
+   "BROKEN_CLEAN",
+   "BROKEN_BLOODY"
+  ]
+ },
+ {
+  "id": "drum_barrel",
+  "spot_enum": "DRUM_BARREL",
+  "map": 4,
+  "material": "metal",
+  "states": [
+   "INTACT",
+   "BEING_CHECKED",
+   "BROKEN_CLEAN",
+   "BROKEN_BLOODY"
+  ]
+ },
+ {
+  "id": "pallet_gap",
+  "spot_enum": "PALLET_GAP",
+  "map": 4,
+  "material": "wood",
+  "states": [
+   "INTACT",
+   "BEING_CHECKED",
+   "BROKEN_CLEAN",
+   "BROKEN_BLOODY"
+  ]
+ },
+ {
+  "id": "metal_locker",
+  "spot_enum": "METAL_LOCKER",
+  "map": 5,
+  "material": "metal",
+  "states": [
+   "INTACT",
+   "BEING_CHECKED",
+   "BROKEN_CLEAN",
+   "BROKEN_BLOODY"
+  ]
+ },
+ {
+  "id": "under_cot",
+  "spot_enum": "UNDER_COT",
+  "map": 5,
+  "material": "metal",
+  "states": [
+   "INTACT",
+   "BEING_CHECKED",
+   "BROKEN_CLEAN",
+   "BROKEN_BLOODY"
+  ]
+ },
+ {
+  "id": "tarp_curtain",
+  "spot_enum": "TARP_CURTAIN",
+  "map": 5,
+  "material": "cloth",
+  "states": [
+   "INTACT",
+   "BEING_CHECKED",
+   "BROKEN_CLEAN",
+   "BROKEN_BLOODY"
+  ]
+ },
+ {
+  "id": "basement_drum",
+  "spot_enum": "BASEMENT_DRUM",
+  "map": 5,
+  "material": "metal",
+  "states": [
+   "INTACT",
+   "BEING_CHECKED",
+   "BROKEN_CLEAN",
+   "BROKEN_BLOODY"
+  ]
+ }
+]

@@ -1,0 +1,222 @@
+ui.png
+size: 512,256
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+ui_badge_lose
+  rotate: false
+  xy: 100, 144
+  size: 96, 32
+  orig: 96, 32
+  offset: 0, 0
+  index: -1
+ui_badge_win
+  rotate: false
+  xy: 2, 144
+  size: 96, 32
+  orig: 96, 32
+  offset: 0, 0
+  index: -1
+ui_bar_stamina_fill
+  rotate: false
+  xy: 180, 178
+  size: 44, 4
+  orig: 44, 4
+  offset: 0, 0
+  index: -1
+ui_bar_stamina_frame
+  rotate: false
+  xy: 68, 178
+  size: 48, 8
+  orig: 48, 8
+  offset: 0, 0
+  index: -1
+ui_bar_tension_fill
+  rotate: false
+  xy: 118, 178
+  size: 60, 4
+  orig: 60, 4
+  offset: 0, 0
+  index: -1
+ui_bar_tension_frame
+  rotate: false
+  xy: 2, 178
+  size: 64, 8
+  orig: 64, 8
+  offset: 0, 0
+  index: -1
+ui_btn_exit
+  rotate: false
+  xy: 2, 94
+  size: 48, 48
+  orig: 48, 48
+  offset: 0, 0
+  index: -1
+ui_btn_exit_pressed
+  rotate: false
+  xy: 52, 94
+  size: 48, 48
+  orig: 48, 48
+  offset: 0, 0
+  index: -1
+ui_btn_hide
+  rotate: false
+  xy: 392, 2
+  size: 48, 48
+  orig: 48, 48
+  offset: 0, 0
+  index: -1
+ui_btn_hide_pressed
+  rotate: false
+  xy: 442, 2
+  size: 48, 48
+  orig: 48, 48
+  offset: 0, 0
+  index: -1
+ui_btn_sprint
+  rotate: false
+  xy: 102, 94
+  size: 48, 48
+  orig: 48, 48
+  offset: 0, 0
+  index: -1
+ui_btn_sprint_pressed
+  rotate: false
+  xy: 152, 94
+  size: 48, 48
+  orig: 48, 48
+  offset: 0, 0
+  index: -1
+ui_hud_panel
+  rotate: false
+  xy: 258, 144
+  size: 64, 24
+  orig: 64, 24
+  offset: 0, 0
+  index: -1
+ui_icon_axe
+  rotate: false
+  xy: 324, 144
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+ui_icon_map1
+  rotate: false
+  xy: 202, 94
+  size: 48, 48
+  orig: 48, 48
+  offset: 0, 0
+  index: -1
+ui_icon_map2
+  rotate: false
+  xy: 252, 94
+  size: 48, 48
+  orig: 48, 48
+  offset: 0, 0
+  index: -1
+ui_icon_map3
+  rotate: false
+  xy: 302, 94
+  size: 48, 48
+  orig: 48, 48
+  offset: 0, 0
+  index: -1
+ui_icon_map4
+  rotate: false
+  xy: 352, 94
+  size: 48, 48
+  orig: 48, 48
+  offset: 0, 0
+  index: -1
+ui_icon_map5
+  rotate: false
+  xy: 402, 94
+  size: 48, 48
+  orig: 48, 48
+  offset: 0, 0
+  index: -1
+ui_icon_phase_countdown
+  rotate: false
+  xy: 360, 144
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+ui_icon_phase_hunt
+  rotate: false
+  xy: 378, 144
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+ui_icon_skull
+  rotate: false
+  xy: 450, 144
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+ui_icon_survivor_alive
+  rotate: false
+  xy: 396, 144
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+ui_icon_survivor_dead
+  rotate: false
+  xy: 414, 144
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+ui_icon_tension_eye
+  rotate: false
+  xy: 432, 144
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+ui_icon_warning
+  rotate: false
+  xy: 342, 144
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+ui_joy_base
+  rotate: false
+  xy: 326, 2
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: -1
+ui_joy_knob
+  rotate: false
+  xy: 198, 144
+  size: 28, 28
+  orig: 28, 28
+  offset: 0, 0
+  index: -1
+ui_joy_knob_pressed
+  rotate: false
+  xy: 228, 144
+  size: 28, 28
+  orig: 28, 28
+  offset: 0, 0
+  index: -1
+ui_vignette_dark
+  rotate: false
+  xy: 2, 2
+  size: 160, 90
+  orig: 160, 90
+  offset: 0, 0
+  index: -1
+ui_vignette_red
+  rotate: false
+  xy: 164, 2
+  size: 160, 90
+  orig: 160, 90
+  offset: 0, 0
+  index: -1
