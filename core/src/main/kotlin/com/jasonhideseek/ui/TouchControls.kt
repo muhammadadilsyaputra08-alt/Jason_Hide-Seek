@@ -33,8 +33,15 @@ class TouchControls(private val viewport: Viewport, private val assets: Assets) 
     private val tmp = Vector2()
     private val joyRadius = 28f
 
-    var hideButtonVisible = false
-    var exitMode = false
+    /** Region ikon tombol aksi kontekstual (null = tombol disembunyikan). */
+    var actionIcon: String? = null
+    /** Mode penonton: joystick/sprint/aksi dimatikan, tombol prev/next aktif. */
+    var spectatorMode = false
+    private var specStep = 0
+    private val specPrevX = GameConfig.UI_W / 2f - 76f
+    private val specNextX = GameConfig.UI_W / 2f + 52f
+    private val specY = 14f
+    private val specSize = 24f
 
     private fun toUi(sx: Int, sy: Int): Vector2 = viewport.unproject(tmp.set(sx.toFloat(), sy.toFloat()))
 
@@ -42,9 +49,14 @@ class TouchControls(private val viewport: Viewport, private val assets: Assets) 
 
     override fun touchDown(screenX: Int, screenY: Int, pointer: Int, button: Int): Boolean {
         val p = toUi(screenX, screenY)
+        if (spectatorMode) {
+            if (p.x >= specPrevX && p.x <= specPrevX + specSize && p.y >= specY && p.y <= specY + specSize) specStep = -1
+            else if (p.x >= specNextX && p.x <= specNextX + specSize && p.y >= specY && p.y <= specY + specSize) specStep = 1
+            return true
+        }
         when {
             inBtn(p, sprintX, sprintY) -> { sprintPointer = pointer; sprintTouch = true }
-            inBtn(p, actionX, actionY) -> { if (hideButtonVisible) actionQueued = true }
+            inBtn(p, actionX, actionY) -> { if (actionIcon != null) actionQueued = true }
             p.x < GameConfig.UI_W * 0.5f && joyPointer == -1 -> {
                 joyPointer = pointer
                 joyOrigin.set(p); joyKnob.set(p)
@@ -83,22 +95,33 @@ class TouchControls(private val viewport: Viewport, private val assets: Assets) 
             if (i.isKeyPressed(Input.Keys.S) || i.isKeyPressed(Input.Keys.DOWN)) ky -= 1f
             moveX = kx; moveY = ky
         }
+        if (spectatorMode) { moveX = 0f; moveY = 0f; return }
         if (Gdx.input.isKeyJustPressed(Input.Keys.E) || Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) actionQueued = true
+    }
+
+    /** -1 = bot sebelumnya, 1 = berikutnya, 0 = tidak ada. */
+    fun consumeSpectateStep(): Int {
+        var st = specStep
+        if (Gdx.input.isKeyJustPressed(Input.Keys.LEFT) && spectatorMode) st = -1
+        if (Gdx.input.isKeyJustPressed(Input.Keys.RIGHT) && spectatorMode) st = 1
+        specStep = 0
+        return st
     }
 
     fun consumeAction(): Boolean { val a = actionQueued; actionQueued = false; return a }
 
     fun render(batch: SpriteBatch) {
+        if (spectatorMode) {
+            batch.draw(assets.region("ui_btn_spec_prev"), specPrevX, specY)
+            batch.draw(assets.region("ui_btn_spec_next"), specNextX, specY)
+            return
+        }
         if (joyPointer != -1) {
-            val base = assets.region("ui_joy_base")
-            batch.draw(base, joyOrigin.x - 32f, joyOrigin.y - 32f)
-            val knob = assets.region(if (joyPointer != -1) "ui_joy_knob_pressed" else "ui_joy_knob")
-            batch.draw(knob, joyKnob.x - 14f, joyKnob.y - 14f)
+            batch.draw(assets.region("ui_joy_base"), joyOrigin.x - 32f, joyOrigin.y - 32f)
+            batch.draw(assets.region("ui_joy_knob_pressed"), joyKnob.x - 14f, joyKnob.y - 14f)
         }
         batch.draw(assets.region(if (sprint) "ui_btn_sprint_pressed" else "ui_btn_sprint"), sprintX, sprintY)
-        if (hideButtonVisible) {
-            val n = if (exitMode) "ui_btn_exit" else "ui_btn_hide"
-            batch.draw(assets.region(n), actionX, actionY)
-        }
+        val icon = actionIcon
+        if (icon != null) batch.draw(assets.region(icon), actionX, actionY)
     }
 }

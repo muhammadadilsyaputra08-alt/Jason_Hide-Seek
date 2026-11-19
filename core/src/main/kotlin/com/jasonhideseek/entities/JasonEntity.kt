@@ -34,6 +34,9 @@ class JasonEntity(x: Float, y: Float, private val engine: JasonDecisionEngine, p
     private var swinging = false
     private var swingTime = 0f
     private var swingHit = false
+    private var swingBreak = false
+    private var ended = false
+    private var victory = false
 
     val chasing get() = state == JasonState.CHASE
 
@@ -108,7 +111,9 @@ class JasonEntity(x: Float, y: Float, private val engine: JasonDecisionEngine, p
 
     private fun pickPatrolTarget(w: GameWorld) {
         repeat(6) {
-            if (rng.nextFloat() < 0.65f && w.spots.isNotEmpty()) {
+            if (w.keyComplete && rng.nextFloat() < GameConfig.JASON_EXIT_GUARD_CHANCE) {
+                if (setPathTo(w.map, w.map.exitApproach.x, w.map.exitApproach.y)) return
+            } else if (rng.nextFloat() < 0.65f && w.spots.isNotEmpty()) {
                 val s = w.spots[rng.nextInt(w.spots.size)]
                 if (s.state == SpotState.INTACT && s.recheckCooldown <= 0f && setPathTo(w.map, s.x, s.y)) return
             } else {
@@ -180,7 +185,7 @@ class JasonEntity(x: Float, y: Float, private val engine: JasonDecisionEngine, p
         }
         moving = false
         face(s.x - x, s.y - y)
-        startSwing(w)
+        startSwing(w, true)
     }
 
     // ---------- CHASE ----------
@@ -253,26 +258,39 @@ class JasonEntity(x: Float, y: Float, private val engine: JasonDecisionEngine, p
     }
 
     // ---------- Ayunan ----------
-    private fun startSwing(w: GameWorld) {
-        swinging = true; swingTime = 0f; swingHit = false
+    private fun startSwing(w: GameWorld, breaking: Boolean = false) {
+        swinging = true; swingTime = 0f; swingHit = false; swingBreak = breaking
         w.sound.playAt("slash", x, y, 0.9f)
     }
 
     private fun tickSwing(dt: Float, w: GameWorld, onHit: () -> Unit): Boolean {
         swingTime += dt
-        if (!swingHit && swingTime >= SWING_HIT) {
+        val hitAt = if (swingBreak) BREAK_HIT else SWING_HIT
+        val total = if (swingBreak) BREAK_TOTAL else SWING_TOTAL
+        if (!swingHit && swingTime >= hitAt) {
             swingHit = true
             w.gore.slash(x + dir.dx * 18f, y + 18f + dir.dy * 10f)
             onHit()
         }
-        if (swingTime >= SWING_TOTAL) { swinging = false; return true }
+        if (swingTime >= total) { swinging = false; return true }
         return false
     }
 
-    // ---------- Sprite ----------
+    // ---------- Akhir pertandingan ----------
+    fun setEnded(win: Boolean) { ended = true; victory = win; swinging = false; moving = false; animTime = 0f }
+
+    fun updateEnded(dt: Float) { animTime += dt }
+
+    // ---------- Sprite (frame 64x64, pivot kaki 32,51) ----------
     fun currentFrame(assets: Assets): TextureRegion {
         val d = dir.key
         return when {
+            ended && victory -> assets.frame("jason_victory", animTime, 6f)
+            ended -> assets.frame("jason_idle_$d", animTime, 2f)
+            swinging && swingBreak -> {
+                val f = assets.frames("jason_break_$d")
+                f[Math.min(f.size - 1, (swingTime / (BREAK_TOTAL / f.size)).toInt())]
+            }
             swinging -> {
                 val f = assets.frames("jason_attack_$d")
                 f[Math.min(f.size - 1, (swingTime / (SWING_TOTAL / f.size)).toInt())]
@@ -280,15 +298,15 @@ class JasonEntity(x: Float, y: Float, private val engine: JasonDecisionEngine, p
             state == JasonState.EVALUATE_SPOT || (state == JasonState.CHECK_SPOT && checking) ->
                 assets.frame("jason_evaluate_$d", stateTime, 6f)
             state == JasonState.CHASE -> assets.frame("jason_chase_$d", animTime, 10f)
-            else -> {
-                val f = assets.frames("jason_walk_$d")
-                if (moving) f[((animTime * 6f).toInt()) % f.size] else f[0]
-            }
+            moving -> assets.frame("jason_walk_$d", animTime, 6f)
+            else -> assets.frame("jason_idle_$d", animTime, 2f)
         }
     }
 
     companion object {
         const val SWING_HIT = 0.28f
         const val SWING_TOTAL = 0.45f
+        const val BREAK_HIT = 0.36f
+        const val BREAK_TOTAL = 0.6f
     }
 }

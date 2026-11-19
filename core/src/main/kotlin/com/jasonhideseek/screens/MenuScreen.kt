@@ -1,8 +1,10 @@
 package com.jasonhideseek.screens
 
 import com.badlogic.gdx.Gdx
+import com.badlogic.gdx.Input
 import com.badlogic.gdx.InputAdapter
 import com.badlogic.gdx.ScreenAdapter
+import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.GL20
 import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.graphics.g2d.GlyphLayout
@@ -21,47 +23,50 @@ class MenuScreen(private val game: JasonGame) : ScreenAdapter() {
     private val layout = GlyphLayout()
     private val tmp = Vector2()
     private var time = 0f
-    private val names = (0 until 5).map { MapDefinition.NAMES[it] }
 
     private val iconSize = 48f
     private val iconGap = 14f
     private val iconsX get() = (GameConfig.UI_W - (5 * iconSize + 4 * iconGap)) / 2f
-    private val iconsY = 110f
-    private val startX = GameConfig.UI_W / 2f - 70f
-    private val startY = 30f
-    private val startW = 140f
-    private val startH = 36f
+    private val iconsY = 78f
+    private val btnW = 144f
+    private val btnH = 48f
+    private val btnX get() = GameConfig.UI_W / 2f - btnW / 2f
+    private val btnY = 12f
 
     override fun show() {
-        game.sound.stopAmbient()
-        Gdx.input.setCatchKey(com.badlogic.gdx.Input.Keys.BACK, true)
+        game.sound.startMenuMusic()
+        Gdx.input.setCatchKey(Input.Keys.BACK, true)
         Gdx.input.inputProcessor = object : InputAdapter() {
             override fun touchDown(screenX: Int, screenY: Int, pointer: Int, button: Int): Boolean {
                 val p = vp.unproject(tmp.set(screenX.toFloat(), screenY.toFloat()))
                 for (i in 0 until 5) {
                     val x = iconsX + i * (iconSize + iconGap)
                     if (p.x >= x && p.x <= x + iconSize && p.y >= iconsY && p.y <= iconsY + iconSize) {
-                        game.selectedMap = i; return true
+                        game.selectedMap = i; game.sound.play("click", 0.6f); return true
                     }
                 }
-                if (p.x >= startX && p.x <= startX + startW && p.y >= startY && p.y <= startY + startH) start()
+                if (p.x >= btnX && p.x <= btnX + btnW && p.y >= btnY && p.y <= btnY + btnH) start()
                 return true
             }
 
             override fun keyDown(keycode: Int): Boolean {
                 when (keycode) {
-                    com.badlogic.gdx.Input.Keys.ENTER, com.badlogic.gdx.Input.Keys.SPACE -> start()
-                    com.badlogic.gdx.Input.Keys.LEFT -> game.selectedMap = (game.selectedMap + 4) % 5
-                    com.badlogic.gdx.Input.Keys.RIGHT -> game.selectedMap = (game.selectedMap + 1) % 5
+                    Input.Keys.ENTER, Input.Keys.SPACE -> start()
+                    Input.Keys.LEFT -> game.selectedMap = (game.selectedMap + 4) % 5
+                    Input.Keys.RIGHT -> game.selectedMap = (game.selectedMap + 1) % 5
                 }
                 return true
             }
         }
     }
 
-    private fun start() { game.setScreen(GameScreen(game)) }
+    private fun start() {
+        game.sound.play("click", 0.8f)
+        game.setScreen(GameScreen(game))
+    }
 
-    private fun center(text: String, y: Float) {
+    private fun center(text: String, y: Float, color: Color = Color.WHITE) {
+        a.font.color = color
         layout.setText(a.font, text)
         a.font.draw(batch, layout, GameConfig.UI_W / 2f - layout.width / 2f, y)
     }
@@ -73,17 +78,13 @@ class MenuScreen(private val game: JasonGame) : ScreenAdapter() {
         vp.apply(); cam.update()
         batch.projectionMatrix = cam.combined
         batch.begin()
-        // Jason berjalan di latar
-        val jf = a.frame("jason_walk_down", time, 6f)
-        batch.draw(jf, GameConfig.UI_W / 2f - 48f, 168f, 96f, 96f)
         batch.draw(a.region("ui_vignette_dark"), 0f, 0f, GameConfig.UI_W, GameConfig.UI_H)
 
-        a.font.color = com.badlogic.gdx.graphics.Color(0.85f, 0.1f, 0.1f, 1f)
-        a.font.data.setScale(2f)
-        center("JASON HIDE & SEEK", GameConfig.UI_H - 16f)
-        a.font.data.setScale(1f)
-        a.font.color = com.badlogic.gdx.graphics.Color.WHITE
-        center("Pilih map lalu sembunyi sebelum Jason datang", 168f)
+        // Logo baru
+        val lh = 124f
+        val lw = lh * a.logo.width / a.logo.height
+        batch.draw(a.logo, GameConfig.UI_W / 2f - lw / 2f, GameConfig.UI_H - lh - 8f, lw, lh)
+        center("Kumpulkan 3 Key Frame, buka pintu, kabur dari Jason", GameConfig.UI_H - lh - 14f, Color.LIGHT_GRAY)
 
         for (i in 0 until 5) {
             val x = iconsX + i * (iconSize + iconGap)
@@ -92,16 +93,12 @@ class MenuScreen(private val game: JasonGame) : ScreenAdapter() {
                 batch.setColor(0.8f, 0.1f, 0.1f, 1f)
                 batch.draw(a.pixel, x - 3f, iconsY - 3f, iconSize + 6f, iconSize + 6f)
             }
-            batch.setColor(if (sel) com.badlogic.gdx.graphics.Color.WHITE else com.badlogic.gdx.graphics.Color.GRAY)
+            batch.setColor(if (sel) Color.WHITE else Color.GRAY)
             batch.draw(a.region("ui_icon_map${i + 1}"), x, iconsY)
-            batch.setColor(com.badlogic.gdx.graphics.Color.WHITE)
+            batch.setColor(Color.WHITE)
         }
-        center(names[game.selectedMap], iconsY - 10f)
-
-        batch.setColor(0.6f, 0.08f, 0.08f, 1f)
-        batch.draw(a.pixel, startX, startY, startW, startH)
-        batch.setColor(com.badlogic.gdx.graphics.Color.WHITE)
-        center("MULAI", startY + startH / 2f + 7f)
+        center(MapDefinition.NAMES[game.selectedMap], iconsY - 6f)
+        batch.draw(a.region("ui_btn_play"), btnX, btnY, btnW, btnH)
         batch.end()
     }
 

@@ -7,6 +7,7 @@ import com.jasonhideseek.world.MapDefinition
 class Player(x: Float, y: Float) : Survivor("player", x, y) {
     fun update(dt: Float, controls: TouchControls, map: MapDefinition) {
         animTime += dt
+        if (!alive || busy) { moving = false; sprinting = false; return }
         if (hidden) { hideAnim += dt; moving = false; sprinting = false; updateStamina(dt); return }
         val mx = controls.moveX; val my = controls.moveY
         val len = Math.sqrt((mx * mx + my * my).toDouble()).toFloat()

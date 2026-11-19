@@ -21,14 +21,8 @@ enum class SpotType(val id: String, val material: Material) {
     TARP_CURTAIN("tarp_curtain", Material.CLOTH), BASEMENT_DRUM("basement_drum", Material.METAL);
 
     companion object {
-        /** Katalog 4 tipe per map (indeks map 0..4). */
-        val BY_MAP: List<List<SpotType>> = listOf(
-            listOf(WARDROBE, UNDER_BED, HEAVY_CURTAIN, HALL_CHEST),
-            listOf(OIL_BARREL, CAR_TRUNK, GARAGE_CRATE, UNDER_WORKBENCH),
-            listOf(HAY_STACK, HARVEST_CRATE, FARM_BOX, WATER_BARREL),
-            listOf(LARGE_CARDBOARD, CARGO_CRATE, DRUM_BARREL, PALLET_GAP),
-            listOf(METAL_LOCKER, UNDER_COT, TARP_CURTAIN, BASEMENT_DRUM)
-        )
+        private val byId = values().associateBy { it.id }
+        fun byId(id: String): SpotType = byId[id] ?: error("Tipe hiding spot tidak dikenal: $id")
     }
 }
 

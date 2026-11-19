@@ -14,11 +14,13 @@ class GoreAndDebrisSystem(private val assets: Assets, private val rng: Random) {
     private class Particle(var x: Float, var y: Float, var vx: Float, var vy: Float,
                            var life: Float, val maxLife: Float, val region: TextureRegion)
     private class Slash(val x: Float, val y: Float, var t: Float)
+    private class AnimFx(val frames: List<TextureRegion>, val cx: Float, val cy: Float, val fps: Float, var t: Float)
 
     val pools = ArrayList<Decal>()
     val corpses = ArrayList<Corpse>()
     private val particles = ArrayList<Particle>()
     private val slashes = ArrayList<Slash>()
+    private val anims = ArrayList<AnimFx>()
 
     fun bloodPool(x: Float, y: Float) {
         pools.add(Decal(assets.region("fx_blood_pool_${rng.nextInt(5)}"), x - 16f + rng.nextInt(7) - 3, y - 14f + rng.nextInt(5) - 2))
@@ -46,6 +48,11 @@ class GoreAndDebrisSystem(private val assets: Assets, private val rng: Random) {
         bloodPool(x, y - 4f)
     }
 
+    /** Efek animasi sekali putar (fx_key_pickup, fx_key_assembly, ...) berpusat di (cx, cy). */
+    fun animFx(region: String, cx: Float, cy: Float, fps: Float) {
+        anims.add(AnimFx(assets.frames(region), cx, cy, fps, 0f))
+    }
+
     fun slash(x: Float, y: Float) { slashes.add(Slash(x - 24f, y - 24f, 0f)) }
 
     private fun burst(x: Float, y: Float, region: String, n: Int) {
@@ -70,6 +77,12 @@ class GoreAndDebrisSystem(private val assets: Assets, private val rng: Random) {
             }
             i--
         }
+        var k = anims.size - 1
+        while (k >= 0) {
+            anims[k].t += dt
+            if (anims[k].t * anims[k].fps >= anims[k].frames.size) anims.removeAt(k)
+            k--
+        }
         var j = slashes.size - 1
         while (j >= 0) {
             slashes[j].t += dt
@@ -88,6 +101,10 @@ class GoreAndDebrisSystem(private val assets: Assets, private val rng: Random) {
             batch.draw(p.region, p.x, p.y)
         }
         batch.setColor(1f, 1f, 1f, 1f)
+        for (a in anims) {
+            val f = a.frames[Math.min(a.frames.size - 1, (a.t * a.fps).toInt())]
+            batch.draw(f, a.cx - f.regionWidth / 2f, a.cy - f.regionHeight / 2f)
+        }
         for (s in slashes) {
             val f = assets.frames("fx_slash")
             batch.draw(f[Math.min(f.size - 1, (s.t / 0.08f).toInt())], s.x, s.y)

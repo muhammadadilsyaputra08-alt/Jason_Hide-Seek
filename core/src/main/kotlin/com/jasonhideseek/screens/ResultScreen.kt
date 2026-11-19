@@ -12,33 +12,50 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.utils.viewport.ExtendViewport
 import com.jasonhideseek.config.GameConfig
+import com.jasonhideseek.entities.SurvivorStatus
 import com.jasonhideseek.game.JasonGame
-import com.jasonhideseek.systems.RoundResult
+import com.jasonhideseek.systems.MatchResult
+import com.jasonhideseek.systems.MatchSummary
 
-class ResultScreen(
-    private val game: JasonGame,
-    private val result: RoundResult,
-    private val aliveCount: Int,
-    private val mapName: String
-) : ScreenAdapter() {
+/** Result Screen: hasil, status pemain, escaped/eliminated, status Jason, durasi, tombol main lagi / menu. */
+class ResultScreen(private val game: JasonGame, private val s: MatchSummary) : ScreenAdapter() {
     private val a = game.assets
     private val batch = SpriteBatch()
     private val cam = OrthographicCamera()
     private val vp = ExtendViewport(GameConfig.UI_W, GameConfig.UI_H, cam)
     private val layout = GlyphLayout()
     private val tmp = Vector2()
-    private val bw = 150f
-    private val bh = 32f
-    private val bx = GameConfig.UI_W / 2f - bw / 2f
+    private val bw = 120f
+    private val bh = 36f
+    private val againX = GameConfig.UI_W / 2f - bw - 8f
+    private val menuX = GameConfig.UI_W / 2f + 8f
+    private val by = 14f
+
+    private val headline = when (s.result) {
+        MatchResult.PLAYER_ESCAPED -> "Player Escaped"
+        MatchResult.SURVIVORS_ESCAPED -> "Survivors Escaped"
+        MatchResult.JASON_WINS -> "Jason Wins"
+        MatchResult.TIMES_UP -> "Time's Up"
+    }
+    private val playerText = when (s.playerStatus) {
+        SurvivorStatus.ALIVE -> "Masih bertahan"
+        SurvivorStatus.ESCAPED -> "Escaped"
+        SurvivorStatus.ELIMINATED -> "Eliminated"
+    }
+    private val jasonText = when {
+        s.eliminated >= s.total -> "Menang - semua survivor tereliminasi"
+        s.escaped > 0 -> "Gagal mencegah ${s.escaped} survivor kabur"
+        else -> "Bertahan - tidak ada yang kabur"
+    }
 
     override fun show() {
         Gdx.input.setCatchKey(Input.Keys.BACK, true)
         Gdx.input.inputProcessor = object : InputAdapter() {
             override fun touchDown(screenX: Int, screenY: Int, pointer: Int, button: Int): Boolean {
                 val p = vp.unproject(tmp.set(screenX.toFloat(), screenY.toFloat()))
-                if (p.x in bx..(bx + bw)) {
-                    if (p.y in 80f..(80f + bh)) game.setScreen(GameScreen(game))
-                    else if (p.y in 36f..(36f + bh)) game.setScreen(MenuScreen(game))
+                if (p.y in by..(by + bh)) {
+                    if (p.x in againX..(againX + bw)) game.setScreen(GameScreen(game))
+                    else if (p.x in menuX..(menuX + bw)) game.setScreen(MenuScreen(game))
                 }
                 return true
             }
@@ -51,9 +68,9 @@ class ResultScreen(
         }
     }
 
-    private fun center(s: String, y: Float, color: Color = Color.WHITE) {
+    private fun center(text: String, y: Float, color: Color = Color.WHITE) {
         a.font.color = color
-        layout.setText(a.font, s)
+        layout.setText(a.font, text)
         a.font.draw(batch, layout, GameConfig.UI_W / 2f - layout.width / 2f, y)
     }
 
@@ -63,18 +80,24 @@ class ResultScreen(
         vp.apply(); cam.update()
         batch.projectionMatrix = cam.combined
         batch.begin()
-        val win = result == RoundResult.WIN
-        batch.draw(a.region(if (win) "ui_badge_win" else "ui_badge_lose"), GameConfig.UI_W / 2f - 144f, 150f, 288f, 96f)
-        center(if (win) "Kamu selamat dari Jason!" else "Jason menemukanmu...", 140f,
-            if (win) Color.GREEN else Color(1f, 0.3f, 0.3f, 1f))
-        center("Map: $mapName   |   Penyintas hidup: $aliveCount", 120f)
-        batch.setColor(0.6f, 0.08f, 0.08f, 1f)
-        batch.draw(a.pixel, bx, 80f, bw, bh)
-        batch.setColor(0.25f, 0.25f, 0.3f, 1f)
-        batch.draw(a.pixel, bx, 36f, bw, bh)
-        batch.setColor(Color.WHITE)
-        center("MAIN LAGI", 80f + bh / 2f + 6f)
-        center("MENU", 36f + bh / 2f + 6f)
+        batch.draw(a.region("ui_vignette_dark"), 0f, 0f, GameConfig.UI_W, GameConfig.UI_H)
+        val w = GameConfig.UI_W; val h = GameConfig.UI_H
+        when (s.result) {
+            MatchResult.PLAYER_ESCAPED -> batch.draw(a.region("ui_badge_win"), w / 2f - 144f, h - 110f, 288f, 96f)
+            MatchResult.SURVIVORS_ESCAPED -> batch.draw(a.region("ui_result_escaped"), w / 2f - 128f, h - 90f, 256f, 64f)
+            MatchResult.JASON_WINS -> batch.draw(a.region("ui_result_all_eliminated"), w / 2f - 160f, h - 90f, 320f, 64f)
+            MatchResult.TIMES_UP -> batch.draw(a.region("ui_badge_lose"), w / 2f - 144f, h - 110f, 288f, 96f)
+        }
+        val good = s.result == MatchResult.PLAYER_ESCAPED || s.result == MatchResult.SURVIVORS_ESCAPED
+        center(headline, h - 118f, if (good) Color.GREEN else Color(1f, 0.3f, 0.3f, 1f))
+        center("Map: ${s.mapName}", h - 136f, Color.LIGHT_GRAY)
+        center("Status pemain: $playerText", h - 152f)
+        center("Escaped: ${s.escaped}    Eliminated: ${s.eliminated}    (dari ${s.total} survivor)", h - 168f)
+        center("Key Frame: ${s.keysCollected}/${GameConfig.KEY_FRAME_COUNT}", h - 184f)
+        center("Status Jason: $jasonText", h - 200f)
+        center(String.format("Durasi: %02d:%02d", s.durationSec / 60, s.durationSec % 60), h - 216f)
+        batch.draw(a.region("ui_btn_play"), againX, by, bw, bh)
+        batch.draw(a.region("ui_btn_exit_menu"), menuX, by, bw, bh)
         batch.end()
     }
 

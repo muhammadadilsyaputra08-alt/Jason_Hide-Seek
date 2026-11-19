@@ -10,8 +10,9 @@ object GameConfig {
     const val TILE = 32
 
     // Durasi ronde (detik)
-    const val COUNTDOWN_TIME = 25f
-    const val HUNT_TIME = 120f
+    const val COUNTDOWN_TIME = 20f
+    const val ESCAPE_TIME = 240f         // Escape Timer (setelah countdown)
+    const val KEY_FRAME_COUNT = 3
 
     // Survivor
     const val PLAYER_SPEED = 62f
@@ -22,8 +23,16 @@ object GameConfig {
     const val STAMINA_DRAIN = 34f
     const val STAMINA_REGEN = 16f
     const val STAMINA_RECOVER_AT = 25f
-    const val BOT_COUNT = 4
+    const val BOT_COUNT = 9
     const val HIDE_RANGE = 26f
+    const val KEY_PICKUP_RANGE = 14f
+    const val EXIT_RANGE = 24f
+    const val KEY_PICKUP_TIME = 0.42f
+    const val EXIT_INTERACT_TIME = 0.7f
+    const val EXIT_UNLOCK_TIME = 0.6f
+    const val ESCAPE_ANIM_TIME = 0.8f
+    const val MINICAM_W = 90
+    const val MINICAM_H = 54
 
     // Jason
     const val JASON_PATROL_SPEED = 46f
@@ -38,6 +47,7 @@ object GameConfig {
     const val JASON_EVAL_MAX = 0.8f
     const val SPOT_RECHECK_COOLDOWN = 22f
     const val SPOT_CHECK_DURATION = 1.2f
+    const val JASON_EXIT_GUARD_CHANCE = 0.35f
     const val LOSE_SIGHT_TIME = 0.5f
 
     // Keputusan acak (bobot dasar)

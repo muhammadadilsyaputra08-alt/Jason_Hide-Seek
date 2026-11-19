@@ -10,9 +10,13 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion
 
 /** Memuat 3 atlas (world, characters, ui) + font. Semua filter Nearest. */
 class Assets {
-    val world = TextureAtlas(Gdx.files.internal("world.atlas"))
-    val characters = TextureAtlas(Gdx.files.internal("characters.atlas"))
-    val ui = TextureAtlas(Gdx.files.internal("ui.atlas"))
+    // Empat atlas terpisah: tiles, items, characters, ui
+    val tiles = TextureAtlas(Gdx.files.internal("atlases/tiles.atlas"))
+    val items = TextureAtlas(Gdx.files.internal("atlases/items.atlas"))
+    val characters = TextureAtlas(Gdx.files.internal("atlases/characters.atlas"))
+    val ui = TextureAtlas(Gdx.files.internal("atlases/ui.atlas"))
+    val logo = loadTexture("branding/logo.png")
+    val splashLogo = loadTexture("branding/splash_logo.png")
     val font = BitmapFont().apply {
         region.texture.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest)
         setUseIntegerPositions(true)
@@ -23,7 +27,7 @@ class Assets {
         setColor(Color.WHITE); fill()
     })
 
-    private val atlases = listOf(world, characters, ui)
+    private val atlases = listOf(tiles, items, characters, ui)
     private val regionCache = HashMap<String, AtlasRegion>()
     private val framesCache = HashMap<String, List<AtlasRegion>>()
 
@@ -49,7 +53,11 @@ class Assets {
         return f[((time * fps).toInt()) % f.size]
     }
 
+    private fun loadTexture(path: String): Texture =
+        Texture(Gdx.files.internal(path)).also { it.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest) }
+
     fun dispose() {
+        logo.dispose(); splashLogo.dispose()
         atlases.forEach { it.dispose() }
         font.dispose()
         pixel.dispose()

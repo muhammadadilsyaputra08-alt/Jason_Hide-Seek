@@ -1,0 +1,53 @@
+{
+ "version": "2.1",
+ "tile": 32,
+ "survivor_frame": 32,
+ "jason_frame": 64,
+ "pivot": {
+  "survivor": [
+   16,
+   28
+  ],
+  "jason": [
+   32,
+   51
+  ]
+ },
+ "blueprint_alias": {
+  "jason": {
+   "idle": "jason_idle_{dir}",
+   "walk": "jason_walk_{dir}",
+   "run": "jason_chase_{dir}",
+   "attack": "jason_attack_{dir}",
+   "search": "jason_evaluate_{dir}",
+   "break_hiding_spot": "jason_break_{dir}",
+   "hit_reaction": "jason_hit_{dir}",
+   "victory": "jason_victory"
+  },
+  "player": {
+   "idle": "player_idle_{dir}",
+   "walk": "player_walk_{dir}",
+   "run": "player_sprint_{dir}",
+   "hide": "player_hide",
+   "hidden": "player_hidden",
+   "escape_interaction": "player_exit_interact",
+   "escape": "player_escape",
+   "hit_reaction": "player_hit",
+   "death": "player_corpse",
+   "spectator_transition": "player_spectator"
+  },
+  "bot1..bot9": {
+   "idle": "botN_idle_{dir}",
+   "walk": "botN_walk_{dir}",
+   "run": "botN_sprint_{dir}",
+   "hide": "botN_hide",
+   "hidden": "botN_hidden",
+   "key_pickup": "botN_key_pickup",
+   "exit_interaction": "botN_exit_interact",
+   "escape": "botN_escape",
+   "hit_reaction": "botN_hit",
+   "death": "botN_corpse"
+  }
+ },
+ "changelog_v2_1": "Kanvas Jason 48->64 (offset +8,+8; pivot 24,43 -> 32,51) dan outline ditutup pada kapak yang terpotong; vehicle (map 2, +1 sel collision via extra_collision) dan fence_h/fence_v (map 3) kini terpakai di maps.json."
+}

@@ -1,7 +1,7 @@
 package com.jasonhideseek.game
 
 import com.badlogic.gdx.Game
-import com.jasonhideseek.screens.MenuScreen
+import com.jasonhideseek.screens.SplashScreen
 import com.jasonhideseek.systems.SoundCueSystem
 
 class JasonGame : Game() {
@@ -12,7 +12,7 @@ class JasonGame : Game() {
     override fun create() {
         assets = Assets()
         sound = SoundCueSystem()
-        setScreen(MenuScreen(this))
+        setScreen(SplashScreen(this))
     }
 
     override fun setScreen(screen: com.badlogic.gdx.Screen?) {

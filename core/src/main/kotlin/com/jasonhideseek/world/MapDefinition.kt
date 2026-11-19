@@ -1,44 +1,114 @@
 package com.jasonhideseek.world
 
 import com.badlogic.gdx.math.Vector2
+import com.badlogic.gdx.utils.JsonReader
+import com.badlogic.gdx.utils.JsonValue
 import com.jasonhideseek.config.GameConfig.TILE
 import java.util.ArrayDeque
 
-class MapDefinition(val index: Int) {
-    val rows: Array<String> = MapData.LAYOUTS[index]
-    val tilesW = rows[0].length
-    val tilesH = rows.size
+/** Prop / dekorasi dari layer objek maps.json (x,y = sel grid, origin kiri-atas). */
+class PropDef(val item: String, val col: Int, val row: Int, val wCells: Int, val layer: String)
+
+class SpotDef(val type: SpotType, val x: Float, val y: Float)
+
+class KeyCandidate(val col: Int, val row: Int, val x: Float, val y: Float)
+
+enum class ExitOrientation { SOUTH, EAST, NORTH, WEST;
+    val suffix get() = if (this == EAST || this == WEST) "e" else "s" }
+
+/**
+ * Satu map hasil parsing assets/maps/maps.json (schema v2):
+ * Tile Data (grid), Object Data (props, hiding spot), Spawn Data, Objective Data (key candidates), Exit Data.
+ */
+class MapDefinition(val index: Int, json: JsonValue) {
+    val id = json.getInt("id")
+    val name: String = json.getString("name")
+    val tilesW = json.getInt("width")
+    val tilesH = json.getInt("height")
     val widthPx = tilesW * TILE.toFloat()
     val heightPx = tilesH * TILE.toFloat()
 
-    val name = NAMES[index]
+    /** tiles[row][col]: 0 floor, 1 wall, 2 door_h, 3 door_v */
+    val tiles: Array<IntArray> = Array(tilesH) { r ->
+        val row = json.get("tiles").get(r)
+        IntArray(tilesW) { c -> row.getInt(c) }
+    }
+    private val solid = Array(tilesH) { r -> BooleanArray(tilesW) { c -> tiles[r][c] == 1 } }
 
     val playerSpawn = Vector2()
     val jasonSpawn = Vector2()
-    val spotDefs = ArrayList<Triple<SpotType, Float, Float>>()
-    val floorTiles = ArrayList<Vector2>()      // pusat tile yang bisa dilewati
-    private val solid = Array(tilesH) { BooleanArray(tilesW) }
+    val spotDefs = ArrayList<SpotDef>()
+    val props = ArrayList<PropDef>()
+    val keyCandidates = ArrayList<KeyCandidate>()
+    val exitCol: Int
+    val exitRow: Int
+    val exitOrientation: ExitOrientation
+    /** Titik berdiri di dalam map tepat di depan pintu keluar. */
+    val exitApproach = Vector2()
+    val exitCenter = Vector2()
+    val floorTiles = ArrayList<Vector2>()
 
     init {
-        val catalog = SpotType.BY_MAP[index]
-        for (row in 0 until tilesH) for (col in 0 until tilesW) {
-            val ch = charAt(col, row)
-            val cx = (col + 0.5f) * TILE
-            val cy = (tilesH - 1 - row + 0.5f) * TILE
-            when {
-                ch == '#' || ch == 'p' -> solid[row][col] = true
-                ch == 'P' -> playerSpawn.set(cx, cy)
-                ch == 'J' -> jasonSpawn.set(cx, cy)
-                ch in '1'..'4' -> spotDefs.add(Triple(catalog[ch - '1'], cx, cy))
+        val o = json.get("objects")
+        val sp = o.get("spawns")
+        playerSpawn.set(cellCenter(sp.get("player").getInt("x"), sp.get("player").getInt("y")))
+        jasonSpawn.set(cellCenter(sp.get("jason").getInt("x"), sp.get("jason").getInt("y")))
+
+        for (h in o.get("hiding_spots")) {
+            val c = cellCenter(h.getInt("x"), h.getInt("y"))
+            spotDefs.add(SpotDef(SpotType.byId(h.getString("type_id")), c.x, c.y))
+        }
+        for (p in o.get("props")) {
+            val w = p.getInt("w", 1); val hh = p.getInt("h", 1)
+            val col = p.getInt("x"); val row = p.getInt("y")
+            props.add(PropDef(p.getString("item"), col, row, w, "object"))
+            if (p.getBoolean("collision", false)) {
+                for (dx in 0 until w) for (dy in 0 until hh) markSolid(col + dx, row + dy)
+                val extra = p.get("extra_collision")
+                if (extra != null) for (e in extra) markSolid(e.getInt("x"), e.getInt("y"))
             }
-            if (!solid[row][col]) floorTiles.add(Vector2(cx, cy))
+        }
+        for (d in o.get("decor")) {
+            props.add(PropDef(d.getString("item"), d.getInt("x"), d.getInt("y"), d.getInt("w", 1), d.getString("layer", "object")))
+            if (d.getBoolean("collision", false)) markSolid(d.getInt("x"), d.getInt("y"))
+        }
+        for (k in o.get("key_candidates")) {
+            val c = cellCenter(k.getInt("x"), k.getInt("y"))
+            keyCandidates.add(KeyCandidate(k.getInt("x"), k.getInt("y"), c.x, c.y))
+        }
+        val ex = o.get("exit")
+        exitCol = ex.getInt("x"); exitRow = ex.getInt("y")
+        exitOrientation = when (ex.getString("orientation", "s")) {
+            "e" -> ExitOrientation.EAST
+            "w" -> ExitOrientation.WEST
+            "n" -> ExitOrientation.NORTH
+            else -> ExitOrientation.SOUTH
+        }
+        exitCenter.set(cellCenter(exitCol, exitRow))
+        val (ac, ar) = when (exitOrientation) {
+            ExitOrientation.SOUTH -> exitCol to exitRow - 1
+            ExitOrientation.NORTH -> exitCol to exitRow + 1
+            ExitOrientation.EAST -> exitCol - 1 to exitRow
+            ExitOrientation.WEST -> exitCol + 1 to exitRow
+        }
+        exitApproach.set(cellCenter(ac, ar))
+
+        for (r in 0 until tilesH) for (c in 0 until tilesW) {
+            if (!solid[r][c]) floorTiles.add(cellCenter(c, r))
         }
     }
 
-    fun charAt(col: Int, row: Int): Char =
-        if (col < 0 || row < 0 || col >= tilesW || row >= tilesH) '#' else rows[row][col]
+    private fun markSolid(c: Int, r: Int) {
+        if (c in 0 until tilesW && r in 0 until tilesH) solid[r][c] = true
+    }
 
-    // Konversi koordinat tile (ty = indeks baris) <-> dunia (y ke atas)
+    /** Pusat sel grid (col,row dari kiri-atas) dalam koordinat dunia (y ke atas). */
+    fun cellCenter(col: Int, row: Int) =
+        Vector2((col + 0.5f) * TILE, (tilesH - 1 - row + 0.5f) * TILE)
+
+    fun tileAt(col: Int, row: Int): Int =
+        if (col < 0 || row < 0 || col >= tilesW || row >= tilesH) 1 else tiles[row][col]
+
     fun isSolidTile(col: Int, row: Int) =
         col < 0 || row < 0 || col >= tilesW || row >= tilesH || solid[row][col]
 
@@ -63,7 +133,7 @@ class MapDefinition(val index: Int) {
         return true
     }
 
-    /** BFS 4-arah pada grid tile; mengembalikan titik-titik pusat tile (tanpa titik awal). */
+    /** BFS 4-arah pada grid; hasil = pusat tile (tanpa titik awal). */
     fun findPath(fx: Float, fy: Float, tx: Float, ty: Float, out: ArrayList<Vector2>): Boolean {
         out.clear()
         val sc = colOf(fx); val sr = rowOf(fy)
@@ -101,12 +171,20 @@ class MapDefinition(val index: Int) {
         return true
     }
 
-    fun tileCenter(col: Int, row: Int) =
-        Vector2((col + 0.5f) * TILE, (tilesH - 1 - row + 0.5f) * TILE)
+    fun tileCenter(col: Int, row: Int) = cellCenter(col, row)
 
     companion object {
         val NAMES = listOf(
             "Aula Rumah Tua", "Garasi & Bagasi", "Ladang & Lumbung", "Gudang Logistik", "Ruang Bawah Tanah"
         )
+
+        /** Parse seluruh maps.json (teks) menjadi 5 MapDefinition. */
+        fun parseAll(text: String): List<MapDefinition> {
+            val root = JsonReader().parse(text)
+            val out = ArrayList<MapDefinition>()
+            var i = 0
+            for (m in root.get("maps")) out.add(MapDefinition(i++, m))
+            return out
+        }
     }
 }

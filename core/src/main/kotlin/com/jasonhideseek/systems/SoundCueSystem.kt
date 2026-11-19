@@ -6,7 +6,8 @@ import com.badlogic.gdx.audio.Sound
 
 /** Efek suara prosedural + sistem "noise" yang bisa didengar bot. */
 class SoundCueSystem {
-    private val names = listOf("step", "slash", "break", "gore", "scream", "heartbeat", "alert", "creak", "hide")
+    private val names = listOf("step", "slash", "break", "gore", "scream", "heartbeat", "alert", "creak", "hide",
+        "key_pickup", "key_assembly", "door_unlock", "door_open", "door_locked", "click", "win", "lose")
     private val sounds = HashMap<String, Sound>()
     private var ambient: Music? = null
     private var heartTimer = 0f
@@ -37,16 +38,23 @@ class SoundCueSystem {
         for (l in noiseListeners) l(x, y, radius)
     }
 
-    fun startAmbient() {
-        if (ambient != null) return
+    private var musicName: String? = null
+
+    private fun startMusic(name: String, volume: Float) {
+        if (ambient != null && musicName == name) return
+        stopAmbient()
         try {
-            ambient = Gdx.audio.newMusic(Gdx.files.internal("audio/ambient.wav")).apply {
-                isLooping = true; volume = 0.35f; play()
+            ambient = Gdx.audio.newMusic(Gdx.files.internal("audio/$name.wav")).apply {
+                isLooping = true; this.volume = volume; play()
             }
+            musicName = name
         } catch (e: Exception) { }
     }
 
-    fun stopAmbient() { ambient?.stop(); ambient?.dispose(); ambient = null }
+    fun startAmbient() = startMusic("ambient", 0.35f)
+    fun startMenuMusic() = startMusic("menu_music", 0.45f)
+
+    fun stopAmbient() { ambient?.stop(); ambient?.dispose(); ambient = null; musicName = null }
 
     /** Detak jantung mengikuti ketegangan (0..1). */
     fun updateHeartbeat(dt: Float, tension: Float) {
