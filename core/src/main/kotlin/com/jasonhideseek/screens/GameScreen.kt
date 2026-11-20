@@ -158,6 +158,7 @@ class GameScreen(private val game: JasonGame) : ScreenAdapter() {
         val l = c.position.x - halfW; val b = c.position.y - halfH
         tiles.render(batch, l, b, l + halfW * 2f, b + halfH * 2f)
         tiles.renderDecor(batch, "floor")
+        tiles.renderDecor(batch, "fx", time)
         world.gore.renderPools(batch)
         drawExit()
         tiles.renderDecor(batch, "wall")
@@ -170,6 +171,7 @@ class GameScreen(private val game: JasonGame) : ScreenAdapter() {
         if (world.jasonMode || world.phase != Phase.COUNTDOWN) drawList.add(world.jason)   // Jason tak terlihat saat survivor mencari tempat sembunyi
         drawList.sortWith(byDepth)
         for (o in drawList) drawObject(o, tr, tg, tb)
+        tiles.renderDecor(batch, "ceiling")   // chandelier / lampu gantung di atas karakter
 
         // Key Frame hanya terlihat dari dekat (sulit ditemukan); tidak tampil di Jason Mini Camera
         if (lightAt != null && world.phase != Phase.COUNTDOWN) {

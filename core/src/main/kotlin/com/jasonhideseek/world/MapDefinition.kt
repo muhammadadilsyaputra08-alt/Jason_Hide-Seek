@@ -29,10 +29,7 @@ class MapDefinition(val index: Int, json: JsonValue) {
     val heightPx = tilesH * TILE.toFloat()
 
     /** tiles[row][col]: 0 floor, 1 wall, 2 door_h, 3 door_v */
-    val tiles: Array<IntArray> = Array(tilesH) { r ->
-        val row = json.get("tiles").get(r)
-        IntArray(tilesW) { c -> row.getInt(c) }
-    }
+    val tiles: Array<IntArray> = parseTiles(json, "map ${json.getInt("id")} ($name)", tilesW, tilesH)
     private val solid = Array(tilesH) { r -> BooleanArray(tilesW) { c -> tiles[r][c] == 1 } }
 
     val playerSpawn = Vector2()
@@ -47,6 +44,13 @@ class MapDefinition(val index: Int, json: JsonValue) {
     val exitApproach = Vector2()
     val exitCenter = Vector2()
     val floorTiles = ArrayList<Vector2>()
+    /** Titik awal bot survivor (opsional, objects.bot_spawn_candidates); kosong = acak penuh. */
+    val botSpawnCandidates = ArrayList<Vector2>()
+    /** Penggantian sprite tile (visual saja; collision tetap dari kode tile). Kunci = row * tilesW + col. */
+    private val tileOverrides = HashMap<Int, String>()
+    /** Nama semua region atlas yang dirujuk map ini (untuk validasi atlas). */
+    val referencedItemRegions = LinkedHashSet<String>()
+    val referencedTileRegions = LinkedHashSet<String>()
 
     init {
         val o = json.get("objects")
@@ -55,13 +59,20 @@ class MapDefinition(val index: Int, json: JsonValue) {
         jasonSpawn.set(cellCenter(sp.get("jason").getInt("x"), sp.get("jason").getInt("y")))
 
         for (h in o.get("hiding_spots")) {
-            val c = cellCenter(h.getInt("x"), h.getInt("y"))
-            spotDefs.add(SpotDef(SpotType.byId(h.getString("type_id")), c.x, c.y))
+            val hx = h.getInt("x"); val hy = h.getInt("y")
+            requireInBounds(hx, hy, "hiding spot ${h.getString("type_id", "?")}")
+            val tid = h.getString("type_id")
+            val type = SpotType.find(tid)
+                ?: error("${label()}: type_id hiding spot tidak dikenal '$tid' di ($hx,$hy)")
+            val c = cellCenter(hx, hy)
+            spotDefs.add(SpotDef(type, c.x, c.y))
         }
         for (p in o.get("props")) {
             val w = p.getInt("w", 1); val hh = p.getInt("h", 1)
             val col = p.getInt("x"); val row = p.getInt("y")
+            requireInBounds(col, row, "prop ${p.getString("item")}")
             props.add(PropDef(p.getString("item"), col, row, w, "object"))
+            referencedItemRegions.add(p.getString("item"))
             if (p.getBoolean("collision", false)) {
                 for (dx in 0 until w) for (dy in 0 until hh) markSolid(col + dx, row + dy)
                 val extra = p.get("extra_collision")
@@ -69,10 +80,13 @@ class MapDefinition(val index: Int, json: JsonValue) {
             }
         }
         for (d in o.get("decor")) {
+            requireInBounds(d.getInt("x"), d.getInt("y"), "decor ${d.getString("item")}")
+            referencedItemRegions.add(d.getString("item"))
             props.add(PropDef(d.getString("item"), d.getInt("x"), d.getInt("y"), d.getInt("w", 1), d.getString("layer", "object")))
             if (d.getBoolean("collision", false)) markSolid(d.getInt("x"), d.getInt("y"))
         }
         for (k in o.get("key_candidates")) {
+            requireInBounds(k.getInt("x"), k.getInt("y"), "key candidate")
             val c = cellCenter(k.getInt("x"), k.getInt("y"))
             keyCandidates.add(KeyCandidate(k.getInt("x"), k.getInt("y"), c.x, c.y))
         }
@@ -84,6 +98,7 @@ class MapDefinition(val index: Int, json: JsonValue) {
             "n" -> ExitOrientation.NORTH
             else -> ExitOrientation.SOUTH
         }
+        requireInBounds(exitCol, exitRow, "exit")
         exitCenter.set(cellCenter(exitCol, exitRow))
         val (ac, ar) = when (exitOrientation) {
             ExitOrientation.SOUTH -> exitCol to exitRow - 1
@@ -96,7 +111,39 @@ class MapDefinition(val index: Int, json: JsonValue) {
         for (r in 0 until tilesH) for (c in 0 until tilesW) {
             if (!solid[r][c]) floorTiles.add(cellCenter(c, r))
         }
+
+        json.get("tile_overrides")?.let { arr ->
+            for (t in arr) {
+                val tc = t.getInt("x"); val tr = t.getInt("y")
+                requireInBounds(tc, tr, "tile override")
+                tileOverrides[tr * tilesW + tc] = t.getString("region")
+                referencedTileRegions.add(t.getString("region"))
+            }
+        }
+        o.get("bot_spawn_candidates")?.let { arr ->
+            for (b in arr) {
+                val bc = b.getInt("x"); val br = b.getInt("y")
+                requireInBounds(bc, br, "bot spawn candidate")
+                if (solid[br][bc]) error("${label()}: bot spawn candidate ($bc,$br) berada di tile/objek solid")
+                botSpawnCandidates.add(cellCenter(bc, br))
+            }
+        }
+        for (k in keyCandidates) if (solid[k.row][k.col])
+            error("${label()}: key candidate (${k.col},${k.row}) berada di tile/objek solid")
+        val ap = exitApproach
+        if (isSolidAt(ap.x, ap.y)) error("${label()}: exit approach (${colOf(ap.x)},${rowOf(ap.y)}) solid")
+        if (tiles[exitRow][exitCol] != 1) error("${label()}: exit ($exitCol,$exitRow) harus berupa tile dinding")
     }
+
+    private fun label() = "map $id ($name)"
+
+    private fun requireInBounds(c: Int, r: Int, what: String) {
+        if (c < 0 || r < 0 || c >= tilesW || r >= tilesH)
+            error("${label()}: $what di ($c,$r) berada di luar batas ${tilesW}x$tilesH")
+    }
+
+    /** Region tile pengganti untuk sel (col,row), atau null. */
+    fun tileOverrideAt(col: Int, row: Int): String? = tileOverrides[row * tilesW + col]
 
     private fun markSolid(c: Int, r: Int) {
         if (c in 0 until tilesW && r in 0 until tilesH) solid[r][c] = true
@@ -201,6 +248,20 @@ class MapDefinition(val index: Int, json: JsonValue) {
     }
 
     companion object {
+        private fun parseTiles(json: JsonValue, label: String, w: Int, h: Int): Array<IntArray> {
+            val rows = json.get("tiles")
+            if (rows == null || rows.size != h) error("$label: jumlah baris tiles ${rows?.size} != height $h")
+            return Array(h) { r ->
+                val row = rows.get(r)
+                if (row.size != w) error("$label: baris tiles $r panjang ${row.size} != width $w")
+                IntArray(w) { c ->
+                    val v = row.getInt(c)
+                    if (v !in 0..3) error("$label: nilai tile $v di ($c,$r) tidak valid (0..3)")
+                    v
+                }
+            }
+        }
+
         val NAMES = listOf(
             "Aula Rumah Tua", "Garasi & Bagasi", "Ladang & Lumbung", "Gudang Logistik", "Ruang Bawah Tanah"
         )
@@ -211,6 +272,7 @@ class MapDefinition(val index: Int, json: JsonValue) {
             val out = ArrayList<MapDefinition>()
             var i = 0
             for (m in root.get("maps")) out.add(MapDefinition(i++, m))
+            if (out.size != NAMES.size) error("maps.json harus berisi ${NAMES.size} map, ditemukan ${out.size}")
             return out
         }
     }

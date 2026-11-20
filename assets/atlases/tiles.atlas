@@ -1,5 +1,5 @@
 tiles.png
-size: 512,128
+size: 512,256
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
@@ -323,5 +323,82 @@ tile_shadow_wall
   xy: 2, 104
   size: 32, 8
   orig: 32, 8
+  offset: 0, 0
+  index: -1
+tile_map1_window
+  rotate: false
+  xy: 2, 116
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+tile_map1_archway_h
+  rotate: false
+  xy: 36, 116
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+tile_map1_archway_v
+  rotate: false
+  xy: 70, 116
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+tile_map2_shutter
+  rotate: false
+  xy: 104, 116
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+tile_map3_crop_rows_b
+  rotate: false
+  xy: 138, 116
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+tile_map3_crop_rows_c
+  rotate: false
+  xy: 172, 116
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+tile_map4_conveyor_h
+  rotate: false
+  xy: 206, 116
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+tile_map4_conveyor_v
+  rotate: false
+  xy: 240, 116
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+tile_map4_dock_platform
+  rotate: false
+  xy: 274, 116
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+tile_map4_dock_door
+  rotate: false
+  xy: 308, 116
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+tile_map5_wall_pipe_v
+  rotate: false
+  xy: 342, 116
+  size: 32, 32
+  orig: 32, 32
   offset: 0, 0
   index: -1

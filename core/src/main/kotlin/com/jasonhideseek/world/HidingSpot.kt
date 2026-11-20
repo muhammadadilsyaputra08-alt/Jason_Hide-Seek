@@ -19,11 +19,18 @@ enum class SpotType(val id: String, val material: Material) {
     LARGE_CARDBOARD("large_cardboard", Material.CARD), CARGO_CRATE("cargo_crate", Material.METAL),
     DRUM_BARREL("drum_barrel", Material.METAL), PALLET_GAP("pallet_gap", Material.WOOD),
     METAL_LOCKER("metal_locker", Material.METAL), UNDER_COT("under_cot", Material.CLOTH),
-    TARP_CURTAIN("tarp_curtain", Material.CLOTH), BASEMENT_DRUM("basement_drum", Material.METAL);
+    TARP_CURTAIN("tarp_curtain", Material.CLOTH), BASEMENT_DRUM("basement_drum", Material.METAL),
+    // Sembilan tipe baru (paket aset produksi): sprite 4 kondisi obj_{id}_{intact|checked|broken_clean|broken_bloody}
+    BEAR_RUG("bear_rug", Material.CLOTH), TIRE_STACK("tire_stack", Material.METAL),
+    MECHANIC_CABINET("mechanic_cabinet", Material.METAL), SILO_GAP("silo_gap", Material.WOOD),
+    HAY_WAGON("hay_wagon", Material.WOOD), SHRINK_WRAP_PALLET("shrink_wrap_pallet", Material.CARD),
+    SHIPPING_CONTAINER("shipping_container", Material.METAL), PIPE_RECESS("pipe_recess", Material.METAL),
+    UTILITY_CABINET("utility_cabinet", Material.METAL);
 
     companion object {
         private val byId = values().associateBy { it.id }
         fun byId(id: String): SpotType = byId[id] ?: error("Tipe hiding spot tidak dikenal: $id")
+        fun find(id: String): SpotType? = byId[id]
     }
 }
 
@@ -40,11 +47,14 @@ class HidingSpot(val type: SpotType, val x: Float, val y: Float) {
 
     val usable get() = state == SpotState.INTACT && occupant == null
 
-    val regionName: String
-        get() = "obj_${type.id}_" + when (state) {
+    val regionName: String get() = regionName(type, state)
+
+    companion object {
+        fun regionName(type: SpotType, state: SpotState): String = "obj_${type.id}_" + when (state) {
             SpotState.INTACT -> "intact"
             SpotState.BEING_CHECKED -> "checked"
             SpotState.BROKEN_CLEAN -> "broken_clean"
             SpotState.BROKEN_BLOODY -> "broken_bloody"
         }
+    }
 }

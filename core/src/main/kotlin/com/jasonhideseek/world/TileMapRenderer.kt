@@ -32,6 +32,13 @@ class TileMapRenderer(private val map: MapDefinition, private val assets: Assets
             val x = c * TILE.toFloat()
             val y = (map.tilesH - 1 - r) * TILE.toFloat()
             val t = map.tileAt(c, r)
+            val ov = map.tileOverrideAt(c, r)
+            if (ov != null) {
+                // Sprite tile struktural/lantai khusus (jendela, shutter, crop rows, conveyor, ...)
+                batch.draw(overrideRegion(ov), x, y)
+                if (t == 0 && map.tileAt(c, r - 1) == 1) batch.draw(shadow, x, y + TILE - 8f)
+                continue
+            }
             if (t == 1) {
                 batch.draw(if (map.tileAt(c, r + 1) == 1) wallTop else wallFace, x, y)
                 continue
@@ -48,11 +55,22 @@ class TileMapRenderer(private val map: MapDefinition, private val assets: Assets
         }
     }
 
-    /** Dekorasi layer "floor" (karpet, kabel) dan "wall" (lukisan, jam, pipa). */
-    fun renderDecor(batch: SpriteBatch, layer: String) {
+    private val overrideCache = HashMap<String, TextureRegion>()
+    private fun overrideRegion(name: String) = overrideCache.getOrPut(name) { assets.region(name) }
+
+    /**
+     * Dekorasi layer "floor" (karpet, kabel), "fx" (efek animasi, mis. kebocoran air), "wall" (lukisan, jam, pipa)
+     * dan "ceiling" (chandelier/lampu gantung; digambar di atas karakter).
+     * Region beranimasi (lebih dari satu frame bernama sama) diputar 6 fps; sprite lebih sempit dari 1 sel diratakan di tengah.
+     */
+    fun renderDecor(batch: SpriteBatch, layer: String, time: Float = 0f) {
         for (p in map.props) {
             if (p.layer != layer) continue
-            batch.draw(assets.region(p.item), p.col * TILE.toFloat(), (map.tilesH - 1 - p.row) * TILE.toFloat())
+            val frames = assets.framesOrNull(p.item)
+            val reg = if (frames != null && frames.size > 1) frames[((time * 6f).toInt() + p.col * 3 + p.row) % frames.size]
+                      else assets.region(p.item)
+            val offX = if (reg.regionWidth < TILE) (TILE - reg.regionWidth) / 2f else 0f
+            batch.draw(reg, p.col * TILE.toFloat() + offX, (map.tilesH - 1 - p.row) * TILE.toFloat())
         }
     }
 }

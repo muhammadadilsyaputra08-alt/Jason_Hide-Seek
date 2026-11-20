@@ -48,6 +48,11 @@ class Assets {
         list ?: error("Frames atlas tidak ditemukan: $name")
     }
 
+    /** Frame beranimasi bila ada lebih dari satu region bernama sama (index 0..n), selain itu null. */
+    fun framesOrNull(name: String): List<AtlasRegion>? = try { frames(name) } catch (e: IllegalStateException) { null }
+
+    fun hasRegion(name: String): Boolean = atlases.any { it.findRegion(name) != null }
+
     fun frame(name: String, time: Float, fps: Float): AtlasRegion {
         val f = frames(name)
         return f[((time * fps).toInt()) % f.size]

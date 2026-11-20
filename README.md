@@ -21,6 +21,14 @@ LibGDX + Kotlin. 5 map (dimuat dari `assets/maps/maps.json`).
 - `android/` launcher + ikon adaptif
 - `assets/` `atlases/{tiles,items,characters,ui}`, `maps/maps.json`, `hiding_spots.json`, `branding/`, `audio/`
 - `tools/asset_pack_src/` generator asli paket aset v2.1 (referensi)
+- `tools/build_maps.py` (layout redesain + penempatan aset baru -> maps.json), `tools/validate_maps.py` (grid, collision, keterjangkauan),
+  `tools/render_preview.py` (pratinjau statis map)
+
+## Schema maps.json (v2, update lima map)
+Ukuran grid tiap map berbeda (31x23, 29x21, 31x23, 31x21, 29x23). Tambahan: `tile_overrides` (ganti sprite tile, visual saja),
+`objects.bot_spawn_candidates` (prioritas spawn bot, fallback ke lantai terjangkau), layer decor `floor | fx | wall | object | ceiling`.
+Objek > 1 sel memakai `w` + `extra_collision` (sel atas untuk sprite tinggi). Tile pintu keluar selalu dinding.
+9 hiding spot baru: bear_rug, tire_stack, mechanic_cabinet, silo_gap, hay_wagon, shrink_wrap_pallet, shipping_container, pipe_recess, utility_cabinet.
 
 ## Kontrol
 Sentuh: joystick melayang (kiri), SPRINT dan tombol aksi kontekstual (kanan: Hide / Exit / Interact pintu).

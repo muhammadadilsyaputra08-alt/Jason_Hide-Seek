@@ -1,5 +1,5 @@
 items.png
-size: 1024,256
+size: 1024,512
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
@@ -1231,6 +1231,699 @@ obj_water_barrel_checked
 obj_water_barrel_intact
   rotate: false
   xy: 376, 188
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+item_sofa
+  rotate: false
+  xy: 2, 226
+  size: 64, 32
+  orig: 64, 32
+  offset: 0, 0
+  index: -1
+item_armchair
+  rotate: false
+  xy: 68, 226
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+item_fireplace
+  rotate: false
+  xy: 102, 226
+  size: 64, 32
+  orig: 64, 32
+  offset: 0, 0
+  index: -1
+item_dining_table
+  rotate: false
+  xy: 168, 226
+  size: 64, 32
+  orig: 64, 32
+  offset: 0, 0
+  index: -1
+item_dining_chair
+  rotate: false
+  xy: 234, 226
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+item_bed_large
+  rotate: false
+  xy: 268, 226
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: -1
+item_nightstand
+  rotate: false
+  xy: 334, 226
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+item_dresser
+  rotate: false
+  xy: 368, 226
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+item_vanity_mirror
+  rotate: false
+  xy: 402, 226
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+item_kitchen_stove
+  rotate: false
+  xy: 436, 226
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+item_kitchen_counter
+  rotate: false
+  xy: 470, 226
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+item_grand_chandelier
+  rotate: false
+  xy: 504, 226
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+item_grandfather_clock
+  rotate: false
+  xy: 538, 226
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+item_arch_window
+  rotate: false
+  xy: 572, 226
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+item_wood_archway
+  rotate: false
+  xy: 606, 226
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+item_staircase
+  rotate: false
+  xy: 640, 226
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: -1
+item_railing_h
+  rotate: false
+  xy: 706, 226
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+item_railing_v
+  rotate: false
+  xy: 740, 226
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+item_vase
+  rotate: false
+  xy: 774, 226
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+item_portrait_frame
+  rotate: false
+  xy: 808, 226
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+item_cobweb
+  rotate: false
+  xy: 842, 226
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+item_hydraulic_lift
+  rotate: false
+  xy: 876, 226
+  size: 64, 32
+  orig: 64, 32
+  offset: 0, 0
+  index: -1
+item_garage_shutter
+  rotate: false
+  xy: 942, 226
+  size: 64, 32
+  orig: 64, 32
+  offset: 0, 0
+  index: -1
+item_mechanic_cabinet
+  rotate: false
+  xy: 2, 292
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+item_wheel_stack
+  rotate: false
+  xy: 36, 292
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+item_wheel_stack_b
+  rotate: false
+  xy: 70, 292
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+item_tool_trolley
+  rotate: false
+  xy: 104, 292
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+item_parts_shelf
+  rotate: false
+  xy: 138, 292
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+item_shop_lamp
+  rotate: false
+  xy: 172, 292
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+item_bumper_pile
+  rotate: false
+  xy: 206, 292
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+item_windmill
+  rotate: false
+  xy: 240, 292
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: -1
+item_well
+  rotate: false
+  xy: 306, 292
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+item_animal_trough
+  rotate: false
+  xy: 340, 292
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+item_farmhouse_stove
+  rotate: false
+  xy: 374, 292
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+item_harvest_rack
+  rotate: false
+  xy: 408, 292
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+item_firewood_stack
+  rotate: false
+  xy: 442, 292
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+item_fence_h_broken
+  rotate: false
+  xy: 476, 292
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+item_fence_gate_h
+  rotate: false
+  xy: 510, 292
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+item_shrink_wrap_pallet
+  rotate: false
+  xy: 544, 292
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+item_forklift
+  rotate: false
+  xy: 578, 292
+  size: 64, 32
+  orig: 64, 32
+  offset: 0, 0
+  index: -1
+item_shipping_manifest_board
+  rotate: false
+  xy: 644, 292
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+item_safety_sign
+  rotate: false
+  xy: 678, 292
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+item_safety_sign_exit
+  rotate: false
+  xy: 712, 292
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+item_industrial_scale
+  rotate: false
+  xy: 746, 292
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+item_warehouse_lamp
+  rotate: false
+  xy: 780, 292
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+item_cargo_rack_b
+  rotate: false
+  xy: 814, 292
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+item_boiler
+  rotate: false
+  xy: 848, 292
+  size: 32, 64
+  orig: 32, 64
+  offset: 0, 0
+  index: -1
+item_washing_machine
+  rotate: false
+  xy: 882, 292
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+item_electrical_panel
+  rotate: false
+  xy: 916, 292
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+item_vent_grate
+  rotate: false
+  xy: 950, 292
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+item_vent_grate_floor
+  rotate: false
+  xy: 984, 292
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+item_pipe_junction
+  rotate: false
+  xy: 2, 358
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+item_laundry_basket
+  rotate: false
+  xy: 36, 358
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+item_iron_ladder
+  rotate: false
+  xy: 70, 358
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+item_emergency_lamp
+  rotate: false
+  xy: 104, 358
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+fx_water_leak
+  rotate: false
+  xy: 138, 358
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: 0
+fx_water_leak
+  rotate: false
+  xy: 172, 358
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: 1
+fx_water_leak
+  rotate: false
+  xy: 206, 358
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: 2
+fx_water_leak
+  rotate: false
+  xy: 240, 358
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: 3
+fx_water_drip
+  rotate: false
+  xy: 274, 358
+  size: 16, 32
+  orig: 16, 32
+  offset: 0, 0
+  index: 0
+fx_water_drip
+  rotate: false
+  xy: 292, 358
+  size: 16, 32
+  orig: 16, 32
+  offset: 0, 0
+  index: 1
+fx_water_drip
+  rotate: false
+  xy: 310, 358
+  size: 16, 32
+  orig: 16, 32
+  offset: 0, 0
+  index: 2
+fx_water_drip
+  rotate: false
+  xy: 328, 358
+  size: 16, 32
+  orig: 16, 32
+  offset: 0, 0
+  index: 3
+obj_bear_rug_intact
+  rotate: false
+  xy: 346, 358
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+obj_bear_rug_checked
+  rotate: false
+  xy: 380, 358
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+obj_bear_rug_broken_clean
+  rotate: false
+  xy: 414, 358
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+obj_bear_rug_broken_bloody
+  rotate: false
+  xy: 448, 358
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+obj_tire_stack_intact
+  rotate: false
+  xy: 482, 358
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+obj_tire_stack_checked
+  rotate: false
+  xy: 516, 358
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+obj_tire_stack_broken_clean
+  rotate: false
+  xy: 550, 358
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+obj_tire_stack_broken_bloody
+  rotate: false
+  xy: 584, 358
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+obj_mechanic_cabinet_intact
+  rotate: false
+  xy: 618, 358
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+obj_mechanic_cabinet_checked
+  rotate: false
+  xy: 652, 358
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+obj_mechanic_cabinet_broken_clean
+  rotate: false
+  xy: 686, 358
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+obj_mechanic_cabinet_broken_bloody
+  rotate: false
+  xy: 720, 358
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+obj_silo_gap_intact
+  rotate: false
+  xy: 754, 358
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+obj_silo_gap_checked
+  rotate: false
+  xy: 788, 358
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+obj_silo_gap_broken_clean
+  rotate: false
+  xy: 822, 358
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+obj_silo_gap_broken_bloody
+  rotate: false
+  xy: 856, 358
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+obj_hay_wagon_intact
+  rotate: false
+  xy: 890, 358
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+obj_hay_wagon_checked
+  rotate: false
+  xy: 924, 358
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+obj_hay_wagon_broken_clean
+  rotate: false
+  xy: 958, 358
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+obj_hay_wagon_broken_bloody
+  rotate: false
+  xy: 2, 392
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+obj_shrink_wrap_pallet_intact
+  rotate: false
+  xy: 36, 392
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+obj_shrink_wrap_pallet_checked
+  rotate: false
+  xy: 70, 392
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+obj_shrink_wrap_pallet_broken_clean
+  rotate: false
+  xy: 104, 392
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+obj_shrink_wrap_pallet_broken_bloody
+  rotate: false
+  xy: 138, 392
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+obj_shipping_container_intact
+  rotate: false
+  xy: 172, 392
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+obj_shipping_container_checked
+  rotate: false
+  xy: 206, 392
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+obj_shipping_container_broken_clean
+  rotate: false
+  xy: 240, 392
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+obj_shipping_container_broken_bloody
+  rotate: false
+  xy: 274, 392
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+obj_pipe_recess_intact
+  rotate: false
+  xy: 308, 392
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+obj_pipe_recess_checked
+  rotate: false
+  xy: 342, 392
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+obj_pipe_recess_broken_clean
+  rotate: false
+  xy: 376, 392
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+obj_pipe_recess_broken_bloody
+  rotate: false
+  xy: 410, 392
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+obj_utility_cabinet_intact
+  rotate: false
+  xy: 444, 392
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+obj_utility_cabinet_checked
+  rotate: false
+  xy: 478, 392
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+obj_utility_cabinet_broken_clean
+  rotate: false
+  xy: 512, 392
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+obj_utility_cabinet_broken_bloody
+  rotate: false
+  xy: 546, 392
   size: 32, 32
   orig: 32, 32
   offset: 0, 0

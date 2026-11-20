@@ -14,10 +14,13 @@ class MapDefinitionTest {
     }
 
     @Test
-    fun parsesFiveMapsWith25x17Grid() {
+    fun parsesFiveMapsWithOwnGridSizes() {
         assertEquals(5, maps.size)
-        for (m in maps) {
-            assertEquals(25, m.tilesW); assertEquals(17, m.tilesH)
+        val expected = listOf(31 to 23, 29 to 21, 31 to 23, 31 to 21, 29 to 23)
+        for ((i, m) in maps.withIndex()) {
+            assertEquals("map ${m.id}: width", expected[i].first, m.tilesW)
+            assertEquals("map ${m.id}: height", expected[i].second, m.tilesH)
+            assertEquals(m.tilesW, m.tiles[0].size); assertEquals(m.tilesH, m.tiles.size)
             assertTrue("map ${m.id}: hiding spot", m.spotDefs.size >= 8)
             assertEquals("map ${m.id}: key candidates", 12, m.keyCandidates.size)
         }
@@ -45,9 +48,17 @@ class MapDefinitionTest {
     @Test
     fun extraCollisionOfVehicleIsApplied() {
         val garage = maps[1]
-        // vehicle di (2,2) lebar 2 + extra_collision (3,2)
-        assertTrue(garage.isSolidTile(2, 2))
-        assertTrue(garage.isSolidTile(3, 2))
+        // vehicle di (3,3) lebar 2 -> sel (3,3) dan (4,3)
+        assertTrue(garage.isSolidTile(3, 3))
+        assertTrue(garage.isSolidTile(4, 3))
+        // hydraulic lift 64x32 di (7,6) -> sel (7,6) dan (8,6)
+        assertTrue(garage.isSolidTile(7, 6)); assertTrue(garage.isSolidTile(8, 6))
+        // objek tinggi: windmill 64x64 di (12,10) -> sel (12..13, 9..10)
+        val farm = maps[2]
+        for (c in 12..13) for (r in 9..10) assertTrue("windmill ($c,$r)", farm.isSolidTile(c, r))
+        // boiler 32x64 di (10,16) -> sel (10,16) dan (10,15)
+        val bsmt = maps[4]
+        assertTrue(bsmt.isSolidTile(10, 16)); assertTrue(bsmt.isSolidTile(10, 15))
     }
 
     @Test

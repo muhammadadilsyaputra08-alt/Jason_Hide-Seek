@@ -238,5 +238,113 @@
    "BROKEN_CLEAN",
    "BROKEN_BLOODY"
   ]
+ },
+ {
+  "id": "bear_rug",
+  "spot_enum": "BEAR_RUG",
+  "map": 1,
+  "material": "cloth",
+  "states": [
+   "INTACT",
+   "BEING_CHECKED",
+   "BROKEN_CLEAN",
+   "BROKEN_BLOODY"
+  ]
+ },
+ {
+  "id": "tire_stack",
+  "spot_enum": "TIRE_STACK",
+  "map": 2,
+  "material": "metal",
+  "states": [
+   "INTACT",
+   "BEING_CHECKED",
+   "BROKEN_CLEAN",
+   "BROKEN_BLOODY"
+  ]
+ },
+ {
+  "id": "mechanic_cabinet",
+  "spot_enum": "MECHANIC_CABINET",
+  "map": 2,
+  "material": "metal",
+  "states": [
+   "INTACT",
+   "BEING_CHECKED",
+   "BROKEN_CLEAN",
+   "BROKEN_BLOODY"
+  ]
+ },
+ {
+  "id": "silo_gap",
+  "spot_enum": "SILO_GAP",
+  "map": 3,
+  "material": "wood",
+  "states": [
+   "INTACT",
+   "BEING_CHECKED",
+   "BROKEN_CLEAN",
+   "BROKEN_BLOODY"
+  ]
+ },
+ {
+  "id": "hay_wagon",
+  "spot_enum": "HAY_WAGON",
+  "map": 3,
+  "material": "wood",
+  "states": [
+   "INTACT",
+   "BEING_CHECKED",
+   "BROKEN_CLEAN",
+   "BROKEN_BLOODY"
+  ]
+ },
+ {
+  "id": "shrink_wrap_pallet",
+  "spot_enum": "SHRINK_WRAP_PALLET",
+  "map": 4,
+  "material": "card",
+  "states": [
+   "INTACT",
+   "BEING_CHECKED",
+   "BROKEN_CLEAN",
+   "BROKEN_BLOODY"
+  ]
+ },
+ {
+  "id": "shipping_container",
+  "spot_enum": "SHIPPING_CONTAINER",
+  "map": 4,
+  "material": "metal",
+  "states": [
+   "INTACT",
+   "BEING_CHECKED",
+   "BROKEN_CLEAN",
+   "BROKEN_BLOODY"
+  ]
+ },
+ {
+  "id": "pipe_recess",
+  "spot_enum": "PIPE_RECESS",
+  "map": 5,
+  "material": "metal",
+  "states": [
+   "INTACT",
+   "BEING_CHECKED",
+   "BROKEN_CLEAN",
+   "BROKEN_BLOODY"
+  ]
+ },
+ {
+  "id": "utility_cabinet",
+  "spot_enum": "UTILITY_CABINET",
+  "map": 5,
+  "material": "metal",
+  "states": [
+   "INTACT",
+   "BEING_CHECKED",
+   "BROKEN_CLEAN",
+   "BROKEN_BLOODY"
+  ]
  }
 ]
