@@ -38,7 +38,7 @@ object GameConfig {
     const val CREAK_NOISE_RADIUS = 120f
     const val ALARM_NOISE_RADIUS = 420f
     const val HIDE_RANGE = 26f
-    const val KEY_PICKUP_RANGE = 12f
+    const val KEY_PICKUP_RANGE = 16f
     const val EXIT_RANGE = 24f
     const val KEY_PICKUP_TIME = 1.8f         // mengambil Key Frame butuh waktu (bisa dibatalkan, progres tersimpan)
     const val KEY_NOISE_RADIUS = 120f

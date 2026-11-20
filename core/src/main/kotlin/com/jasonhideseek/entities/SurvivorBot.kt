@@ -27,6 +27,11 @@ class SurvivorBot(prefix: String, x: Float, y: Float, private val rng: Random) :
     private val greed = 0.35f + rng.nextFloat() * 0.55f  // dorongan mencari Key Frame
     private val minHide = 5f + rng.nextFloat() * 9f
     private var pendingNoise = 0f
+    // Penanganan frame yang tidak bisa dijangkau (mis. menumpuk/dekat dinding): lewati sementara
+    private var keyStuck = 0f
+    private var lastKeyD = Float.MAX_VALUE
+    private var skipKey: KeyFrame? = null
+    private var skipTimer = 0f
 
     /** Dipanggil SoundCueSystem saat ada suara kerusakan/pembunuhan. */
     fun hear(nx: Float, ny: Float, radius: Float) {
@@ -37,6 +42,7 @@ class SurvivorBot(prefix: String, x: Float, y: Float, private val rng: Random) :
     fun update(dt: Float, w: GameWorld) {
         animTime += dt
         fleeCooldown -= dt
+        if (skipTimer > 0f) skipTimer -= dt
         if (busy) { moving = false; sprinting = false; return }
         if (hidden) { hideAnim += dt; hiddenFor += dt; moving = false; sprinting = false }
 
@@ -132,8 +138,11 @@ class SurvivorBot(prefix: String, x: Float, y: Float, private val rng: Random) :
             val k = visibleKey(w)
             if (k != null) {
                 if (leaveFirst && hidden) w.leaveSpot(this)
-                if (goalKey !== k || !hasPath) {
-                    if (setPathTo(w.map, k.x, k.y)) { goal = Goal.KEY; goalKey = k }
+                if (dist(k.x, k.y) < 40f && w.map.lineClear(x, y, k.x, k.y)) {
+                    // Frame sudah dekat (mis. dijatuhkan korban): dekati langsung, jangan kembali ke pusat tile.
+                    if (goal != Goal.KEY || goalKey !== k) { clearPath(); goal = Goal.KEY; goalKey = k; keyStuck = 0f; lastKeyD = Float.MAX_VALUE }
+                } else if (goalKey !== k || !hasPath) {
+                    if (setPathTo(w.map, k.x, k.y)) { goal = Goal.KEY; goalKey = k; keyStuck = 0f; lastKeyD = Float.MAX_VALUE }
                 }
                 return
             }
@@ -161,7 +170,7 @@ class SurvivorBot(prefix: String, x: Float, y: Float, private val rng: Random) :
         var best: KeyFrame? = null
         var bd = GameConfig.KEY_BOT_SIGHT
         for (k in w.keys) {
-            if (!k.available) continue
+            if (!k.available || (k === skipKey && skipTimer > 0f)) continue
             val d = dist(k.x, k.y)
             if (d < bd && w.map.lineClear(x, y, k.x, k.y)) { bd = d; best = k }
         }
@@ -245,7 +254,21 @@ class SurvivorBot(prefix: String, x: Float, y: Float, private val rng: Random) :
             Goal.KEY -> {
                 val k = goalKey
                 if (k == null || !k.available) { goal = Goal.IDLE; goalKey = null; decideTimer = 0f; return }
-                if (followPath(dt, speed, w.map)) { goal = Goal.IDLE; decideTimer = 0f }
+                if (hasPath) { followPath(dt, speed, w.map); return }
+                // Jalur habis: dekati frame secara langsung sampai masuk jangkauan ambil.
+                val d = dist(k.x, k.y)
+                if (d <= GameConfig.KEY_PICKUP_RANGE * 0.7f) {
+                    // Pickup dimulai otomatis oleh dunia; bila tak kunjung mulai (ditolak aturan), jangan menunggu selamanya.
+                    moving = false; keyStuck += dt
+                    if (keyStuck > 2.5f) { skipKey = k; skipTimer = 8f; goal = Goal.IDLE; goalKey = null; decideTimer = 0f }
+                    return
+                }
+                if (d > lastKeyD - 0.05f) keyStuck += dt else keyStuck = 0f
+                lastKeyD = d
+                if (keyStuck > 1.5f) { skipKey = k; skipTimer = 8f; goal = Goal.IDLE; goalKey = null; decideTimer = 0f; moving = false; return }
+                val dx = k.x - x; val dy = k.y - y
+                tryMove(dx / d * speed * dt, dy / d * speed * dt, w.map)
+                face(dx, dy); moving = true
             }
             Goal.EXIT -> {
                 if (w.canUseExit(this)) { w.useExit(this); return }
