@@ -24,6 +24,10 @@ object GameConfig {
     const val STAMINA_REGEN = 16f
     const val STAMINA_RECOVER_AT = 25f
     const val BOT_COUNT = 9
+    const val CARRIER_SIGHT_BONUS = 0.18f    // tiap frame yang dibawa: jarak pandang Jason +18%
+    const val CARRIER_TRACK_CHANCE = 0.12f   // tiap frame: peluang patroli Jason menuju pembawa
+    const val CARRIER_SPOT_SUSPICION = 0.15f // tiap frame: kecurigaan spot yang dihuni pembawa
+    const val HUNT_REPATH = 0.6f
     const val BUFF_BREAK_CHANCE = 0.12f      // peluang buff saat Jason menghancurkan barang kosong
     const val JASON_HEAR_CHANCE = 0.45f      // peluang Jason menanggapi suara
     const val CREAK_NOISE_RADIUS = 120f

@@ -6,6 +6,7 @@ import com.jasonhideseek.ai.JasonDecisionEngine
 import com.jasonhideseek.config.GameConfig
 import com.jasonhideseek.game.Assets
 import com.jasonhideseek.systems.GameWorld
+import com.jasonhideseek.ui.TouchControls
 import com.jasonhideseek.world.HidingSpot
 import com.jasonhideseek.world.SpotState
 import java.util.Random
@@ -40,16 +41,29 @@ class JasonEntity(x: Float, y: Float, private val engine: JasonDecisionEngine, p
 
     val chasing get() = state == JasonState.CHASE
 
+    // ---- Mode pemain = Jason ----
+    var playerControlled = false
+    var stamina = GameConfig.STAMINA_MAX
+        private set
+    private var exhausted = false
+    private var sprintingP = false
+    private var pTarget: Survivor? = null
+    private var pSpot: HidingSpot? = null
+    private var huntTimer = 0f
+    val isSwinging get() = swinging
+
     fun release() { if (state == JasonState.COUNTDOWN_LOCKED) { setState(JasonState.PATROL); patrolWait = 0f } }
 
     private fun setState(s: JasonState) {
         state = s; stateTime = 0f; checking = false; swinging = false
     }
 
-    fun update(dt: Float, w: GameWorld) {
+    fun update(dt: Float, w: GameWorld, controls: TouchControls? = null) {
         animTime += dt
         stateTime += dt
         if (state == JasonState.COUNTDOWN_LOCKED) { moving = false; return }
+        if (playerControlled && controls != null) { updatePlayer(dt, w, controls); return }
+        huntHolder(dt, w)
 
         if (state == JasonState.PATROL || state == JasonState.EVALUATE_SPOT || state == JasonState.SEARCH) {
             lookForSurvivors(w)
@@ -72,7 +86,8 @@ class JasonEntity(x: Float, y: Float, private val engine: JasonDecisionEngine, p
         var bestD = Float.MAX_VALUE
         for (s in w.survivors) {
             if (!w.vision.canSee(this, s)) continue
-            val d = dist(s.x, s.y)
+            // Pembawa Key Frame diprioritaskan sebagai target kejaran (makin banyak frame, makin utama).
+            val d = dist(s.x, s.y) / (1f + 0.6f * s.heldKeys.size + (if (s.hasCompleteKey) 2f else 0f))
             if (d < bestD) { bestD = d; best = s }
         }
         if (best != null) {
@@ -87,7 +102,7 @@ class JasonEntity(x: Float, y: Float, private val engine: JasonDecisionEngine, p
 
     /** Jason mendengar suara di (nx,ny): bila sedang patroli/mencari, ia menyelidiki titik itu. */
     fun hear(nx: Float, ny: Float, radius: Float, chance: Float, w: GameWorld) {
-        if (state != JasonState.PATROL && state != JasonState.SEARCH) return
+        if (playerControlled || (state != JasonState.PATROL && state != JasonState.SEARCH)) return
         if (dist(nx, ny) > radius || rng.nextFloat() > chance) return
         if (!w.map.findPath(x, y, nx, ny, ArrayList())) return
         lastSeenX = nx; lastSeenY = ny
@@ -109,7 +124,8 @@ class JasonEntity(x: Float, y: Float, private val engine: JasonDecisionEngine, p
         }
         for (s in w.spots) {
             if (s.state != SpotState.INTACT || s.recheckCooldown > 0f) continue
-            if (dist(s.x, s.y) > GameConfig.JASON_DETECT_RADIUS * w.buffs.detectMul) continue
+            val carried = s.occupant?.heldKeys?.size ?: 0   // spot yang dihuni pembawa frame lebih terdeteksi
+            if (dist(s.x, s.y) > GameConfig.JASON_DETECT_RADIUS * w.buffs.detectMul * (1f + 0.25f * carried)) continue
             if (!w.map.lineClear(x, y, s.x, s.y)) continue
             targetSpot = s
             evalDuration = GameConfig.JASON_EVAL_MIN + rng.nextFloat() * (GameConfig.JASON_EVAL_MAX - GameConfig.JASON_EVAL_MIN)
@@ -121,6 +137,12 @@ class JasonEntity(x: Float, y: Float, private val engine: JasonDecisionEngine, p
     }
 
     private fun pickPatrolTarget(w: GameWorld) {
+        // Makin banyak frame yang dibawa, makin besar peluang Jason mengendus & menuju pembawanya.
+        val carrier = w.keyHolder
+        if (carrier != null) {
+            val p = Math.min(0.7f, GameConfig.CARRIER_TRACK_CHANCE * carrier.heldKeys.size)
+            if (rng.nextFloat() < p && setPathTo(w.map, carrier.x, carrier.y)) return
+        }
         repeat(6) {
             if (w.keyComplete && rng.nextFloat() < GameConfig.JASON_EXIT_GUARD_CHANCE) {
                 if (setPathTo(w.map, w.map.exitApproach.x, w.map.exitApproach.y)) return
@@ -134,6 +156,87 @@ class JasonEntity(x: Float, y: Float, private val engine: JasonDecisionEngine, p
         }
     }
 
+    /** Kunci utuh sudah terbentuk: Jason memburu pembawanya (menembus persembunyian). */
+    private fun huntHolder(dt: Float, w: GameWorld) {
+        val h = w.completeKeyHolder ?: return
+        if (state != JasonState.PATROL && state != JasonState.SEARCH && state != JasonState.EVALUATE_SPOT) return
+        val sp = h.hidingIn
+        if (h.hidden && sp != null && sp.state == SpotState.INTACT) {
+            targetSpot = sp
+            if (setPathTo(w.map, sp.x, sp.y)) setState(JasonState.ATTACK_SPOT)
+            return
+        }
+        huntTimer -= dt
+        if (huntTimer > 0f) return
+        huntTimer = GameConfig.HUNT_REPATH
+        lastSeenX = h.x; lastSeenY = h.y
+        if (setPathTo(w.map, h.x, h.y)) { if (state != JasonState.SEARCH) setState(JasonState.SEARCH); searchWait = 0f }
+    }
+
+    // ---------- PEMAIN = JASON ----------
+    /** Tombol serang: pilih survivor terlihat terdekat, atau spot terdekat; ayunan kapak. */
+    fun playerAttack(w: GameWorld) {
+        if (swinging || state == JasonState.COUNTDOWN_LOCKED) return
+        val reach = GameConfig.JASON_ATTACK_RANGE + w.buffs.attackBonus + 10f
+        var t: Survivor? = null; var td = reach
+        for (s in w.survivors) {
+            if (!s.alive || s.hidden) continue
+            val d = dist(s.x, s.y)
+            if (d < td) { td = d; t = s }
+        }
+        var sp: HidingSpot? = null
+        if (t == null) {
+            var bd = GameConfig.HIDE_RANGE + 6f
+            for (s in w.spots) {
+                if (s.state != SpotState.INTACT) continue
+                val d = dist(s.x, s.y)
+                if (d < bd) { bd = d; sp = s }
+            }
+        }
+        pTarget = t; pSpot = sp
+        val fx = t?.x ?: sp?.x
+        val fy = t?.y ?: sp?.y
+        if (fx != null && fy != null) face(fx - x, fy - y)
+        moving = false
+        startSwing(w, t == null && sp != null)
+    }
+
+    private fun updatePlayer(dt: Float, w: GameWorld, c: TouchControls) {
+        if (swinging) {
+            moving = false; sprintingP = false
+            val done = tickSwing(dt, w) {
+                val t = pTarget; val sp = pSpot
+                if (t != null && t.alive && !t.hidden && dist(t.x, t.y) < GameConfig.JASON_ATTACK_RANGE + w.buffs.attackBonus + 16f) w.killInOpen(t)
+                else if (sp != null && sp.state == SpotState.INTACT) w.attackSpot(sp)
+            }
+            if (done) { pTarget = null; pSpot = null }
+            return
+        }
+        val mx = c.moveX; val my = c.moveY
+        val len = Math.sqrt((mx * mx + my * my).toDouble()).toFloat()
+        moving = len > 0.15f
+        sprintingP = moving && c.sprint && !exhausted && stamina > 0f
+        if (moving) {
+            val sp = if (sprintingP) GameConfig.JASON_CHASE_SPEED * 1.05f * w.buffs.chaseMul
+                     else GameConfig.JASON_PATROL_SPEED * 1.15f * w.buffs.patrolMul
+            val k = Math.min(1f, len)
+            tryMove(mx / len * sp * k * dt, my / len * sp * k * dt, w.map)
+            face(mx, my)
+        }
+        if (sprintingP) stamina -= 26f * dt else stamina = Math.min(GameConfig.STAMINA_MAX, stamina + 18f * dt)
+        if (stamina <= 0f) { stamina = 0f; exhausted = true }
+        if (exhausted && stamina >= GameConfig.STAMINA_RECOVER_AT) exhausted = false
+
+        // Status yang dibaca bot: CHASE bila ada survivor terlihat -> bot panik & kabur.
+        var seen = false
+        for (s in w.survivors) if (w.vision.canSee(this, s)) { seen = true; break }
+        val want = if (seen) JasonState.CHASE else JasonState.PATROL
+        if (state != want) setState(want)
+        var near: HidingSpot? = null; var nd = 42f
+        for (s in w.spots) { if (s.state != SpotState.INTACT) continue; val d = dist(s.x, s.y); if (d < nd) { nd = d; near = s } }
+        targetSpot = near
+    }
+
     // ---------- EVALUATE ----------
     private fun evaluate(w: GameWorld) {
         moving = false
@@ -141,7 +244,7 @@ class JasonEntity(x: Float, y: Float, private val engine: JasonDecisionEngine, p
         if (s == null || s.state != SpotState.INTACT) { setState(JasonState.PATROL); return }
         face(s.x - x, s.y - y)
         if (stateTime < evalDuration) return
-        when (engine.decide(s.suspicion + w.buffs.suspicionBonus, w.huntProgress)) {
+        when (engine.decide(s.suspicion + w.buffs.suspicionBonus + (s.occupant?.heldKeys?.size ?: 0) * GameConfig.CARRIER_SPOT_SUSPICION, w.huntProgress)) {
             Decision.SKIP -> {
                 s.recheckCooldown = GameConfig.SPOT_RECHECK_COOLDOWN
                 targetSpot = null
@@ -308,7 +411,7 @@ class JasonEntity(x: Float, y: Float, private val engine: JasonDecisionEngine, p
             }
             state == JasonState.EVALUATE_SPOT || (state == JasonState.CHECK_SPOT && checking) ->
                 assets.frame("jason_evaluate_$d", stateTime, 6f)
-            state == JasonState.CHASE -> assets.frame("jason_chase_$d", animTime, 10f)
+            (state == JasonState.CHASE && !playerControlled) || sprintingP -> assets.frame("jason_chase_$d", animTime, 10f)
             moving -> assets.frame("jason_walk_$d", animTime, 6f)
             else -> assets.frame("jason_idle_$d", animTime, 2f)
         }

@@ -44,3 +44,16 @@ Didapat dari eliminasi survivor (pasti) atau menghancurkan barang kosong (12%). 
 4 Listrik Padam (gelap berkala) | 5 Gema Bawah Tanah (suara 1,6x lebih jauh)
 
 Visual: viewport layar penuh berskala bulat (pixel tajam), tanpa tint/gelap tebal, lantai polos dengan aksen ~10% seperti contoh peta.
+
+## Mode pemain = Jason
+Menu: ketuk panel MODE (atau tombol M) untuk memilih SURVIVOR / JASON. Sebagai Jason: joystick = gerak, Sprint = lari (stamina), tombol aksi = serang
+(survivor terlihat dalam jangkauan, atau spot persembunyian terdekat). Menang bila semua survivor habis atau waktu habis tanpa ada yang kabur;
+kalah bila satu survivor kabur. Penanda emas muncul di atas pembawa kunci utuh; buff "I Can Hear You" menandai spot yang terisi di dekatmu.
+
+## Pengejaran pembawa frame (AI Jason)
+- Tiap frame yang dibawa: jarak pandang Jason +18%, peluang patroli menuju pembawa +12%, kecurigaan spot yang dihuni +0,15.
+- Jason memprioritaskan pembawa frame sebagai target kejaran.
+- Begitu kunci utuh terbentuk, Jason terus memburu pembawanya (termasuk menghancurkan tempat persembunyiannya).
+
+## Notifikasi
+Banner tengah memakai antrean (satu per satu, tanpa duplikat); feed kiri maksimal 4 baris ringkas dan dipotong agar tak menimpa HUD.

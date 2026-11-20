@@ -34,6 +34,8 @@ class MenuScreen(private val game: JasonGame) : ScreenAdapter() {
     private val btnH = 48f
     private val btnX get() = W / 2f - btnW / 2f
     private val btnY = 12f
+    private val modeX get() = btnX - 110f
+    private val modeY = 18f
     private val nameY = btnY + btnH + 32f            // baseline nama map
     private val iconsY = nameY + 8f                  // dasar deretan ikon map
     private val iconsX get() = (W - (5 * iconSize + 4 * iconGap)) / 2f
@@ -52,6 +54,9 @@ class MenuScreen(private val game: JasonGame) : ScreenAdapter() {
                         game.selectedMap = i; game.sound.play("click", 0.6f); return true
                     }
                 }
+                if (p.x >= modeX && p.x <= modeX + 96f && p.y >= modeY && p.y <= modeY + 36f) {
+                    game.playAsJason = !game.playAsJason; game.sound.play("click", 0.6f); return true
+                }
                 if (p.x >= btnX && p.x <= btnX + btnW && p.y >= btnY && p.y <= btnY + btnH) start()
                 return true
             }
@@ -59,6 +64,7 @@ class MenuScreen(private val game: JasonGame) : ScreenAdapter() {
             override fun keyDown(keycode: Int): Boolean {
                 when (keycode) {
                     Input.Keys.ENTER, Input.Keys.SPACE -> start()
+                    Input.Keys.M -> game.playAsJason = !game.playAsJason
                     Input.Keys.LEFT -> game.selectedMap = (game.selectedMap + 4) % 5
                     Input.Keys.RIGHT -> game.selectedMap = (game.selectedMap + 1) % 5
                 }
@@ -109,6 +115,16 @@ class MenuScreen(private val game: JasonGame) : ScreenAdapter() {
         val fx = MapEffect.forMap(game.selectedMap)
         center("Efek: ${fx.title} - ${fx.desc}", nameY - 15f, Color(1f, 0.75f, 0.4f, 1f))
         batch.draw(a.region("ui_btn_play"), btnX, btnY, btnW, btnH)
+        batch.draw(a.region("ui_hud_panel"), modeX, modeY, 96f, 36f)
+        a.font.data.setScale(0.75f)
+        layout.setText(a.font, "MODE (ketuk)")
+        a.font.color = Color.LIGHT_GRAY
+        a.font.draw(batch, layout, modeX + 48f - layout.width / 2f, modeY + 30f)
+        val ml = if (game.playAsJason) "JASON" else "SURVIVOR"
+        layout.setText(a.font, ml)
+        a.font.color = if (game.playAsJason) Color(1f, 0.3f, 0.3f, 1f) else Color(0.5f, 1f, 0.5f, 1f)
+        a.font.draw(batch, layout, modeX + 48f - layout.width / 2f, modeY + 14f)
+        a.font.data.setScale(1f); a.font.color = Color.WHITE
         batch.end()
     }
 

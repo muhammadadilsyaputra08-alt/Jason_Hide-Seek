@@ -8,6 +8,8 @@ class JasonGame : Game() {
     lateinit var assets: Assets
     lateinit var sound: SoundCueSystem
     var selectedMap = 0
+    /** true = pemain mengendalikan Jason, semua survivor dikendalikan AI. */
+    var playAsJason = false
 
     override fun create() {
         assets = Assets()

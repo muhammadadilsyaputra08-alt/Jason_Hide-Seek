@@ -33,7 +33,14 @@ class ResultScreen(private val game: JasonGame, private val s: MatchSummary) : S
     private val menuX get() = W / 2f + 8f
     private val by = 14f
 
-    private val headline = when (s.result) {
+    private val jasonWon = s.jasonMode && s.result != MatchResult.SURVIVORS_ESCAPED
+    private val headline = if (s.jasonMode) {
+        when (s.result) {
+            MatchResult.JASON_WINS -> "Kamu Menang! Semua survivor habis"
+            MatchResult.TIMES_UP -> "Kamu Menang! Tak ada yang kabur"
+            else -> "Kamu Kalah - ${s.escaper ?: "survivor"} kabur"
+        }
+    } else when (s.result) {
         MatchResult.PLAYER_ESCAPED -> "Player Escaped"
         MatchResult.SURVIVORS_ESCAPED -> "Survivors Escaped"
         MatchResult.JASON_WINS -> "Jason Wins"
@@ -86,7 +93,7 @@ class ResultScreen(private val game: JasonGame, private val s: MatchSummary) : S
         batch.draw(a.region("ui_vignette_dark"), 0f, 0f, w, h)
         // Susunan vertikal: badge -> headline -> rincian -> tombol (tidak saling menumpuk)
         val top = h - 10f
-        val region = when (s.result) {
+        val region = if (s.jasonMode) (if (jasonWon) "ui_badge_win" else "ui_badge_lose") else when (s.result) {
             MatchResult.PLAYER_ESCAPED -> "ui_badge_win"
             MatchResult.SURVIVORS_ESCAPED -> "ui_result_escaped"
             MatchResult.JASON_WINS -> "ui_result_all_eliminated"
@@ -97,13 +104,13 @@ class ResultScreen(private val game: JasonGame, private val s: MatchSummary) : S
         val badgeH = r.regionHeight * 2f
         batch.draw(r, w / 2f - bwid / 2f, top - badgeH, bwid, badgeH)
         var y = top - badgeH - 14f
-        val good = s.result == MatchResult.PLAYER_ESCAPED
+        val good = s.result == MatchResult.PLAYER_ESCAPED || jasonWon
         center(headline, y, if (good) Color.GREEN else Color(1f, 0.3f, 0.3f, 1f)); y -= 20f
         center("Map: ${s.mapName}", y, Color.LIGHT_GRAY); y -= 16f
-        center("Status pemain: $playerText", y); y -= 16f
+        center(if (s.jasonMode) "Mode: bermain sebagai Jason" else "Status pemain: $playerText", y); y -= 16f
         if (s.escaper != null) { center("Berhasil kabur: ${s.escaper}", y, Color.GOLD); y -= 16f }
         center("Kabur: ${s.escaped}   Tereliminasi: ${s.eliminated}   (dari ${s.total} survivor)", y); y -= 16f
-        center("Key Frame milikmu: ${s.keysCollected}/${GameConfig.KEY_FRAME_COUNT}", y); y -= 16f
+        center(if (s.jasonMode) "Frame terbanyak dibawa survivor: ${s.keysCollected}/${GameConfig.KEY_FRAME_COUNT}" else "Key Frame milikmu: ${s.keysCollected}/${GameConfig.KEY_FRAME_COUNT}", y); y -= 16f
         center("Status Jason: $jasonText", y); y -= 16f
         center(String.format("Durasi: %02d:%02d", s.durationSec / 60, s.durationSec % 60), y)
         batch.draw(a.region("ui_btn_play"), againX, by, bw, bh)

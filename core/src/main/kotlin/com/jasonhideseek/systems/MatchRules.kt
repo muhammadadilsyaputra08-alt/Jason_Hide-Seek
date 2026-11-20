@@ -14,7 +14,8 @@ class MatchSummary(
     val total: Int,
     val durationSec: Int,
     val keysCollected: Int,
-    val escaper: String? = null
+    val escaper: String? = null,
+    val jasonMode: Boolean = false
 )
 
 /** Aturan hasil pertandingan (murni logika, mudah diuji). */

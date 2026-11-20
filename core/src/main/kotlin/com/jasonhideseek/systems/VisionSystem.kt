@@ -14,14 +14,15 @@ class VisionSystem(private val map: MapDefinition) {
 
     fun canSee(viewer: Character, target: Survivor): Boolean {
         if (!target.alive || target.hidden) return false
-        return canSeePoint(viewer, target.x, target.y)
+        // Pembawa Key Frame lebih mudah terlihat: tiap frame menambah jangkauan pandang.
+        return canSeePoint(viewer, target.x, target.y, 1f + GameConfig.CARRIER_SIGHT_BONUS * target.heldKeys.size)
     }
 
-    fun canSeePoint(viewer: Character, tx: Float, ty: Float): Boolean {
+    fun canSeePoint(viewer: Character, tx: Float, ty: Float, scale: Float = 1f): Boolean {
         val dx = tx - viewer.x; val dy = ty - viewer.y
         val d = Math.sqrt((dx * dx + dy * dy).toDouble()).toFloat()
-        if (d > GameConfig.JASON_VIEW_RANGE * viewMul) return false
-        if (d > GameConfig.JASON_PROXIMITY * proxMul) {
+        if (d > GameConfig.JASON_VIEW_RANGE * viewMul * scale) return false
+        if (d > GameConfig.JASON_PROXIMITY * proxMul * scale) {
             val cosHalfFov = Math.cos(Math.toRadians(((GameConfig.JASON_FOV_DEG + fovExtra) / 2f).toDouble())).toFloat()
             val fx = viewer.dir.dx; val fy = viewer.dir.dy
             val cos = (dx * fx + dy * fy) / d

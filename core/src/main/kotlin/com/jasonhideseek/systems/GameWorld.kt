@@ -28,10 +28,10 @@ enum class FeedKind { KILL, KEY, ESCAPE, INFO, BUFF }
 class FeedItem(val text: String, val kind: FeedKind, var ttl: Float)
 
 /** Tombol aksi kontekstual pemain. */
-enum class ContextAction { NONE, HIDE, LEAVE, EXIT }
+enum class ContextAction { NONE, HIDE, LEAVE, EXIT, ATTACK }
 
 /** Simulasi satu pertandingan: fase, survivor, Key Frame, pintu keluar, spectator, dan hasil akhir. */
-class GameWorld(game: JasonGame, private val mapIndex: Int) {
+class GameWorld(game: JasonGame, private val mapIndex: Int, val jasonMode: Boolean = false) {
     val map = MapRepository.load(mapIndex)
     val rng = Random()
     val sound = game.sound
@@ -69,6 +69,7 @@ class GameWorld(game: JasonGame, private val mapIndex: Int) {
         private set
     var bannerTimer = 0f
         private set
+    private val bannerQueue = java.util.ArrayDeque<Pair<String, FeedKind>>()
     var escaperName: String? = null
         private set
 
@@ -89,10 +90,6 @@ class GameWorld(game: JasonGame, private val mapIndex: Int) {
         private set
     var exitAnimTime = 0f
         private set
-    var toast: String? = null
-        private set
-    var toastTimer = 0f
-        private set
 
     /** Bot yang sedang diamati saat pemain tereliminasi. */
     var spectateTarget: Survivor? = null
@@ -104,30 +101,34 @@ class GameWorld(game: JasonGame, private val mapIndex: Int) {
     val keyComplete get() = survivors.any { it.alive && it.hasCompleteKey }
     /** Survivor hidup yang memegang Key Frame terbanyak (null bila tak ada). */
     val keyHolder: Survivor? get() = survivors.filter { it.alive && it.heldKeys.isNotEmpty() }.maxByOrNull { it.heldKeys.size }
+    /** Survivor hidup yang memegang kunci utuh (target buruan Jason). */
+    val completeKeyHolder: Survivor? get() = survivors.firstOrNull { it.alive && it.hasCompleteKey }
     val keysOnGround get() = keys.count { !it.collected }
-    fun label(s: Survivor) = if (s === player) "${s.name} (Kamu)" else s.name
+    fun label(s: Survivor) = if (s === player && !jasonMode) "${s.name} (Kamu)" else s.name
     val escapePhase get() = phase == Phase.ESCAPE
     val escapeProgress get() = if (phase == Phase.ESCAPE) 1f - phaseRemaining / GameConfig.ESCAPE_TIME else 0f
     val huntProgress get() = escapeProgress
     val survivorsAlive get() = survivors.count { it.alive }
     val escapedCount get() = survivors.count { it.status == SurvivorStatus.ESCAPED }
     val eliminatedCount get() = survivors.count { it.status == SurvivorStatus.ELIMINATED }
-    val spectating get() = !player.alive && player.status == SurvivorStatus.ELIMINATED
+    val spectating get() = !jasonMode && !player.alive && player.status == SurvivorStatus.ELIMINATED
 
     /** Survivor yang menjadi fokus kamera utama. */
-    val focus: Survivor get() = if (spectating) (spectateTarget ?: player) else player
+    val focus: com.jasonhideseek.entities.Character get() = if (jasonMode) jason else if (spectating) (spectateTarget ?: player) else player
 
     init {
         for (d in map.spotDefs) spots.add(HidingSpot(d.type, d.x, d.y))
-        survivors.add(player)
+        if (jasonMode) { player.status = SurvivorStatus.ELIMINATED; jason.playerControlled = true } else survivors.add(player)
+        val botCount = if (jasonMode) GameConfig.BOT_COUNT + 1 else GameConfig.BOT_COUNT
+        val off = if (jasonMode) 0 else 1
 
         // Nama survivor (acak) + spawn acak untuk semua survivor
         val names = NAMES.toMutableList(); names.shuffle(rng)
         player.name = names[0]
-        for (i in 0 until GameConfig.BOT_COUNT) {
-            val t = spawnPlan.survivors[i + 1]
-            val b = SurvivorBot("bot${i + 1}", t.x, t.y, rng)
-            b.name = names[(i + 1) % names.size]
+        for (i in 0 until botCount) {
+            val t = spawnPlan.survivors[i + off]
+            val b = SurvivorBot(if (i + 1 > GameConfig.BOT_COUNT) "player" else "bot${i + 1}", t.x, t.y, rng)
+            b.name = names[(i + off) % names.size]
             bots.add(b); survivors.add(b)
         }
 
@@ -154,14 +155,19 @@ class GameWorld(game: JasonGame, private val mapIndex: Int) {
         sound.noiseMul = if (effect == MapEffect.ECHO) 1.6f else 1f
         for (b in bots) sound.noiseListeners.add { nx, ny, r -> b.hear(nx, ny, r) }
         sound.noiseListeners.add { nx, ny, r -> jason.hear(nx, ny, r, buffs.hearChance, this) }
-        pushFeed("Efek map: ${effect.title} - ${effect.desc}", FeedKind.INFO)
+        pushFeed("Efek: ${effect.title}", FeedKind.INFO)
     }
 
     // ---------- Loop ----------
     fun update(dt: Float, controls: TouchControls) {
         gore.update(dt)
-        if (toastTimer > 0f) { toastTimer -= dt; if (toastTimer <= 0f) toast = null }
-        if (bannerTimer > 0f) { bannerTimer -= dt; if (bannerTimer <= 0f) bannerText = null }
+        if (bannerTimer > 0f) {
+            bannerTimer -= dt
+            if (bannerTimer <= 0f) {
+                val nx = bannerQueue.poll()
+                if (nx != null) { bannerText = nx.first; bannerKind = nx.second; bannerTimer = BANNER_TIME } else bannerText = null
+            }
+        }
         val fi = feed.iterator()
         while (fi.hasNext()) { val f = fi.next(); f.ttl -= dt; if (f.ttl <= 0f) fi.remove() }
         for (s in spots) {
@@ -188,12 +194,16 @@ class GameWorld(game: JasonGame, private val mapIndex: Int) {
             phaseRemaining = GameConfig.ESCAPE_TIME
             jason.release()
             sound.play("alert", 0.9f)
-            showToast("Cari 3 Key Frame - hanya pemegang kunci utuh yang bisa keluar!")
+            showBanner(if (jasonMode) "Jason dilepas - buru semua survivor!" else "Cari 3 Key Frame - hanya pemegang kunci utuh yang bisa keluar!", FeedKind.INFO)
         }
 
         val wantsAction = controls.consumeAction()
-        if (wantsAction && player.alive && !player.busy) handlePlayerAction()
-        player.update(dt, controls, map)
+        if (jasonMode) {
+            if (wantsAction && phase == Phase.ESCAPE) jason.playerAttack(this)
+        } else {
+            if (wantsAction && player.alive && !player.busy) handlePlayerAction()
+            player.update(dt, controls, map)
+        }
         for (b in bots) if (b.alive) b.update(dt, this)
         for (s in survivors) {
             if (!s.alive) continue
@@ -202,7 +212,7 @@ class GameWorld(game: JasonGame, private val mapIndex: Int) {
         }
         buffs.update(dt)
         updateEffects(dt)
-        jason.update(dt, this)
+        jason.update(dt, this, controls)
 
         if (phase == Phase.ESCAPE) checkKeyPickups()
         updateSpectator()
@@ -244,7 +254,6 @@ class GameWorld(game: JasonGame, private val mapIndex: Int) {
                     alarmX = t.x; alarmY = t.y; alarmLeft = 4f; alarmPulse = 0f
                     sound.emitNoise(alarmX, alarmY, GameConfig.ALARM_NOISE_RADIUS)
                     jason.hear(alarmX, alarmY, 99999f, 1f, this)
-                    pushFeed("Alarm mobil berbunyi!", FeedKind.INFO)
                     showBanner("Alarm mobil berbunyi!", FeedKind.INFO)
                 }
             }
@@ -253,8 +262,7 @@ class GameWorld(game: JasonGame, private val mapIndex: Int) {
                 if (fxTimer <= 0f) {
                     blackout = !blackout
                     fxTimer = if (blackout) 7f else 38f
-                    pushFeed(if (blackout) "Listrik padam!" else "Listrik menyala kembali", FeedKind.INFO)
-                    if (blackout) showBanner("Listrik padam!", FeedKind.INFO)
+                    if (blackout) showBanner("Listrik padam!", FeedKind.INFO) else pushFeed("Listrik menyala kembali", FeedKind.INFO)
                 }
             }
             else -> {}
@@ -265,12 +273,12 @@ class GameWorld(game: JasonGame, private val mapIndex: Int) {
 
     private fun grantBuff(b: JasonBuff, reason: String) {
         buffs.grant(b)
-        pushFeed("Jason mendapat buff \"${b.title}\" ($reason)", FeedKind.BUFF)
+        pushFeed("Jason +${b.title}", FeedKind.BUFF)
     }
 
     private fun updateTension() {
         tension = when {
-            phase != Phase.ESCAPE || !player.alive -> 0f
+            jasonMode || phase != Phase.ESCAPE || !player.alive -> 0f
             jason.state == JasonState.CHASE -> 1f
             else -> {
                 val d = jason.dist(player.x, player.y)
@@ -284,7 +292,7 @@ class GameWorld(game: JasonGame, private val mapIndex: Int) {
     private fun evaluateRound() {
         val botsEscaped = bots.count { it.status == SurvivorStatus.ESCAPED }
         val timeUp = phase == Phase.ESCAPE && phaseRemaining <= 0f
-        val r = MatchRules.evaluate(player.status, botsEscaped, survivorsAlive, timeUp) ?: return
+        val r = MatchRules.evaluate(if (jasonMode) SurvivorStatus.ALIVE else player.status, botsEscaped, survivorsAlive, timeUp) ?: return
         result = r; phase = Phase.ENDED; endTimer = 0f
         escaperName = survivors.firstOrNull { it.status == SurvivorStatus.ESCAPED }?.let { label(it) }
         jason.setEnded(r == MatchResult.JASON_WINS)
@@ -292,8 +300,9 @@ class GameWorld(game: JasonGame, private val mapIndex: Int) {
     }
 
     fun summary() = MatchSummary(
-        result ?: MatchResult.TIMES_UP, map.name, player.status,
-        escapedCount, eliminatedCount, survivors.size, elapsed.toInt(), keysCollected, escaperName
+        result ?: MatchResult.TIMES_UP, map.name, if (jasonMode) SurvivorStatus.ALIVE else player.status,
+        escapedCount, eliminatedCount, survivors.size, elapsed.toInt(),
+        if (jasonMode) (keyHolder?.heldKeys?.size ?: 0) else keysCollected, escaperName, jasonMode
     )
 
     // ---------- Key Frame ----------
@@ -316,7 +325,6 @@ class GameWorld(game: JasonGame, private val mapIndex: Int) {
         s.startAction(SurvivorAction.KEY_PICKUP, GameConfig.KEY_PICKUP_TIME)
         sound.playAt("key_pickup", k.x, k.y, 0.7f)
         sound.emitNoise(k.x, k.y, GameConfig.KEY_NOISE_RADIUS)
-        if (s === player) showToast("Mengambil Key Frame... jangan bergerak!")
     }
 
     private fun finishPickup(s: Survivor) {
@@ -328,11 +336,10 @@ class GameWorld(game: JasonGame, private val mapIndex: Int) {
             if (s.hasCompleteKey) {
                 gore.animFx("fx_key_assembly", s.x, s.y + 22f, 10f)
                 sound.play("key_assembly", 1f)
-                pushFeed("${label(s)} memegang KUNCI UTUH!", FeedKind.KEY)
-                if (s === player) showToast("KUNCI UTUH! Menuju pintu keluar") else showBanner("${s.name} memegang kunci utuh", FeedKind.KEY)
+                pushFeed("${short(s)} pegang KUNCI UTUH", FeedKind.KEY)
+                showBanner(if (s === player) "Kunci utuh! Menuju pintu keluar" else "${s.name} pegang kunci utuh - Jason memburunya!", FeedKind.KEY)
             } else {
-                pushFeed("${label(s)} mengambil Key Frame (${s.heldKeys.size}/${GameConfig.KEY_FRAME_COUNT})", FeedKind.KEY)
-                if (s === player) showToast("Key Frame ${s.heldKeys.size}/${GameConfig.KEY_FRAME_COUNT}")
+                pushFeed("${short(s)}: Frame ${s.heldKeys.size}/${GameConfig.KEY_FRAME_COUNT}", FeedKind.KEY)
             }
         }
     }
@@ -356,18 +363,25 @@ class GameWorld(game: JasonGame, private val mapIndex: Int) {
             k.holder = null
             n++
         }
-        pushFeed("${label(s)} menjatuhkan ${s.heldKeys.size} Key Frame", FeedKind.KEY)
+        pushFeed("${short(s)} jatuhkan ${s.heldKeys.size} Frame", FeedKind.KEY)
         s.heldKeys.clear()
     }
 
+    /** Feed kiri: ringkas, tanpa duplikat, maksimal 4 baris. */
     private fun pushFeed(text: String, kind: FeedKind) {
-        feed.add(FeedItem(text, kind, 6f))
-        while (feed.size > 5) feed.removeAt(0)
+        if (feed.lastOrNull()?.text == text) return
+        feed.add(FeedItem(text, kind, 5f))
+        while (feed.size > 4) feed.removeAt(0)
     }
 
-    private fun showBanner(t: String, kind: FeedKind) { bannerText = t; bannerKind = kind; bannerTimer = 3f }
+    /** Banner tengah: satu per satu (antrean), tidak pernah saling menimpa/menumpuk. */
+    private fun showBanner(t: String, kind: FeedKind) {
+        if (bannerText == t || bannerQueue.any { it.first == t }) return
+        if (bannerText == null) { bannerText = t; bannerKind = kind; bannerTimer = BANNER_TIME }
+        else { if (bannerQueue.size >= 2) bannerQueue.poll(); bannerQueue.add(t to kind) }
+    }
 
-    private fun showToast(t: String) { toast = t; toastTimer = 2.5f }
+    fun short(s: Survivor) = if (s === player) "Kamu" else s.name
 
     // ---------- Pintu keluar ----------
     fun canUseExit(s: Survivor): Boolean =
@@ -394,8 +408,8 @@ class GameWorld(game: JasonGame, private val mapIndex: Int) {
             SurvivorAction.ESCAPING -> {
                 s.status = SurvivorStatus.ESCAPED
                 s.hidingIn = null
-                pushFeed("${label(s)} berhasil KABUR!", FeedKind.ESCAPE)
-                if (s === player) showToast("Kamu berhasil kabur!") else showBanner("${s.name} berhasil kabur!", FeedKind.ESCAPE)
+                pushFeed("${short(s)} KABUR!", FeedKind.ESCAPE)
+                showBanner(if (s === player) "Kamu berhasil kabur!" else "${s.name} berhasil kabur!", FeedKind.ESCAPE)
             }
             SurvivorAction.KEY_PICKUP -> finishPickup(s)
         }
@@ -404,6 +418,7 @@ class GameWorld(game: JasonGame, private val mapIndex: Int) {
     // ---------- Aksi pemain ----------
     val playerContext: ContextAction
         get() = when {
+            jasonMode -> if (phase == Phase.ESCAPE && !jason.isSwinging) ContextAction.ATTACK else ContextAction.NONE
             !player.alive || player.busy -> ContextAction.NONE
             player.hidden -> ContextAction.LEAVE
             canUseExit(player) -> ContextAction.EXIT
@@ -479,14 +494,11 @@ class GameWorld(game: JasonGame, private val mapIndex: Int) {
         s.status = SurvivorStatus.ELIMINATED
         s.clearAction()
         s.moving = false
-        pushFeed("${label(s)} tereliminasi oleh Jason", FeedKind.KILL)
+        pushFeed("${short(s)} tereliminasi", FeedKind.KILL)
         dropKeys(s)
         grantBuff(buffs.randomBuff(), "eliminasi")
         showBanner("${label(s)} tereliminasi", FeedKind.KILL)
-        if (s === player) {
-            spectateTarget = null
-            showToast("Kamu tereliminasi - mode penonton")
-        }
+        if (s === player) spectateTarget = null
     }
 
     /** Terbunuh di ruang terbuka: mayat + genangan darah persisten. */
@@ -543,6 +555,7 @@ class GameWorld(game: JasonGame, private val mapIndex: Int) {
     fun dispose() { sound.noiseListeners.clear() }
 
     companion object {
+        const val BANNER_TIME = 2.2f
         val NAMES = listOf("Raka", "Maya", "Bima", "Sari", "Dewi", "Joko", "Tia", "Fajar", "Nina", "Rio")
     }
 }

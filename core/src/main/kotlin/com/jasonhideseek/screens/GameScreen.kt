@@ -16,6 +16,7 @@ import com.badlogic.gdx.math.MathUtils
 import com.jasonhideseek.ui.PixelViewport
 import com.jasonhideseek.config.GameConfig
 import com.jasonhideseek.config.GameConfig.TILE
+import com.jasonhideseek.entities.Character
 import com.jasonhideseek.entities.JasonEntity
 import com.jasonhideseek.entities.JasonState
 import com.jasonhideseek.entities.Survivor
@@ -35,7 +36,7 @@ import com.jasonhideseek.world.TileMapRenderer
 
 class GameScreen(private val game: JasonGame) : ScreenAdapter() {
     private val a = game.assets
-    private val world = GameWorld(game, game.selectedMap)
+    private val world = GameWorld(game, game.selectedMap, game.playAsJason)
     private val map = world.map
     private val batch = SpriteBatch()
     private val cam = OrthographicCamera()
@@ -56,8 +57,8 @@ class GameScreen(private val game: JasonGame) : ScreenAdapter() {
     private val fboRegion: TextureRegion
 
     // Kamera utama
-    private var camX = world.player.x
-    private var camY = world.player.y
+    private var camX = world.focus.x
+    private var camY = world.focus.y
 
     init {
         fbo.colorBufferTexture.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest)
@@ -81,6 +82,7 @@ class GameScreen(private val game: JasonGame) : ScreenAdapter() {
             ContextAction.HIDE -> "ui_btn_hide"
             ContextAction.LEAVE -> "ui_btn_exit"
             ContextAction.EXIT -> "ui_btn_interact"
+            ContextAction.ATTACK -> "ui_btn_interact"
             ContextAction.NONE -> null
         }
         val step = controls.consumeSpectateStep()
@@ -94,7 +96,7 @@ class GameScreen(private val game: JasonGame) : ScreenAdapter() {
             game.setScreen(ResultScreen(game, world.summary())); return
         }
 
-        drawMiniCam()
+        if (!world.jasonMode) drawMiniCam()
         drawWorld(dt)
         drawUi()
     }
@@ -147,7 +149,7 @@ class GameScreen(private val game: JasonGame) : ScreenAdapter() {
     }
 
     /** Menggambar seluruh dunia dengan kamera tertentu. Dipakai kamera utama dan Jason Mini Camera. */
-    private fun renderScene(c: OrthographicCamera, tr: Float, tg: Float, tb: Float, lightAt: Survivor?) {
+    private fun renderScene(c: OrthographicCamera, tr: Float, tg: Float, tb: Float, lightAt: Character?) {
         val halfW = c.viewportWidth / 2f
         val halfH = c.viewportHeight / 2f
         batch.projectionMatrix = c.combined
@@ -184,6 +186,7 @@ class GameScreen(private val game: JasonGame) : ScreenAdapter() {
         world.gore.renderEffects(batch)
         batch.setColor(1f, 1f, 1f, 1f)
         if (lightAt != null) drawNameTags()
+        if (lightAt != null && world.jasonMode) drawJasonSenses()
         batch.end()
     }
 
@@ -224,6 +227,23 @@ class GameScreen(private val game: JasonGame) : ScreenAdapter() {
         }
         f.data.setScale(1f)
         f.color = Color.WHITE
+    }
+
+    /** Mode Jason: penanda pembawa kunci utuh + efek buff "I Can Hear You" (deteksi orang bersembunyi). */
+    private fun drawJasonSenses() {
+        val hh = world.completeKeyHolder
+        if (hh != null) {
+            val sp = hh.hidingIn
+            val mx = sp?.x ?: hh.x; val my = (sp?.y ?: hh.y) + 40f + MathUtils.sin(time * 6f) * 2f
+            batch.draw(a.region("ui_icon_key_complete"), mx - 8f, my)
+        }
+        if (world.buffs.has(com.jasonhideseek.systems.JasonBuff.I_CAN_HEAR_YOU)) {
+            for (sv in world.survivors) {
+                val sp = sv.hidingIn ?: continue
+                if (world.jason.dist(sp.x, sp.y) > 150f) continue
+                batch.draw(a.region("ui_icon_warning"), sp.x - 8f, sp.y + 22f + MathUtils.sin(time * 8f) * 2f)
+            }
+        }
     }
 
     private fun drawMiniCam() {
@@ -278,6 +298,19 @@ class GameScreen(private val game: JasonGame) : ScreenAdapter() {
         }
     }
 
+    /** Potong teks agar muat dalam lebar maxW (pada skala font saat ini). */
+    private fun fit(s: String, maxW: Float): String {
+        layout.setText(a.font, s)
+        if (layout.width <= maxW) return s
+        var t = s
+        while (t.length > 3) {
+            t = t.substring(0, t.length - 1)
+            layout.setText(a.font, "$t..")
+            if (layout.width <= maxW) return "$t.."
+        }
+        return t
+    }
+
     private fun rtext(s: String, rx: Float, y: Float, color: Color) {
         a.font.color = color
         layout.setText(a.font, s)
@@ -328,13 +361,15 @@ class GameScreen(private val game: JasonGame) : ScreenAdapter() {
 
         val keyY = timerY - 20f
         val kx = w / 2f - 40f
-        for (i in 0 until GameConfig.KEY_FRAME_COUNT) {
-            val held = p.heldKeys.getOrNull(i)
-            batch.draw(a.region(if (held != null) "ui_key_slot_${held.number}" else "ui_key_slot_empty"), kx + i * 18f, keyY)
+        if (!world.jasonMode) {
+            for (i in 0 until GameConfig.KEY_FRAME_COUNT) {
+                val held = p.heldKeys.getOrNull(i)
+                batch.draw(a.region(if (held != null) "ui_key_slot_${held.number}" else "ui_key_slot_empty"), kx + i * 18f, keyY)
+            }
+            if (p.hasCompleteKey) batch.draw(a.region("ui_icon_key_complete"), kx + 56f, keyY)
+            text("${p.heldKeys.size}/${GameConfig.KEY_FRAME_COUNT}", kx + (if (p.hasCompleteKey) 76f else 58f), keyY + 12f,
+                if (p.hasCompleteKey) Color.GOLD else Color.WHITE)
         }
-        if (p.hasCompleteKey) batch.draw(a.region("ui_icon_key_complete"), kx + 56f, keyY)
-        text("${p.heldKeys.size}/${GameConfig.KEY_FRAME_COUNT}", kx + (if (p.hasCompleteKey) 76f else 58f), keyY + 12f,
-            if (p.hasCompleteKey) Color.GOLD else Color.WHITE)
 
         val holder = world.keyHolder
         val holderLine = when {
@@ -342,7 +377,7 @@ class GameScreen(private val game: JasonGame) : ScreenAdapter() {
             holder === p -> "Kamu pembawa kunci (${p.heldKeys.size}/${GameConfig.KEY_FRAME_COUNT})"
             else -> "Pembawa: ${holder.name} (${holder.heldKeys.size}/${GameConfig.KEY_FRAME_COUNT})"
         }
-        scaled(0.8f) { center(holderLine, keyY - 4f, if (holder != null) Color.GOLD else Color.LIGHT_GRAY) }
+        scaled(0.8f) { center(holderLine, if (world.jasonMode) keyY + 12f else keyY - 4f, if (holder != null) Color.GOLD else Color.LIGHT_GRAY) }
 
         // ---- Kiri-atas: status survivor + notifikasi (feed) ----
         for ((i, s) in world.survivors.withIndex()) {
@@ -358,6 +393,7 @@ class GameScreen(private val game: JasonGame) : ScreenAdapter() {
                 pad, h - pad - 20f, Color.LIGHT_GRAY)
         }
         var fy = h - pad - 38f
+        val feedMaxW = w / 2f - 84f - pad
         scaled(0.85f) {
             for (f in world.feed.reversed()) {
                 val c = Color(when (f.kind) {
@@ -368,24 +404,27 @@ class GameScreen(private val game: JasonGame) : ScreenAdapter() {
                     FeedKind.BUFF -> Color(0.85f, 0.5f, 1f, 1f)
                 })
                 c.a = Math.min(1f, f.ttl / 1.5f)
-                text(f.text, pad, fy, c)
+                text(fit(f.text, feedMaxW), pad, fy, c)
                 fy -= 13f
             }
         }
 
         // ---- Kanan-atas: ketegangan + Jason Mini Camera ----
         val rx = w - pad - 96f
-        batch.draw(a.region("ui_icon_tension_eye"), rx, h - pad - 16f)
-        bar("ui_bar_tension_frame", "ui_bar_tension_fill", rx + 24f, h - pad - 12f, world.tension)
-        val mx = rx; val my = h - pad - 20f - 64f
-        batch.draw(fboRegion, mx + 3f, my + 3f, GameConfig.MINICAM_W.toFloat(), GameConfig.MINICAM_H.toFloat())
-        batch.draw(a.region("ui_minicam_frame"), mx, my)
-        batch.draw(a.frame("ui_minicam_rec", time, 2f), mx + 4f, my + 55f)
+        val mx = rx
+        val my = if (world.jasonMode) h - pad - 4f else h - pad - 20f - 64f
+        if (!world.jasonMode) {
+            batch.draw(a.region("ui_icon_tension_eye"), rx, h - pad - 16f)
+            bar("ui_bar_tension_frame", "ui_bar_tension_fill", rx + 24f, h - pad - 12f, world.tension)
+            batch.draw(fboRegion, mx + 3f, my + 3f, GameConfig.MINICAM_W.toFloat(), GameConfig.MINICAM_H.toFloat())
+            batch.draw(a.region("ui_minicam_frame"), mx, my)
+            batch.draw(a.frame("ui_minicam_rec", time, 2f), mx + 4f, my + 55f)
+        }
 
         // Efek map + buff Jason aktif (rata kanan, di bawah mini camera)
         var ry = my - 8f
         scaled(0.8f) {
-            rtext("Efek: ${world.effect.title}", w - pad, ry, Color.LIGHT_GRAY); ry -= 12f
+            rtext(fit("Efek: ${world.effect.title}", w / 2f - 56f), w - pad, ry, Color.LIGHT_GRAY); ry -= 12f
             for ((b, left) in world.buffs.active) {
                 rtext("${b.title} ${Math.ceil(left.toDouble()).toInt()}s", w - pad, ry, Color(1f, 0.5f, 0.5f, 1f)); ry -= 12f
             }
@@ -393,7 +432,8 @@ class GameScreen(private val game: JasonGame) : ScreenAdapter() {
 
         // ---- Kanan-bawah: stamina di atas tombol Sprint ----
         if (!world.spectating) {
-            bar("ui_bar_stamina_frame", "ui_bar_stamina_fill", controls.sprintX, controls.sprintY + 52f, p.stamina / GameConfig.STAMINA_MAX)
+            val st = if (world.jasonMode) world.jason.stamina else p.stamina
+            bar("ui_bar_stamina_frame", "ui_bar_stamina_fill", controls.sprintX, controls.sprintY + 52f, st / GameConfig.STAMINA_MAX)
         }
         controls.render(batch)
 
@@ -403,8 +443,16 @@ class GameScreen(private val game: JasonGame) : ScreenAdapter() {
             batch.draw(a.region("ui_spectator_badge"), w / 2f - 44f, statusY - 12f)
             val t = world.spectateTarget
             center(if (t != null) "Mengamati: ${world.label(t)}" else "Tidak ada survivor tersisa", 48f, Color.LIGHT_GRAY)
+        } else if (world.jasonMode) {
+            val hh = world.completeKeyHolder
+            when {
+                cdPhase -> center("Survivor sedang bersembunyi...", statusY, Color.YELLOW)
+                hh != null -> center("Buru ${hh.name} - pembawa kunci utuh!", statusY, Color.GOLD)
+                world.jason.chasing -> center("Kejar mereka!", statusY, Color(1f, 0.4f, 0.4f, 1f))
+            }
         } else when {
             p.status == SurvivorStatus.ESCAPED -> {}
+            p.action == com.jasonhideseek.entities.SurvivorAction.KEY_PICKUP -> center("Mengambil Key Frame...", statusY, Color.GOLD)
             cdPhase && !p.hidden -> center("Cari tempat sembunyi!", statusY, Color.YELLOW)
             p.hidden && world.jason.state == JasonState.CHASE -> center("Tahan napas...", statusY, Color.GRAY)
             p.hidden -> center("Bersembunyi", statusY, Color.GRAY)
@@ -426,13 +474,19 @@ class GameScreen(private val game: JasonGame) : ScreenAdapter() {
                 FeedKind.BUFF -> Color(0.85f, 0.5f, 1f, 1f)
             })
             c.a = Math.min(1f, world.bannerTimer / 0.6f)
-            scaled(1.4f) { center(bt.uppercase(), h * 0.66f, c) }
+            val up = bt.uppercase()
+            a.font.data.setScale(1.2f); layout.setText(a.font, up)
+            val sc = if (layout.width > w - 24f) 1.2f * (w - 24f) / layout.width else 1.2f
+            a.font.data.setScale(sc)
+            center(up, h * 0.56f, c)
+            a.font.data.setScale(1f)
         }
-        val toast = world.toast
-        if (toast != null && world.result == null) center(toast, h * 0.5f + 20f, Color.GOLD)
 
         val res = world.result
-        if (res != null) {
+        if (res != null && world.jasonMode) {
+            val br = a.region(if (res != MatchResult.SURVIVORS_ESCAPED) "ui_badge_win" else "ui_badge_lose")
+            batch.draw(br, w / 2f - br.regionWidth.toFloat(), h / 2f - br.regionHeight.toFloat(), br.regionWidth * 2f, br.regionHeight * 2f)
+        } else if (res != null) {
             when (res) {
                 MatchResult.PLAYER_ESCAPED ->
                     batch.draw(a.region("ui_badge_win"), w / 2f - 144f, h / 2f - 48f, 288f, 96f)
