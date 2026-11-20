@@ -2,6 +2,7 @@ package com.jasonhideseek.entities
 
 import com.jasonhideseek.config.GameConfig
 import com.jasonhideseek.world.HidingSpot
+import com.jasonhideseek.world.KeyFrame
 
 enum class SurvivorStatus { ALIVE, ESCAPED, ELIMINATED }
 
@@ -12,7 +13,11 @@ enum class SurvivorAction(val frames: String) {
 
 /** Pemain atau bot. `prefix` = awalan region atlas (player, bot1..bot9). */
 abstract class Survivor(val prefix: String, x: Float, y: Float) : Character(x, y) {
+    var name: String = prefix
     var status = SurvivorStatus.ALIVE
+    /** Key Frame yang sedang dibawa. Hanya pembawa 3 frame yang punya kunci utuh. */
+    val heldKeys = ArrayList<KeyFrame>()
+    val hasCompleteKey get() = heldKeys.size >= GameConfig.KEY_FRAME_COUNT
     val alive get() = status == SurvivorStatus.ALIVE
     var hidingIn: HidingSpot? = null
     var hideAnim = 0f            // detik sejak masuk persembunyian

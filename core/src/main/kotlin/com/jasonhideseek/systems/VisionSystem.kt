@@ -7,7 +7,10 @@ import com.jasonhideseek.world.MapDefinition
 
 /** Line-of-sight + kerucut pandang Jason. */
 class VisionSystem(private val map: MapDefinition) {
-    private val cosHalfFov = Math.cos(Math.toRadians((GameConfig.JASON_FOV_DEG / 2f).toDouble())).toFloat()
+    /** Pengubah dinamis dari buff Jason & efek map. */
+    var viewMul = 1f
+    var proxMul = 1f
+    var fovExtra = 0f
 
     fun canSee(viewer: Character, target: Survivor): Boolean {
         if (!target.alive || target.hidden) return false
@@ -17,8 +20,9 @@ class VisionSystem(private val map: MapDefinition) {
     fun canSeePoint(viewer: Character, tx: Float, ty: Float): Boolean {
         val dx = tx - viewer.x; val dy = ty - viewer.y
         val d = Math.sqrt((dx * dx + dy * dy).toDouble()).toFloat()
-        if (d > GameConfig.JASON_VIEW_RANGE) return false
-        if (d > GameConfig.JASON_PROXIMITY) {
+        if (d > GameConfig.JASON_VIEW_RANGE * viewMul) return false
+        if (d > GameConfig.JASON_PROXIMITY * proxMul) {
+            val cosHalfFov = Math.cos(Math.toRadians(((GameConfig.JASON_FOV_DEG + fovExtra) / 2f).toDouble())).toFloat()
             val fx = viewer.dir.dx; val fy = viewer.dir.dy
             val cos = (dx * fx + dy * fy) / d
             if (cos < cosHalfFov) return false

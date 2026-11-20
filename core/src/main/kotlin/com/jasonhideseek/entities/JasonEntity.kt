@@ -85,9 +85,20 @@ class JasonEntity(x: Float, y: Float, private val engine: JasonDecisionEngine, p
         }
     }
 
+    /** Jason mendengar suara di (nx,ny): bila sedang patroli/mencari, ia menyelidiki titik itu. */
+    fun hear(nx: Float, ny: Float, radius: Float, chance: Float, w: GameWorld) {
+        if (state != JasonState.PATROL && state != JasonState.SEARCH) return
+        if (dist(nx, ny) > radius || rng.nextFloat() > chance) return
+        if (!w.map.findPath(x, y, nx, ny, ArrayList())) return
+        lastSeenX = nx; lastSeenY = ny
+        setState(JasonState.SEARCH)
+        setPathTo(w.map, nx, ny)
+        searchWait = 0f
+    }
+
     // ---------- PATROL ----------
     private fun patrol(dt: Float, w: GameWorld) {
-        val arrived = followPath(dt, GameConfig.JASON_PATROL_SPEED, w.map)
+        val arrived = followPath(dt, GameConfig.JASON_PATROL_SPEED * w.buffs.patrolMul, w.map)
         if (arrived) {
             moving = false
             patrolWait -= dt
@@ -98,7 +109,7 @@ class JasonEntity(x: Float, y: Float, private val engine: JasonDecisionEngine, p
         }
         for (s in w.spots) {
             if (s.state != SpotState.INTACT || s.recheckCooldown > 0f) continue
-            if (dist(s.x, s.y) > GameConfig.JASON_DETECT_RADIUS) continue
+            if (dist(s.x, s.y) > GameConfig.JASON_DETECT_RADIUS * w.buffs.detectMul) continue
             if (!w.map.lineClear(x, y, s.x, s.y)) continue
             targetSpot = s
             evalDuration = GameConfig.JASON_EVAL_MIN + rng.nextFloat() * (GameConfig.JASON_EVAL_MAX - GameConfig.JASON_EVAL_MIN)
@@ -130,7 +141,7 @@ class JasonEntity(x: Float, y: Float, private val engine: JasonDecisionEngine, p
         if (s == null || s.state != SpotState.INTACT) { setState(JasonState.PATROL); return }
         face(s.x - x, s.y - y)
         if (stateTime < evalDuration) return
-        when (engine.decide(s.suspicion, w.huntProgress)) {
+        when (engine.decide(s.suspicion + w.buffs.suspicionBonus, w.huntProgress)) {
             Decision.SKIP -> {
                 s.recheckCooldown = GameConfig.SPOT_RECHECK_COOLDOWN
                 targetSpot = null
@@ -148,7 +159,7 @@ class JasonEntity(x: Float, y: Float, private val engine: JasonDecisionEngine, p
         if (!checking) {
             if (dist(s.x, s.y) > 18f) {
                 if (!hasPath) setPathTo(w.map, s.x, s.y)
-                followPath(dt, GameConfig.JASON_PATROL_SPEED * 1.2f, w.map)
+                followPath(dt, GameConfig.JASON_PATROL_SPEED * 1.2f * w.buffs.patrolMul, w.map)
                 return
             }
             checking = true; checkTimer = 0f; moving = false
@@ -180,7 +191,7 @@ class JasonEntity(x: Float, y: Float, private val engine: JasonDecisionEngine, p
         }
         if (dist(s.x, s.y) > 20f) {
             if (!hasPath) setPathTo(w.map, s.x, s.y)
-            followPath(dt, GameConfig.JASON_PATROL_SPEED * 1.4f, w.map)
+            followPath(dt, GameConfig.JASON_PATROL_SPEED * 1.4f * w.buffs.patrolMul, w.map)
             return
         }
         moving = false
@@ -197,7 +208,7 @@ class JasonEntity(x: Float, y: Float, private val engine: JasonDecisionEngine, p
         }
         if (swinging) {
             val done = tickSwing(dt, w) {
-                if (t.alive && !t.hidden && dist(t.x, t.y) < GameConfig.JASON_ATTACK_RANGE + 12f) w.killInOpen(t)
+                if (t.alive && !t.hidden && dist(t.x, t.y) < (GameConfig.JASON_ATTACK_RANGE + w.buffs.attackBonus) + 12f) w.killInOpen(t)
             }
             if (done) { clearPath(); repathTimer = 0f }
             return
@@ -212,7 +223,7 @@ class JasonEntity(x: Float, y: Float, private val engine: JasonDecisionEngine, p
             setState(JasonState.SEARCH)
             return
         }
-        if (visible && dist(t.x, t.y) < GameConfig.JASON_ATTACK_RANGE) {
+        if (visible && dist(t.x, t.y) < (GameConfig.JASON_ATTACK_RANGE + w.buffs.attackBonus)) {
             moving = false
             face(t.x - x, t.y - y)
             startSwing(w)
@@ -223,19 +234,19 @@ class JasonEntity(x: Float, y: Float, private val engine: JasonDecisionEngine, p
             setPathTo(w.map, if (visible) t.x else lastSeenX, if (visible) t.y else lastSeenY)
             repathTimer = 0.25f
         }
-        val done = followPath(dt, GameConfig.JASON_CHASE_SPEED, w.map)
+        val done = followPath(dt, (GameConfig.JASON_CHASE_SPEED * w.buffs.chaseMul), w.map)
         if (done && visible) {
             // path habis (satu tile yang sama): dekati langsung
             val dx = t.x - x; val dy = t.y - y
             val d = Math.max(1f, dist(t.x, t.y))
-            tryMove(dx / d * GameConfig.JASON_CHASE_SPEED * dt, dy / d * GameConfig.JASON_CHASE_SPEED * dt, w.map)
+            tryMove(dx / d * (GameConfig.JASON_CHASE_SPEED * w.buffs.chaseMul) * dt, dy / d * (GameConfig.JASON_CHASE_SPEED * w.buffs.chaseMul) * dt, w.map)
             face(dx, dy); moving = true
         }
     }
 
     // ---------- SEARCH ----------
     private fun search(dt: Float, w: GameWorld) {
-        val arrived = followPath(dt, GameConfig.JASON_SEARCH_SPEED, w.map)
+        val arrived = followPath(dt, GameConfig.JASON_SEARCH_SPEED * w.buffs.patrolMul, w.map)
         if (!arrived) return
         moving = false
         searchWait += dt

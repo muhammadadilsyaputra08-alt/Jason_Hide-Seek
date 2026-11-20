@@ -34,8 +34,11 @@ class SoundCueSystem {
         if (v > 0.02f) play(name, v)
     }
 
+    /** Pengali jangkauan suara (efek map Gema). */
+    var noiseMul = 1f
+
     fun emitNoise(x: Float, y: Float, radius: Float) {
-        for (l in noiseListeners) l(x, y, radius)
+        for (l in noiseListeners) l(x, y, radius * noiseMul)
     }
 
     private var musicName: String? = null

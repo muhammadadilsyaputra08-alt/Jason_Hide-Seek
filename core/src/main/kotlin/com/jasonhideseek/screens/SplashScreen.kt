@@ -6,7 +6,7 @@ import com.badlogic.gdx.ScreenAdapter
 import com.badlogic.gdx.graphics.GL20
 import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
-import com.badlogic.gdx.utils.viewport.ExtendViewport
+import com.jasonhideseek.ui.PixelViewport
 import com.jasonhideseek.config.GameConfig
 import com.jasonhideseek.game.JasonGame
 
@@ -14,7 +14,7 @@ import com.jasonhideseek.game.JasonGame
 class SplashScreen(private val game: JasonGame) : ScreenAdapter() {
     private val batch = SpriteBatch()
     private val cam = OrthographicCamera()
-    private val vp = ExtendViewport(GameConfig.UI_W, GameConfig.UI_H, cam)
+    private val vp = PixelViewport(GameConfig.UI_W, GameConfig.UI_H, cam)
     private var t = 0f
     private var done = false
 
@@ -45,9 +45,10 @@ class SplashScreen(private val game: JasonGame) : ScreenAdapter() {
         batch.begin()
         batch.setColor(1f, 1f, 1f, alpha.coerceIn(0f, 1f))
         val tex = game.assets.splashLogo
-        val h = GameConfig.UI_H * 0.8f
-        val w = h * tex.width / tex.height
-        batch.draw(tex, GameConfig.UI_W / 2f - w / 2f, GameConfig.UI_H / 2f - h / 2f, w, h)
+        var h = vp.worldHeight * 0.8f
+        var w = h * tex.width / tex.height
+        if (w > vp.worldWidth * 0.9f) { w = vp.worldWidth * 0.9f; h = w * tex.height / tex.width }
+        batch.draw(tex, vp.worldWidth / 2f - w / 2f, vp.worldHeight / 2f - h / 2f, w, h)
         batch.end()
     }
 

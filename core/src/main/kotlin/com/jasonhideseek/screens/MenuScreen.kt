@@ -10,28 +10,35 @@ import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.graphics.g2d.GlyphLayout
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.math.Vector2
-import com.badlogic.gdx.utils.viewport.ExtendViewport
+import com.jasonhideseek.ui.PixelViewport
 import com.jasonhideseek.config.GameConfig
 import com.jasonhideseek.game.JasonGame
+import com.jasonhideseek.systems.MapEffect
 import com.jasonhideseek.world.MapDefinition
 
 class MenuScreen(private val game: JasonGame) : ScreenAdapter() {
     private val a = game.assets
     private val batch = SpriteBatch()
     private val cam = OrthographicCamera()
-    private val vp = ExtendViewport(GameConfig.UI_W, GameConfig.UI_H, cam)
+    private val vp = PixelViewport(GameConfig.UI_W, GameConfig.UI_H, cam)
     private val layout = GlyphLayout()
     private val tmp = Vector2()
     private var time = 0f
 
+    // Semua posisi dihitung dari ukuran viewport saat ini (layar penuh), ditumpuk dari bawah ke atas
+    private val W get() = vp.worldWidth
+    private val H get() = vp.worldHeight
     private val iconSize = 48f
     private val iconGap = 14f
-    private val iconsX get() = (GameConfig.UI_W - (5 * iconSize + 4 * iconGap)) / 2f
-    private val iconsY = 78f
     private val btnW = 144f
     private val btnH = 48f
-    private val btnX get() = GameConfig.UI_W / 2f - btnW / 2f
+    private val btnX get() = W / 2f - btnW / 2f
     private val btnY = 12f
+    private val nameY = btnY + btnH + 32f            // baseline nama map
+    private val iconsY = nameY + 8f                  // dasar deretan ikon map
+    private val iconsX get() = (W - (5 * iconSize + 4 * iconGap)) / 2f
+    private val subtitleY = iconsY + iconSize + 22f  // baseline subtitle
+    private val logoBottom = subtitleY + 10f
 
     override fun show() {
         game.sound.startMenuMusic()
@@ -68,7 +75,7 @@ class MenuScreen(private val game: JasonGame) : ScreenAdapter() {
     private fun center(text: String, y: Float, color: Color = Color.WHITE) {
         a.font.color = color
         layout.setText(a.font, text)
-        a.font.draw(batch, layout, GameConfig.UI_W / 2f - layout.width / 2f, y)
+        a.font.draw(batch, layout, W / 2f - layout.width / 2f, y)
     }
 
     override fun render(delta: Float) {
@@ -78,13 +85,14 @@ class MenuScreen(private val game: JasonGame) : ScreenAdapter() {
         vp.apply(); cam.update()
         batch.projectionMatrix = cam.combined
         batch.begin()
-        batch.draw(a.region("ui_vignette_dark"), 0f, 0f, GameConfig.UI_W, GameConfig.UI_H)
+        batch.draw(a.region("ui_vignette_dark"), 0f, 0f, W, H)
 
-        // Logo baru
-        val lh = 124f
-        val lw = lh * a.logo.width / a.logo.height
-        batch.draw(a.logo, GameConfig.UI_W / 2f - lw / 2f, GameConfig.UI_H - lh - 8f, lw, lh)
-        center("Kumpulkan 3 Key Frame, buka pintu, kabur dari Jason", GameConfig.UI_H - lh - 14f, Color.LIGHT_GRAY)
+        // Logo: mengisi sisa ruang di atas, tidak pernah menimpa elemen lain
+        var lh = (H - 10f - logoBottom).coerceIn(56f, 130f)
+        var lw = lh * a.logo.width / a.logo.height
+        if (lw > W * 0.92f) { lw = W * 0.92f; lh = lw * a.logo.height / a.logo.width }
+        batch.draw(a.logo, W / 2f - lw / 2f, H - lh - 10f, lw, lh)
+        center("Bawa 3 Key Frame - hanya satu survivor yang bisa kabur dari Jason", subtitleY, Color.LIGHT_GRAY)
 
         for (i in 0 until 5) {
             val x = iconsX + i * (iconSize + iconGap)
@@ -97,7 +105,9 @@ class MenuScreen(private val game: JasonGame) : ScreenAdapter() {
             batch.draw(a.region("ui_icon_map${i + 1}"), x, iconsY)
             batch.setColor(Color.WHITE)
         }
-        center(MapDefinition.NAMES[game.selectedMap], iconsY - 6f)
+        center(MapDefinition.NAMES[game.selectedMap], nameY)
+        val fx = MapEffect.forMap(game.selectedMap)
+        center("Efek: ${fx.title} - ${fx.desc}", nameY - 15f, Color(1f, 0.75f, 0.4f, 1f))
         batch.draw(a.region("ui_btn_play"), btnX, btnY, btnW, btnH)
         batch.end()
     }

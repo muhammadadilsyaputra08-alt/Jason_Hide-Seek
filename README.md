@@ -4,7 +4,12 @@ Game survival hide-and-seek horor 2D pixel-art untuk Android (offline): 1 pemain
 LibGDX + Kotlin. 5 map (dimuat dari `assets/maps/maps.json`).
 
 ## Gameplay (blueprint update)
-- Kumpulkan 3 Key Frame (progres bersama) -> otomatis jadi Complete Key -> buka pintu keluar -> escape.
+- Key Frame sulit didapat: tersebar jauh dari spawn & satu sama lain, hanya terlihat dari dekat, butuh ~2,6 dtk (berisik) untuk diambil.
+- Key Frame dibawa per survivor. HANYA survivor yang memegang ketiga frame yang punya kunci utuh dan bisa membuka pintu -> satu pemenang.
+  Bila pembawa tereliminasi, frame jatuh di posisinya dan bisa diambil survivor lain. Ronde selesai begitu ada yang kabur.
+- Semua survivor (dan Jason) spawn acak di lantai yang terhubung; Jason selalu jauh dari survivor.
+- Setiap survivor punya nama; notifikasi eliminasi / kunci / kabur tampil di feed dan banner tengah.
+- UI menyesuaikan layar penuh (HUD menempel ke tepi, tidak saling menumpuk).
 - Escape Timer 240 dtk (mulai setelah countdown 20 dtk). Jason Mini Camera (kanan atas) memantau Jason.
 - Pemain tereliminasi -> mode penonton (kamera ikut bot, tombol prev/next), mini camera tetap aktif.
 - Hasil: Player Escaped, Survivors Escaped, Jason Wins, Time's Up (+ rekap di Result Screen).
@@ -28,3 +33,14 @@ gradle :android:assembleDebug
 ```
 CI: `.github/workflows/android-build.yml` (test -> debug APK, release APK, release AAB; tag `v*` membuat Release).
 Rilis bertanda tangan: Secrets `KEYSTORE_BASE64`, `KEYSTORE_PASSWORD`, `KEY_ALIAS`, `KEY_PASSWORD`.
+
+## Buff Jason
+Didapat dari eliminasi survivor (pasti) atau menghancurkan barang kosong (12%). Durasi 15-20 dtk, tampil di HUD kanan.
+- **I Can Hear You**: jarak/sudut pandang, deteksi spot, dan respons ke suara naik
+- **Bloodlust**: kecepatan kejar +18% | **Heavy Axe**: jangkauan serang + | **Stalker**: patroli/pencarian lebih cepat
+
+## Efek map
+1 Lantai Berderit (lari = bising) | 2 Alarm Mobil (alarm acak memancing Jason) | 3 Kabut Ladang (pandangan pendek)
+4 Listrik Padam (gelap berkala) | 5 Gema Bawah Tanah (suara 1,6x lebih jauh)
+
+Visual: viewport layar penuh berskala bulat (pixel tajam), tanpa tint/gelap tebal, lantai polos dengan aksen ~10% seperti contoh peta.

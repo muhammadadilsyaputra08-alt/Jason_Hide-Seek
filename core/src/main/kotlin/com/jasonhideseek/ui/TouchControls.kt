@@ -20,10 +20,13 @@ class TouchControls(private val viewport: Viewport, private val assets: Assets) 
     private var actionQueued = false
 
     // Posisi tombol (koordinat UI)
-    private val sprintX = GameConfig.UI_W - 128f
-    private val sprintY = 22f
-    private val actionX = GameConfig.UI_W - 66f
-    private val actionY = 74f
+    // Semua posisi dihitung dari lebar/tinggi viewport saat ini supaya selalu menempel ke tepi layar penuh.
+    private val uiW get() = viewport.worldWidth
+    private val pad = 10f
+    val sprintX get() = uiW - pad - 110f
+    val sprintY = 20f
+    val actionX get() = uiW - pad - 52f
+    val actionY = 62f
     private val btnSize = 48f
 
     private var joyPointer = -1
@@ -38,8 +41,8 @@ class TouchControls(private val viewport: Viewport, private val assets: Assets) 
     /** Mode penonton: joystick/sprint/aksi dimatikan, tombol prev/next aktif. */
     var spectatorMode = false
     private var specStep = 0
-    private val specPrevX = GameConfig.UI_W / 2f - 76f
-    private val specNextX = GameConfig.UI_W / 2f + 52f
+    private val specPrevX get() = uiW / 2f - 76f
+    private val specNextX get() = uiW / 2f + 52f
     private val specY = 14f
     private val specSize = 24f
 
@@ -57,7 +60,7 @@ class TouchControls(private val viewport: Viewport, private val assets: Assets) 
         when {
             inBtn(p, sprintX, sprintY) -> { sprintPointer = pointer; sprintTouch = true }
             inBtn(p, actionX, actionY) -> { if (actionIcon != null) actionQueued = true }
-            p.x < GameConfig.UI_W * 0.5f && joyPointer == -1 -> {
+            p.x < uiW * 0.5f && joyPointer == -1 -> {
                 joyPointer = pointer
                 joyOrigin.set(p); joyKnob.set(p)
             }

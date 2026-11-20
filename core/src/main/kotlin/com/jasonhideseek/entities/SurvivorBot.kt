@@ -69,7 +69,7 @@ class SurvivorBot(prefix: String, x: Float, y: Float, private val rng: Random) :
                 return
             }
             // Keluar untuk lanjut mencari Key Frame / pintu bila Jason jauh
-            if (w.escapePhase && hiddenFor > minHide && jd > 190f && j.targetSpot !== spot && rng.nextFloat() < greed) {
+            if (w.escapePhase && wantsKeys(w) && hiddenFor > minHide && jd > 190f && j.targetSpot !== spot && rng.nextFloat() < greed) {
                 chooseObjective(w, true)
             }
             return
@@ -89,7 +89,15 @@ class SurvivorBot(prefix: String, x: Float, y: Float, private val rng: Random) :
 
     private fun chooseObjective(w: GameWorld, leaveFirst: Boolean) {
         if (w.escapePhase) {
-            if (w.keyComplete) {
+            if (!wantsKeys(w)) {
+                // Orang lain yang memegang Key Frame: tunggu dia tereliminasi, sembunyi dulu.
+                if (!hidden && goal != Goal.HIDE) {
+                    val spot = bestSpot(w, false)
+                    if (spot != null && pathToSpot(w, spot)) { goal = Goal.HIDE; goalSpot = spot }
+                }
+                return
+            }
+            if (hasCompleteKey) {
                 if (leaveFirst && hidden) w.leaveSpot(this)
                 if (goal != Goal.EXIT || !hasPath) {
                     if (setPathTo(w.map, w.map.exitApproach.x, w.map.exitApproach.y)) goal = Goal.EXIT
@@ -119,11 +127,14 @@ class SurvivorBot(prefix: String, x: Float, y: Float, private val rng: Random) :
         }
     }
 
+    /** Bot hanya mengejar Key Frame bila punya kunci/frame, atau belum ada yang memegang frame. */
+    private fun wantsKeys(w: GameWorld) = hasCompleteKey || heldKeys.isNotEmpty() || w.keyHolder == null
+
     private fun visibleKey(w: GameWorld): KeyFrame? {
         var best: KeyFrame? = null
-        var bd = 110f
+        var bd = GameConfig.KEY_BOT_SIGHT
         for (k in w.keys) {
-            if (k.collected) continue
+            if (!k.available) continue
             val d = dist(k.x, k.y)
             if (d < bd && w.map.lineClear(x, y, k.x, k.y)) { bd = d; best = k }
         }
@@ -206,7 +217,7 @@ class SurvivorBot(prefix: String, x: Float, y: Float, private val rng: Random) :
             }
             Goal.KEY -> {
                 val k = goalKey
-                if (k == null || k.collected) { goal = Goal.IDLE; goalKey = null; decideTimer = 0f; return }
+                if (k == null || !k.available) { goal = Goal.IDLE; goalKey = null; decideTimer = 0f; return }
                 if (followPath(dt, speed, w.map)) { goal = Goal.IDLE; decideTimer = 0f }
             }
             Goal.EXIT -> {

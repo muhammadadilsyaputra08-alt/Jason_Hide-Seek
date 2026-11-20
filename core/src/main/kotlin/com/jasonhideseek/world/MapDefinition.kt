@@ -173,6 +173,33 @@ class MapDefinition(val index: Int, json: JsonValue) {
 
     fun tileCenter(col: Int, row: Int) = cellCenter(col, row)
 
+    private var reachable: List<Vector2>? = null
+
+    /** Tile lantai yang terhubung ke pintu keluar (flood fill 4-arah). */
+    fun reachableFloorTiles(): List<Vector2> {
+        reachable?.let { return it }
+        val seen = BooleanArray(tilesW * tilesH)
+        val q = ArrayDeque<Int>()
+        val sc = colOf(exitApproach.x); val sr = rowOf(exitApproach.y)
+        val out = ArrayList<Vector2>()
+        if (!isSolidTile(sc, sr)) { seen[sr * tilesW + sc] = true; q.add(sr * tilesW + sc) }
+        val dc = intArrayOf(1, -1, 0, 0); val dr = intArrayOf(0, 0, 1, -1)
+        while (!q.isEmpty()) {
+            val cur = q.poll()
+            val c = cur % tilesW; val r = cur / tilesW
+            out.add(cellCenter(c, r))
+            for (k in 0 until 4) {
+                val nc = c + dc[k]; val nr = r + dr[k]
+                if (isSolidTile(nc, nr)) continue
+                val ni = nr * tilesW + nc
+                if (seen[ni]) continue
+                seen[ni] = true; q.add(ni)
+            }
+        }
+        reachable = out
+        return out
+    }
+
     companion object {
         val NAMES = listOf(
             "Aula Rumah Tua", "Garasi & Bagasi", "Ladang & Lumbung", "Gudang Logistik", "Ruang Bawah Tanah"
