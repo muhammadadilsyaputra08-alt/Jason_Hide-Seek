@@ -167,12 +167,12 @@ class GameScreen(private val game: JasonGame) : ScreenAdapter() {
         drawList.addAll(world.gore.corpses)
         for (p in map.props) if (p.layer == "object") drawList.add(p)
         for (s in world.survivors) if (s.status == SurvivorStatus.ALIVE) drawList.add(s)
-        drawList.add(world.jason)
+        if (world.jasonMode || world.phase != Phase.COUNTDOWN) drawList.add(world.jason)   // Jason tak terlihat saat survivor mencari tempat sembunyi
         drawList.sortWith(byDepth)
         for (o in drawList) drawObject(o, tr, tg, tb)
 
         // Key Frame hanya terlihat dari dekat (sulit ditemukan); tidak tampil di Jason Mini Camera
-        if (lightAt != null) {
+        if (lightAt != null && world.phase != Phase.COUNTDOWN) {
             for (k in world.keys) {
                 if (k.holder != null) continue
                 if (lightAt.dist(k.x, k.y) > GameConfig.KEY_VIEW_RANGE * world.keyViewMul) continue
@@ -185,7 +185,7 @@ class GameScreen(private val game: JasonGame) : ScreenAdapter() {
         }
         world.gore.renderEffects(batch)
         batch.setColor(1f, 1f, 1f, 1f)
-        if (lightAt != null) drawNameTags()
+        if (lightAt != null) { drawSpotBars(); drawNameTags() }
         if (lightAt != null && world.jasonMode) drawJasonSenses()
         batch.end()
     }
@@ -209,8 +209,25 @@ class GameScreen(private val game: JasonGame) : ScreenAdapter() {
         }
     }
 
+    private fun bar3(x: Float, y: Float, frac: Float, r: Float, g: Float, b: Float) {
+        batch.setColor(0f, 0f, 0f, 0.75f); batch.draw(a.pixel, x - 1f, y - 1f, 22f, 5f)
+        batch.setColor(r, g, b, 1f); batch.draw(a.pixel, x, y, 20f * frac.coerceIn(0f, 1f), 3f)
+        batch.setColor(1f, 1f, 1f, 1f)
+    }
+
+    /** Bar ketahanan tempat sembunyi yang sedang retak. */
+    private fun drawSpotBars() {
+        for (sp in world.spots) {
+            if (sp.state != com.jasonhideseek.world.SpotState.INTACT || !sp.damaged || sp.occupant == null) continue
+            bar3(sp.x - 10f, sp.y + 26f, sp.hp.toFloat() / GameConfig.SPOT_HP, 1f, 0.55f, 0.15f)
+        }
+    }
+
     /** Nama survivor di atas kepala (font kecil). Pembawa Key Frame diberi penanda jumlah. */
     private fun drawNameTags() {
+        for (sv in world.survivors) {
+            if (sv.action == com.jasonhideseek.entities.SurvivorAction.KEY_PICKUP) bar3(sv.x - 10f, sv.y + 40f, sv.actionProgress, 1f, 0.85f, 0.2f)
+        }
         val f = a.font
         f.data.setScale(0.55f)
         for (sv in world.survivors) {
@@ -425,6 +442,7 @@ class GameScreen(private val game: JasonGame) : ScreenAdapter() {
         var ry = my - 8f
         scaled(0.8f) {
             rtext(fit("Efek: ${world.effect.title}", w / 2f - 56f), w - pad, ry, Color.LIGHT_GRAY); ry -= 12f
+            if (world.buffs.escapes > 0) { rtext("Jason agresif +${(world.buffs.escapes * GameConfig.AGGRO_PER_ESCAPE * 100).toInt()}%", w - pad, ry, Color(1f, 0.4f, 0.4f, 1f)); ry -= 12f }
             for ((b, left) in world.buffs.active) {
                 rtext("${b.title} ${Math.ceil(left.toDouble()).toInt()}s", w - pad, ry, Color(1f, 0.5f, 0.5f, 1f)); ry -= 12f
             }
@@ -452,7 +470,10 @@ class GameScreen(private val game: JasonGame) : ScreenAdapter() {
             }
         } else when {
             p.status == SurvivorStatus.ESCAPED -> {}
-            p.action == com.jasonhideseek.entities.SurvivorAction.KEY_PICKUP -> center("Mengambil Key Frame...", statusY, Color.GOLD)
+            p.action == com.jasonhideseek.entities.SurvivorAction.KEY_PICKUP -> center("Mengambil Key Frame... (gerak = batal)", statusY, Color.GOLD)
+            p.heldKeys.isNotEmpty() && world.allFramesHeld && !world.keyComplete ->
+                center("Dekati rekan pembawa frame untuk merakit kunci!", statusY, Color.GOLD)
+            world.exitState != ExitState.LOCKED && !p.hidden -> center("Pintu terbuka! Segera keluar!", statusY, Color(0.5f, 1f, 0.5f, 1f))
             cdPhase && !p.hidden -> center("Cari tempat sembunyi!", statusY, Color.YELLOW)
             p.hidden && world.jason.state == JasonState.CHASE -> center("Tahan napas...", statusY, Color.GRAY)
             p.hidden -> center("Bersembunyi", statusY, Color.GRAY)
@@ -484,7 +505,7 @@ class GameScreen(private val game: JasonGame) : ScreenAdapter() {
 
         val res = world.result
         if (res != null && world.jasonMode) {
-            val br = a.region(if (res != MatchResult.SURVIVORS_ESCAPED) "ui_badge_win" else "ui_badge_lose")
+            val br = a.region(if (world.jasonVictory) "ui_badge_win" else "ui_badge_lose")
             batch.draw(br, w / 2f - br.regionWidth.toFloat(), h / 2f - br.regionHeight.toFloat(), br.regionWidth * 2f, br.regionHeight * 2f)
         } else if (res != null) {
             when (res) {

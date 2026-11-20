@@ -12,7 +12,7 @@ import java.util.Random
  * Seek Exit, Escape. Kondisi dievaluasi ulang secara berkala (decide) sehingga rencana bisa berubah.
  */
 class SurvivorBot(prefix: String, x: Float, y: Float, private val rng: Random) : Survivor(prefix, x, y) {
-    private enum class Goal { IDLE, HIDE, EXPLORE, KEY, EXIT, FLEE }
+    private enum class Goal { IDLE, HIDE, EXPLORE, KEY, EXIT, FLEE, MERGE }
 
     private var goal = Goal.IDLE
     private var goalSpot: HidingSpot? = null
@@ -63,12 +63,16 @@ class SurvivorBot(prefix: String, x: Float, y: Float, private val rng: Random) :
             if (pendingNoise > 0f) panic += 0.5f * nerve
             if (jasonActive && jdSpot < 55f && j.targetSpot !== spot) panic += 0.18f * nerve
             if (jasonActive && j.targetSpot === spot && jdSpot < 70f) panic += 0.35f * nerve
+            // Tempat sembunyi mulai retak: makin rusak makin besar dorongan untuk kabur.
+            if (spot.damaged && jdSpot < 70f) panic += (0.25f + 0.2f * (GameConfig.SPOT_HP - spot.hp)) * (0.5f + nerve)
             if (fleeCooldown <= 0f && jasonActive && panic > 0f && rng.nextFloat() < panic) {
                 fleeCooldown = 6f
                 beginFlee(w)
                 return
             }
-            // Keluar untuk lanjut mencari Key Frame / pintu bila Jason jauh
+            // Harus bergerak (kunci utuh / pintu terbuka / tim merakit kunci) dan Jason tidak dekat: keluar
+            if (w.escapePhase && mustMove(w) && jd > 150f && j.targetSpot !== spot) { chooseObjective(w, true); return }
+            // Keluar untuk lanjut mencari Key Frame bila Jason jauh
             if (w.escapePhase && wantsKeys(w) && hiddenFor > minHide && jd > 190f && j.targetSpot !== spot && rng.nextFloat() < greed) {
                 chooseObjective(w, true)
             }
@@ -77,9 +81,19 @@ class SurvivorBot(prefix: String, x: Float, y: Float, private val rng: Random) :
 
         val seen = jasonActive && (jd < 110f || (j.chasing && jd < 170f)) && w.map.lineClear(j.x, j.y, x, y)
         if (seen) {
+            // Dekat pintu keluar & berhak keluar: terus lari ke pintu.
+            val exitD = dist(w.map.exitApproach.x, w.map.exitApproach.y)
+            if (w.escapePhase && (hasCompleteKey || w.exitState != ExitState.LOCKED) && exitD < 110f && jd > 30f) {
+                if (goal != Goal.EXIT || !hasPath) { if (setPathTo(w.map, w.map.exitApproach.x, w.map.exitApproach.y)) goal = Goal.EXIT }
+                return
+            }
             if (goal != Goal.FLEE || !hasPath) {
                 val spot = bestSpot(w, true)
-                if (spot != null && pathToSpot(w, spot)) { goal = Goal.HIDE; goalSpot = spot } else beginFlee(w)
+                // Sudah dalam posisi aman (spot sangat dekat & jauh dari Jason) -> sembunyi; selain itu kabur.
+                val safeSpot = spot != null && dist(spot.x, spot.y) < 28f && j.dist(spot.x, spot.y) > 45f
+                val hot = j.chasing && jd < 110f || jd < 60f
+                if (hot && !safeSpot) beginFlee(w)
+                else if (spot != null && pathToSpot(w, spot)) { goal = Goal.HIDE; goalSpot = spot } else beginFlee(w)
             }
             return
         }
@@ -89,18 +103,28 @@ class SurvivorBot(prefix: String, x: Float, y: Float, private val rng: Random) :
 
     private fun chooseObjective(w: GameWorld, leaveFirst: Boolean) {
         if (w.escapePhase) {
+            // Pintu sudah terbuka (ada yang lolos): semua menyusul tanpa perlu kunci.
+            if (w.exitState != ExitState.LOCKED || hasCompleteKey) {
+                if (leaveFirst && hidden) w.leaveSpot(this)
+                if (goal != Goal.EXIT || !hasPath) {
+                    if (setPathTo(w.map, w.map.exitApproach.x, w.map.exitApproach.y)) goal = Goal.EXIT
+                }
+                return
+            }
+            // Semua frame sudah dipegang beberapa survivor: berkumpul untuk merakit kunci, lalu ke pintu.
+            if (teamReady(w)) {
+                if (leaveFirst && hidden) w.leaveSpot(this)
+                val main = w.teamMain()
+                if (main === this || main == null) {
+                    if (goal != Goal.EXIT || !hasPath) { if (setPathTo(w.map, w.map.exitApproach.x, w.map.exitApproach.y)) goal = Goal.EXIT }
+                } else if (setPathTo(w.map, main.x, main.y)) goal = Goal.MERGE
+                return
+            }
             if (!wantsKeys(w)) {
                 // Orang lain yang memegang Key Frame: tunggu dia tereliminasi, sembunyi dulu.
                 if (!hidden && goal != Goal.HIDE) {
                     val spot = bestSpot(w, false)
                     if (spot != null && pathToSpot(w, spot)) { goal = Goal.HIDE; goalSpot = spot }
-                }
-                return
-            }
-            if (hasCompleteKey) {
-                if (leaveFirst && hidden) w.leaveSpot(this)
-                if (goal != Goal.EXIT || !hasPath) {
-                    if (setPathTo(w.map, w.map.exitApproach.x, w.map.exitApproach.y)) goal = Goal.EXIT
                 }
                 return
             }
@@ -126,6 +150,9 @@ class SurvivorBot(prefix: String, x: Float, y: Float, private val rng: Random) :
             else if (goal != Goal.EXPLORE || !hasPath) nextExplore(w)
         }
     }
+
+    private fun teamReady(w: GameWorld) = heldKeys.isNotEmpty() && w.allFramesHeld && !w.keyComplete
+    private fun mustMove(w: GameWorld) = hasCompleteKey || teamReady(w) || w.exitState != ExitState.LOCKED
 
     /** Bot hanya mengejar Key Frame bila punya kunci/frame, atau belum ada yang memegang frame. */
     private fun wantsKeys(w: GameWorld) = hasCompleteKey || heldKeys.isNotEmpty() || w.keyHolder == null
@@ -194,7 +221,7 @@ class SurvivorBot(prefix: String, x: Float, y: Float, private val rng: Random) :
         if (hidden) return
         val j = w.jason
         val danger = j.state != JasonState.COUNTDOWN_LOCKED && j.dist(x, y) < 130f
-        val wantSprint = goal == Goal.FLEE || (danger && goal == Goal.HIDE)
+        val wantSprint = goal == Goal.FLEE || (danger && (goal == Goal.HIDE || goal == Goal.EXIT))
         sprinting = wantSprint && !exhausted && stamina > 0f
         val speed = if (sprinting) GameConfig.BOT_SPRINT else GameConfig.BOT_SPEED
 
@@ -228,6 +255,13 @@ class SurvivorBot(prefix: String, x: Float, y: Float, private val rng: Random) :
             }
             Goal.FLEE -> {
                 if (followPath(dt, speed, w.map)) { goal = Goal.IDLE; decideTimer = 0f }
+            }
+            Goal.MERGE -> {
+                val m = w.teamMain()
+                if (m == null || m === this || w.keyComplete) { goal = Goal.IDLE; decideTimer = 0f; return }
+                // Menempel ke pembawa utama sampai kunci dirakit
+                if (dist(m.x, m.y) <= GameConfig.ASSEMBLE_RANGE * 0.6f) { moving = false; return }
+                if (followPath(dt, speed, w.map)) { moving = false }
             }
         }
     }

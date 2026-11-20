@@ -20,6 +20,7 @@ abstract class Survivor(val prefix: String, x: Float, y: Float) : Character(x, y
     val hasCompleteKey get() = heldKeys.size >= GameConfig.KEY_FRAME_COUNT
     val alive get() = status == SurvivorStatus.ALIVE
     var hidingIn: HidingSpot? = null
+    var pickupCooldown = 0f      // jeda sebelum boleh mengambil frame lagi (setelah dibatalkan)
     var hideAnim = 0f            // detik sejak masuk persembunyian
     var stamina = GameConfig.STAMINA_MAX
     var exhausted = false
@@ -32,6 +33,7 @@ abstract class Survivor(val prefix: String, x: Float, y: Float) : Character(x, y
     var actionDuration = 0.5f
         private set
 
+    val actionProgress get() = if (action != null && actionDuration > 0f) actionTime / actionDuration else 0f
     val hidden get() = hidingIn != null
     val busy get() = action != null
 

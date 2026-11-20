@@ -28,14 +28,18 @@ class JasonBuffs(private val rng: Random) {
         while (it.hasNext()) { val e = it.next(); e.setValue(e.value - dt); if (e.value <= 0f) it.remove() }
     }
 
+    /** Jumlah survivor yang sudah lolos: Jason makin agresif. */
+    var escapes = 0
+    private val aggr get() = 1f + GameConfig.AGGRO_PER_ESCAPE * escapes
+
     private val ich get() = has(JasonBuff.I_CAN_HEAR_YOU)
-    val viewMul get() = if (ich) 1.35f else 1f
+    val viewMul get() = (if (ich) 1.35f else 1f) * aggr
     val proxMul get() = if (ich) 1.7f else 1f
     val fovExtra get() = if (ich) 40f else 0f
-    val detectMul get() = if (ich) 1.4f else 1f
+    val detectMul get() = (if (ich) 1.4f else 1f) * aggr
     val suspicionBonus get() = if (ich) 0.25f else 0f
-    val hearChance get() = GameConfig.JASON_HEAR_CHANCE + if (ich) 0.5f else 0f
-    val chaseMul get() = if (has(JasonBuff.BLOODLUST)) 1.18f else 1f
-    val patrolMul get() = if (has(JasonBuff.STALKER)) 1.25f else 1f
+    val hearChance get() = Math.min(1f, GameConfig.JASON_HEAR_CHANCE + (if (ich) 0.5f else 0f) + 0.08f * escapes)
+    val chaseMul get() = (if (has(JasonBuff.BLOODLUST)) 1.18f else 1f) * (1f + 0.06f * escapes)
+    val patrolMul get() = (if (has(JasonBuff.STALKER)) 1.25f else 1f) * (1f + 0.10f * escapes)
     val attackBonus get() = if (has(JasonBuff.HEAVY_AXE)) 7f else 0f
 }

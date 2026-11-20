@@ -15,7 +15,8 @@ class MatchSummary(
     val durationSec: Int,
     val keysCollected: Int,
     val escaper: String? = null,
-    val jasonMode: Boolean = false
+    val jasonMode: Boolean = false,
+    val jasonVictory: Boolean = false
 )
 
 /** Aturan hasil pertandingan (murni logika, mudah diuji). */
@@ -28,8 +29,7 @@ object MatchRules {
      */
     fun evaluate(player: SurvivorStatus, botsEscaped: Int, aliveTotal: Int, timeUp: Boolean): MatchResult? {
         if (player == SurvivorStatus.ESCAPED) return MatchResult.PLAYER_ESCAPED
-        // Hanya satu survivor (pemegang kunci utuh) yang bisa keluar: ronde selesai begitu ada yang kabur.
-        if (botsEscaped > 0) return MatchResult.SURVIVORS_ESCAPED
+        // Survivor yang kabur tidak mengakhiri ronde: yang lain boleh menyusul selama pintu terbuka & waktu masih ada.
         if (aliveTotal == 0) return if (botsEscaped > 0) MatchResult.SURVIVORS_ESCAPED else MatchResult.JASON_WINS
         if (timeUp) {
             return if (player == SurvivorStatus.ELIMINATED && botsEscaped > 0) MatchResult.SURVIVORS_ESCAPED

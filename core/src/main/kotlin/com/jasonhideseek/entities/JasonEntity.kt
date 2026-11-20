@@ -286,9 +286,12 @@ class JasonEntity(x: Float, y: Float, private val engine: JasonDecisionEngine, p
         if (s == null || s.state != SpotState.INTACT) { setState(JasonState.PATROL); return }
         if (swinging) {
             if (tickSwing(dt, w) { w.attackSpot(s) }) {
-                targetSpot = null
-                clearPath()
-                setState(JasonState.PATROL)
+                // Spot berpenghuni yang belum hancur (masih punya ketahanan): hantam lagi.
+                if (!(s.state == SpotState.INTACT && s.occupant != null)) {
+                    targetSpot = null
+                    clearPath()
+                    setState(JasonState.PATROL)
+                }
             }
             return
         }

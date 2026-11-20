@@ -31,6 +31,6 @@ class MatchRulesTest {
     @Test fun nothingHappensWhileAliveAndTimeLeft() =
         assertNull(MatchRules.evaluate(ALIVE, 0, 4, false))
 
-    @Test fun roundEndsWhenAnyBotEscapesBecauseOnlyOneCanLeave() =
-        assertEquals(MatchResult.SURVIVORS_ESCAPED, MatchRules.evaluate(ALIVE, 1, 4, false))
+    @Test fun roundContinuesAfterBotEscapesSoOthersCanFollow() =
+        assertNull(MatchRules.evaluate(ALIVE, 1, 4, false))
 }

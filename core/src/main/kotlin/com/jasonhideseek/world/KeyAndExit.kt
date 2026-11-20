@@ -9,6 +9,8 @@ import com.jasonhideseek.entities.Survivor
 class KeyFrame(val number: Int, var x: Float, var y: Float) {
     var holder: Survivor? = null
     var claimer: Survivor? = null
+    /** Progres pengambilan 0..1 (tersimpan bila dibatalkan, perlahan turun). */
+    var progress = 0f
     val collected get() = holder != null
     val available get() = holder == null && claimer == null
 }

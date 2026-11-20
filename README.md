@@ -57,3 +57,13 @@ kalah bila satu survivor kabur. Penanda emas muncul di atas pembawa kunci utuh; 
 
 ## Notifikasi
 Banner tengah memakai antrean (satu per satu, tanpa duplikat); feed kiri maksimal 4 baris ringkas dan dipotong agar tak menimpa HUD.
+
+## Pembaruan: risiko, ketahanan, kerja sama
+- Ambil frame (1,8 dtk) bisa dibatalkan (gerak/tombol aksi), progres tersimpan; bot membatalkan bila Jason mendekat & tak mulai saat Jason mengejar di dekat frame.
+- Tempat sembunyi punya ketahanan (3 hantaman) dengan bar; penghuni bot panik & kabur saat spot retak, pemain bisa keluar sendiri.
+- Saat hitung mundur, Jason dan Key Frame tidak terlihat (mode Survivor).
+- Pemegang kunci utuh langsung ke pintu; bila Jason dekat: lari/sembunyi (lari ke pintu bila pintu sudah dekat).
+- Survivor yang lolos tidak mengakhiri ronde: pintu tetap terbuka, yang lain bisa menyusul tanpa kunci. Tiap yang lolos membuat Jason lebih agresif (+14% jangkauan/deteksi, kecepatan naik).
+- Bot yang dikejar lebih memilih kabur daripada sembunyi saat Jason sangat dekat, kecuali sudah dekat spot yang aman.
+- Frame terbagi ke beberapa survivor: bila semua frame sudah dipegang, mereka berkumpul/menempel (<=34 px) untuk merakit kunci, lalu ke pintu.
+- Mode Jason: menang bila kurang dari separuh survivor yang kabur.

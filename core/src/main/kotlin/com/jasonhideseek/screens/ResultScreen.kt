@@ -33,13 +33,10 @@ class ResultScreen(private val game: JasonGame, private val s: MatchSummary) : S
     private val menuX get() = W / 2f + 8f
     private val by = 14f
 
-    private val jasonWon = s.jasonMode && s.result != MatchResult.SURVIVORS_ESCAPED
+    private val jasonWon = s.jasonMode && s.jasonVictory
     private val headline = if (s.jasonMode) {
-        when (s.result) {
-            MatchResult.JASON_WINS -> "Kamu Menang! Semua survivor habis"
-            MatchResult.TIMES_UP -> "Kamu Menang! Tak ada yang kabur"
-            else -> "Kamu Kalah - ${s.escaper ?: "survivor"} kabur"
-        }
+        if (s.jasonVictory) "Kamu Menang! Hanya ${s.escaped} dari ${s.total} yang kabur"
+        else "Kamu Kalah - ${s.escaped} dari ${s.total} survivor kabur"
     } else when (s.result) {
         MatchResult.PLAYER_ESCAPED -> "Player Escaped"
         MatchResult.SURVIVORS_ESCAPED -> "Survivors Escaped"
@@ -47,13 +44,13 @@ class ResultScreen(private val game: JasonGame, private val s: MatchSummary) : S
         MatchResult.TIMES_UP -> "Time's Up"
     }
     private val playerText = when (s.playerStatus) {
-        SurvivorStatus.ALIVE -> if (s.escaper != null) "Gagal kabur (kunci dipegang ${s.escaper})" else "Masih bertahan"
+        SurvivorStatus.ALIVE -> "Gagal kabur (waktu habis)"
         SurvivorStatus.ESCAPED -> "Escaped"
         SurvivorStatus.ELIMINATED -> "Eliminated"
     }
     private val jasonText = when {
         s.eliminated >= s.total -> "Menang - semua survivor tereliminasi"
-        s.escaped > 0 -> "Gagal mencegah ${s.escaper ?: "1 survivor"} kabur"
+        s.escaped > 0 -> "Gagal mencegah ${s.escaped} survivor kabur"
         else -> "Bertahan - tidak ada yang kabur"
     }
 

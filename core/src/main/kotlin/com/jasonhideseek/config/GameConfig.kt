@@ -24,6 +24,11 @@ object GameConfig {
     const val STAMINA_REGEN = 16f
     const val STAMINA_RECOVER_AT = 25f
     const val BOT_COUNT = 9
+    const val SPOT_HP = 3                    // ketahanan tempat sembunyi: berapa serangan sebelum hancur
+    const val AGGRO_PER_ESCAPE = 0.14f       // Jason makin agresif untuk tiap survivor yang lolos
+    const val ASSEMBLE_RANGE = 34f           // jarak antar pembawa frame agar bisa merakit kunci
+    const val PICKUP_ABORT_JASON = 120f      // bot membatalkan ambil frame bila Jason sedekat ini
+    const val PICKUP_COOLDOWN = 1.2f
     const val CARRIER_SIGHT_BONUS = 0.18f    // tiap frame yang dibawa: jarak pandang Jason +18%
     const val CARRIER_TRACK_CHANCE = 0.12f   // tiap frame: peluang patroli Jason menuju pembawa
     const val CARRIER_SPOT_SUSPICION = 0.15f // tiap frame: kecurigaan spot yang dihuni pembawa
@@ -35,7 +40,7 @@ object GameConfig {
     const val HIDE_RANGE = 26f
     const val KEY_PICKUP_RANGE = 12f
     const val EXIT_RANGE = 24f
-    const val KEY_PICKUP_TIME = 2.6f         // mengambil Key Frame butuh waktu (rawan Jason)
+    const val KEY_PICKUP_TIME = 1.8f         // mengambil Key Frame butuh waktu (bisa dibatalkan, progres tersimpan)
     const val KEY_NOISE_RADIUS = 120f
     const val KEY_VIEW_RANGE = 72f           // Key Frame hanya terlihat dari dekat
     const val KEY_MIN_SPACING = 170f

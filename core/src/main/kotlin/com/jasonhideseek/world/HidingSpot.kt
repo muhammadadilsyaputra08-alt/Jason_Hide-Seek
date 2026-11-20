@@ -1,5 +1,6 @@
 package com.jasonhideseek.world
 
+import com.jasonhideseek.config.GameConfig
 import com.jasonhideseek.entities.Survivor
 
 enum class Material(val debris: String) {
@@ -34,6 +35,8 @@ class HidingSpot(val type: SpotType, val x: Float, val y: Float) {
     var occupant: Survivor? = null
     var suspicion = 0f          // 0..1, dipakai JasonDecisionEngine
     var recheckCooldown = 0f    // > 0: baru diperiksa, Jason mengabaikan
+    var hp = GameConfig.SPOT_HP // ketahanan: berkurang tiap diserang saat berpenghuni
+    val damaged get() = hp < GameConfig.SPOT_HP
 
     val usable get() = state == SpotState.INTACT && occupant == null
 

@@ -178,6 +178,7 @@ class GameWorld(game: JasonGame, private val mapIndex: Int, val jasonMode: Boole
             exitAnimTime += dt
             if (exitAnimTime >= GameConfig.EXIT_UNLOCK_TIME) {
                 exitState = ExitState.OPEN
+                showBanner("Pintu keluar terbuka - yang lain bisa menyusul!", FeedKind.ESCAPE)
                 sound.playAt("door_open", map.exitCenter.x, map.exitCenter.y, 1f)
             }
         }
@@ -198,6 +199,12 @@ class GameWorld(game: JasonGame, private val mapIndex: Int, val jasonMode: Boole
         }
 
         val wantsAction = controls.consumeAction()
+        for (sv in survivors) if (sv.pickupCooldown > 0f) sv.pickupCooldown -= dt
+        for (k in keys) if (k.claimer == null && k.progress > 0f) k.progress = Math.max(0f, k.progress - 0.05f * dt)
+        buffs.escapes = escapedCount
+        // Pemain bisa membatalkan pengambilan frame kapan saja (gerak / tombol aksi)
+        if (!jasonMode && player.action == SurvivorAction.KEY_PICKUP &&
+            (Math.hypot(controls.moveX.toDouble(), controls.moveY.toDouble()) > 0.3 || wantsAction)) cancelPickup(player)
         if (jasonMode) {
             if (wantsAction && phase == Phase.ESCAPE) jason.playerAttack(this)
         } else {
@@ -213,6 +220,14 @@ class GameWorld(game: JasonGame, private val mapIndex: Int, val jasonMode: Boole
         buffs.update(dt)
         updateEffects(dt)
         jason.update(dt, this, controls)
+        // Bot membatalkan pengambilan frame bila Jason mendekat
+        if (jason.state != JasonState.COUNTDOWN_LOCKED) {
+            for (b in bots) {
+                if (!b.alive || b.action != SurvivorAction.KEY_PICKUP) continue
+                if (jason.dist(b.x, b.y) < GameConfig.PICKUP_ABORT_JASON && (jason.chasing || vision.canSee(jason, b))) cancelPickup(b)
+            }
+        }
+        checkAssembly()
 
         if (phase == Phase.ESCAPE) checkKeyPickups()
         updateSpectator()
@@ -294,7 +309,7 @@ class GameWorld(game: JasonGame, private val mapIndex: Int, val jasonMode: Boole
         val timeUp = phase == Phase.ESCAPE && phaseRemaining <= 0f
         val r = MatchRules.evaluate(if (jasonMode) SurvivorStatus.ALIVE else player.status, botsEscaped, survivorsAlive, timeUp) ?: return
         result = r; phase = Phase.ENDED; endTimer = 0f
-        escaperName = survivors.firstOrNull { it.status == SurvivorStatus.ESCAPED }?.let { label(it) }
+        escaperName = survivors.filter { it.status == SurvivorStatus.ESCAPED }.joinToString(", ") { label(it) }.ifEmpty { null }
         jason.setEnded(r == MatchResult.JASON_WINS)
         sound.play(if (r == MatchResult.JASON_WINS || r == MatchResult.TIMES_UP) "lose" else "win", 0.9f)
     }
@@ -302,8 +317,11 @@ class GameWorld(game: JasonGame, private val mapIndex: Int, val jasonMode: Boole
     fun summary() = MatchSummary(
         result ?: MatchResult.TIMES_UP, map.name, if (jasonMode) SurvivorStatus.ALIVE else player.status,
         escapedCount, eliminatedCount, survivors.size, elapsed.toInt(),
-        if (jasonMode) (keyHolder?.heldKeys?.size ?: 0) else keysCollected, escaperName, jasonMode
+        if (jasonMode) (keyHolder?.heldKeys?.size ?: 0) else keysCollected, escaperName, jasonMode, jasonVictory
     )
+
+    /** Mode Jason: menang bila kurang dari separuh survivor yang berhasil kabur. */
+    val jasonVictory get() = escapedCount * 2 < survivors.size
 
     // ---------- Key Frame ----------
     /** Bot hanya mengambil frame bila dirinya sudah membawa frame, atau belum ada survivor lain yang membawa. */
@@ -314,7 +332,8 @@ class GameWorld(game: JasonGame, private val mapIndex: Int, val jasonMode: Boole
         for (k in keys) {
             if (!k.available) continue
             for (s in survivors) {
-                if (!s.alive || s.hidden || s.busy || s.hasCompleteKey || !mayCollect(s)) continue
+                if (!s.alive || s.hidden || s.busy || s.hasCompleteKey || s.pickupCooldown > 0f || !mayCollect(s)) continue
+                if (jason.chasing && jason.dist(k.x, k.y) < 160f) continue   // jangan mulai saat Jason mengejar di dekat sini
                 if (s.dist(k.x, k.y) <= GameConfig.KEY_PICKUP_RANGE) { beginPickup(k, s); break }
             }
         }
@@ -322,15 +341,47 @@ class GameWorld(game: JasonGame, private val mapIndex: Int, val jasonMode: Boole
 
     private fun beginPickup(k: KeyFrame, s: Survivor) {
         k.claimer = s
-        s.startAction(SurvivorAction.KEY_PICKUP, GameConfig.KEY_PICKUP_TIME)
+        s.startAction(SurvivorAction.KEY_PICKUP, GameConfig.KEY_PICKUP_TIME * (1f - k.progress))
         sound.playAt("key_pickup", k.x, k.y, 0.7f)
         sound.emitNoise(k.x, k.y, GameConfig.KEY_NOISE_RADIUS)
+    }
+
+    /** Batalkan pengambilan: progres disimpan sehingga bisa dilanjutkan. */
+    private fun cancelPickup(s: Survivor) {
+        val f = s.actionProgress
+        for (k in keys) if (k.claimer === s) {
+            k.progress = (k.progress + (1f - k.progress) * f).coerceIn(0f, 0.95f)
+            k.claimer = null
+        }
+        s.clearAction()
+        s.pickupCooldown = GameConfig.PICKUP_COOLDOWN
+    }
+
+    val allFramesHeld get() = keys.isNotEmpty() && keys.all { it.holder != null }
+
+    /** Pembawa frame terbanyak (inti tim perakit kunci). */
+    fun teamMain(): Survivor? = survivors.filter { it.alive && it.heldKeys.isNotEmpty() }.maxByOrNull { it.heldKeys.size }
+
+    /** Frame terbagi ke beberapa survivor: bila semuanya berdekatan, frame dirakit jadi satu kunci pada pembawa utama. */
+    private fun checkAssembly() {
+        if (phase != Phase.ESCAPE || !allFramesHeld || completeKeyHolder != null) return
+        val team = survivors.filter { it.alive && it.heldKeys.isNotEmpty() }
+        if (team.size < 2) return
+        val main = teamMain() ?: return
+        if (main.hidden || main.busy) return
+        if (team.any { it !== main && (it.hidden || it.busy || it.dist(main.x, main.y) > GameConfig.ASSEMBLE_RANGE) }) return
+        for (t in team) if (t !== main) { main.heldKeys.addAll(t.heldKeys); t.heldKeys.clear() }
+        for (k in main.heldKeys) k.holder = main
+        gore.animFx("fx_key_assembly", main.x, main.y + 22f, 10f)
+        sound.play("key_assembly", 1f)
+        pushFeed("${short(main)} merakit KUNCI UTUH", FeedKind.KEY)
+        showBanner(if (team.any { it === player }) "Kunci dirakit! Menuju pintu keluar" else "${main.name} merakit kunci - Jason memburunya!", FeedKind.KEY)
     }
 
     private fun finishPickup(s: Survivor) {
         for (k in keys) {
             if (k.claimer !== s) continue
-            k.claimer = null; k.holder = s; s.heldKeys.add(k)
+            k.claimer = null; k.holder = s; k.progress = 0f; s.heldKeys.add(k)
             gore.animFx("fx_key_pickup", k.x, k.y + 8f, 14f)
             sound.playAt("key_pickup", k.x, k.y, 1f)
             if (s.hasCompleteKey) {
@@ -385,7 +436,7 @@ class GameWorld(game: JasonGame, private val mapIndex: Int, val jasonMode: Boole
 
     // ---------- Pintu keluar ----------
     fun canUseExit(s: Survivor): Boolean =
-        phase == Phase.ESCAPE && s.hasCompleteKey && s.alive && !s.hidden && !s.busy &&
+        phase == Phase.ESCAPE && (s.hasCompleteKey || exitState == ExitState.OPEN) && s.alive && !s.hidden && !s.busy &&
             exitState != ExitState.UNLOCKING &&
             s.dist(map.exitApproach.x, map.exitApproach.y) <= GameConfig.EXIT_RANGE
 
@@ -409,6 +460,7 @@ class GameWorld(game: JasonGame, private val mapIndex: Int, val jasonMode: Boole
                 s.status = SurvivorStatus.ESCAPED
                 s.hidingIn = null
                 pushFeed("${short(s)} KABUR!", FeedKind.ESCAPE)
+                pushFeed("Jason makin agresif!", FeedKind.BUFF)
                 showBanner(if (s === player) "Kamu berhasil kabur!" else "${s.name} berhasil kabur!", FeedKind.ESCAPE)
             }
             SurvivorAction.KEY_PICKUP -> finishPickup(s)
@@ -431,7 +483,7 @@ class GameWorld(game: JasonGame, private val mapIndex: Int, val jasonMode: Boole
             ContextAction.LEAVE -> leaveSpot(player)
             ContextAction.EXIT -> useExit(player)
             ContextAction.HIDE -> nearestUsableSpot(player)?.let { enterSpot(player, it) }
-            ContextAction.NONE -> {}
+            ContextAction.NONE, ContextAction.ATTACK -> {}
         }
     }
 
@@ -521,6 +573,14 @@ class GameWorld(game: JasonGame, private val mapIndex: Int, val jasonMode: Boole
             gore.breakClean(spot.type.material, spot.x, spot.y)
             sound.playAt("break", spot.x, spot.y)
         } else {
+            spot.hp -= 1
+            sound.emitNoise(spot.x, spot.y, GameConfig.NOISE_RADIUS_BREAK)
+            if (spot.hp > 0) {
+                // Masih bertahan: retak dulu, penghuni punya waktu kabur.
+                sound.playAt("break", spot.x, spot.y, 0.6f)
+                sound.playAt("creak", spot.x, spot.y, 0.8f)
+                return
+            }
             spot.state = SpotState.BROKEN_BLOODY
             spot.occupant = null
             victim.hidingIn = null
