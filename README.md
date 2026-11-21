@@ -75,3 +75,10 @@ Banner tengah memakai antrean (satu per satu, tanpa duplikat); feed kiri maksima
 - Bot yang dikejar lebih memilih kabur daripada sembunyi saat Jason sangat dekat, kecuali sudah dekat spot yang aman.
 - Frame terbagi ke beberapa survivor: bila semua frame sudah dipegang, mereka berkumpul/menempel (<=34 px) untuk merakit kunci, lalu ke pintu.
 - Mode Jason: menang bila kurang dari separuh survivor yang kabur.
+
+## Update 2: Jason Arrival Chamber, mini-map, lanjut setelah kabur
+- `maps.json` schema v3: tiap map punya `jason_arrival` (bounds 5x5, spawn_position, door{material,type}, sequence{prep 12s / warning 5s / break 3s}). Jason selalu spawn di ruang ini (bukan acak); pintu dinamis: LOCKED -> WARNING (getar + lampu berkedip) -> BREAKING (retak) -> BROKEN (debris permanen). Material: wood/shutter/barn/steel/iron.
+- Mini camera Jason + frame-nya disembunyikan sampai Jason keluar dari state COUNTDOWN_LOCKED (mulai bergerak).
+- Pemain kabur TIDAK mengakhiri ronde (`MatchRules`): ronde selesai bila semua survivor selesai atau waktu habis; pemain yang sudah kabur menonton bot; HUD menampilkan Lolos/Hidup/Gugur.
+- Sumber layout: `tools/layouts/map*.txt` (ASCII) -> `python3 -I tools/layouts.py build tools/layouts assets/maps/maps.json`; validasi: `tools/validate_maps.py`; pratinjau: `tools/render_preview.py <atlas_dir> <maps.json> <out_dir>`; aset ruang: `tools/gen_arrival_assets.py`.
+- Belum diverifikasi di perangkat: build Gradle/Android tidak bisa dijalankan di sandbox; GameScreen/GameWorld/TileMapRenderer/JasonEntity belum dikompilasi (hanya logika inti diuji dengan stub libGDX, 22 tes OK).

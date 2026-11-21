@@ -51,6 +51,12 @@ class MapDefinition(val index: Int, json: JsonValue) {
     /** Nama semua region atlas yang dirujuk map ini (untuk validasi atlas). */
     val referencedItemRegions = LinkedHashSet<String>()
     val referencedTileRegions = LinkedHashSet<String>()
+    /** Ruang Kedatangan Jason (opsional; null = Jason spawn langsung di jasonSpawn tanpa ruang). */
+    var arrival: ArrivalDef? = null
+        private set
+    /** Pintu ruang kedatangan sudah hancur (dinamis; direset oleh resetChamber() di tiap pertandingan). */
+    var chamberDoorOpen = false
+        private set
 
     init {
         val o = json.get("objects")
@@ -108,8 +114,11 @@ class MapDefinition(val index: Int, json: JsonValue) {
         }
         exitApproach.set(cellCenter(ac, ar))
 
+        json.get("jason_arrival")?.let { arrival = parseArrival(it) }
+        arrival?.let { jasonSpawn.set(cellCenter(it.spawnCol, it.spawnRow)) }
+
         for (r in 0 until tilesH) for (c in 0 until tilesW) {
-            if (!solid[r][c]) floorTiles.add(cellCenter(c, r))
+            if (!solid[r][c] && arrival?.inChamber(c, r) != true) floorTiles.add(cellCenter(c, r))
         }
 
         json.get("tile_overrides")?.let { arr ->
@@ -136,6 +145,49 @@ class MapDefinition(val index: Int, json: JsonValue) {
     }
 
     private fun label() = "map $id ($name)"
+
+    private fun parseArrival(j: JsonValue): ArrivalDef? {
+        if (!j.getBoolean("enabled", true)) return null
+        val b = j.get("bounds"); val sp = j.get("spawn_position"); val d = j.get("door"); val seq = j.get("sequence")
+        val a = ArrivalDef(
+            j.getString("room_id", "jason_chamber"), j.getString("room_name", ""),
+            b.getInt("x"), b.getInt("y"), b.getInt("w"), b.getInt("h"),
+            sp.getInt("x"), sp.getInt("y"), d.getInt("x"), d.getInt("y"),
+            d.getString("material"), d.getString("type", "door"),
+            seq?.getFloat("preparation_delay", 12f) ?: 12f, seq?.getFloat("warning_duration", 5f) ?: 5f,
+            seq?.getFloat("door_break_duration", 3f) ?: 3f
+        )
+        requireInBounds(a.boundsCol, a.boundsRow, "jason_arrival bounds")
+        requireInBounds(a.boundsCol + a.boundsW - 1, a.boundsRow + a.boundsH - 1, "jason_arrival bounds")
+        requireInBounds(a.doorCol, a.doorRow, "jason_arrival door")
+        if (!a.inChamber(a.spawnCol, a.spawnRow)) error("${label()}: spawn Jason (${a.spawnCol},${a.spawnRow}) di luar ruang kedatangan")
+        if (tiles[a.doorRow][a.doorCol] != 1) error("${label()}: pintu ruang kedatangan harus berada di tile dinding")
+        if (a.doorRow + 1 >= tilesH || solid[a.doorRow + 1][a.doorCol]) error("${label()}: sisi luar pintu ruang kedatangan terhalang")
+        if (!a.inChamber(a.doorCol, a.doorRow - 1)) error("${label()}: pintu ruang kedatangan tidak menempel pada ruang")
+        referencedItemRegions.add("door_arrival_${a.material}_closed")
+        referencedItemRegions.add("door_arrival_${a.material}_cracked")
+        referencedItemRegions.add("door_arrival_${a.material}_debris")
+        for (r in a.boundsRow until a.boundsRow + a.boundsH) for (c in a.boundsCol until a.boundsCol + a.boundsW)
+            if (tiles[r][c] != 0) error("${label()}: sel ruang kedatangan ($c,$r) bukan lantai")
+        return a
+    }
+
+    /** Pulihkan pintu terkunci (panggil di awal tiap pertandingan; MapDefinition di-cache lintas ronde). */
+    fun resetChamber() {
+        chamberDoorOpen = false
+        arrival?.let { solid[it.doorRow][it.doorCol] = true }
+        reachable = null
+    }
+
+    /** Pintu hancur: sel pintu jadi bisa dilewati (permanen sampai resetChamber). */
+    fun openChamberDoor() {
+        val a = arrival ?: return
+        chamberDoorOpen = true
+        solid[a.doorRow][a.doorCol] = false
+        reachable = null
+    }
+
+    fun inChamber(col: Int, row: Int) = arrival?.inChamber(col, row) == true
 
     private fun requireInBounds(c: Int, r: Int, what: String) {
         if (c < 0 || r < 0 || c >= tilesW || r >= tilesH)
@@ -234,7 +286,7 @@ class MapDefinition(val index: Int, json: JsonValue) {
         while (!q.isEmpty()) {
             val cur = q.poll()
             val c = cur % tilesW; val r = cur / tilesW
-            out.add(cellCenter(c, r))
+            if (!inChamber(c, r) && !(arrival?.let { it.doorCol == c && it.doorRow == r } ?: false)) out.add(cellCenter(c, r))
             for (k in 0 until 4) {
                 val nc = c + dc[k]; val nr = r + dr[k]
                 if (isSolidTile(nc, nr)) continue

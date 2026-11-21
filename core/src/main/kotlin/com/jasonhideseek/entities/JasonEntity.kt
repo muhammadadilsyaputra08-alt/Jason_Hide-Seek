@@ -37,6 +37,8 @@ class JasonEntity(x: Float, y: Float, private val engine: JasonDecisionEngine, p
     private var swingHit = false
     private var swingBreak = false
     private var ended = false
+    /** Pose mendobrak pintu ruang kedatangan (masih terkunci di ruang). */
+    var breakingDoor = false
     private var victory = false
 
     val chasing get() = state == JasonState.CHASE
@@ -52,7 +54,7 @@ class JasonEntity(x: Float, y: Float, private val engine: JasonDecisionEngine, p
     private var huntTimer = 0f
     val isSwinging get() = swinging
 
-    fun release() { if (state == JasonState.COUNTDOWN_LOCKED) { setState(JasonState.PATROL); patrolWait = 0f } }
+    fun release() { breakingDoor = false; if (state == JasonState.COUNTDOWN_LOCKED) { setState(JasonState.PATROL); patrolWait = 0f } }
 
     private fun setState(s: JasonState) {
         state = s; stateTime = 0f; checking = false; swinging = false
@@ -61,7 +63,7 @@ class JasonEntity(x: Float, y: Float, private val engine: JasonDecisionEngine, p
     fun update(dt: Float, w: GameWorld, controls: TouchControls? = null) {
         animTime += dt
         stateTime += dt
-        if (state == JasonState.COUNTDOWN_LOCKED) { moving = false; return }
+        if (state == JasonState.COUNTDOWN_LOCKED) { moving = false; if (breakingDoor) dir = com.jasonhideseek.config.Dir.DOWN; return }
         if (playerControlled && controls != null) { updatePlayer(dt, w, controls); return }
         huntHolder(dt, w)
 
@@ -404,6 +406,10 @@ class JasonEntity(x: Float, y: Float, private val engine: JasonDecisionEngine, p
         return when {
             ended && victory -> assets.frame("jason_victory", animTime, 6f)
             ended -> assets.frame("jason_idle_$d", animTime, 2f)
+            breakingDoor -> {
+                val f = assets.frames("jason_break_down")
+                f[((animTime / (BREAK_TOTAL / f.size)).toInt()) % f.size]
+            }
             swinging && swingBreak -> {
                 val f = assets.frames("jason_break_$d")
                 f[Math.min(f.size - 1, (swingTime / (BREAK_TOTAL / f.size)).toInt())]

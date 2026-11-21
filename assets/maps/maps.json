@@ -1,5 +1,5 @@
 {
- "schema_version": 2,
+ "schema_version": 3,
  "tile_size": 32,
  "coordinate_system": {
   "origin": "top_left",
@@ -14,18 +14,216 @@
  },
  "tile_legend": {
   "0": "floor",
-  "1": "wall (wall_face bila sel bawah bukan wall, selain itu wall_top)",
-  "2": "door_h (pintu depan di dinding horizontal)",
-  "3": "door_v (ambang pintu di dinding vertikal)"
+  "1": "wall",
+  "2": "door_h",
+  "3": "door_v"
  },
- "object_notes": "Runtime-compatible schema v2: tiles[row][col] values 0 floor, 1 wall, 2 horizontal door, 3 vertical door. Props/decor/hiding spots/spawns/exit/key candidates are separate object layers. asset_plan and architecture are design metadata ignored by current MapDefinition parser.",
+ "object_notes": "Dihasilkan dari tools/layouts/*.txt oleh tools/layouts.py. schema v3 = v2 + tile_overrides, bot_spawn_candidates, jason_arrival.",
  "maps": [
   {
    "id": 1,
    "name": "Aula Rumah Tua",
    "width": 31,
-   "height": 23,
+   "height": 29,
    "tiles": [
+    [
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1
+    ],
+    [
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     0,
+     0,
+     0,
+     0,
+     0,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1
+    ],
+    [
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     0,
+     0,
+     0,
+     0,
+     0,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1
+    ],
+    [
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     0,
+     0,
+     0,
+     0,
+     0,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1
+    ],
+    [
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     0,
+     0,
+     0,
+     0,
+     0,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1
+    ],
+    [
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     0,
+     0,
+     0,
+     0,
+     0,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1
+    ],
     [
      1,
      1,
@@ -788,97 +986,22 @@
    ],
    "objects": {
     "spawns": {
-     "player": {
-      "x": 15,
-      "y": 21
-     },
      "jason": {
       "x": 15,
-      "y": 2
+      "y": 3
+     },
+     "player": {
+      "x": 15,
+      "y": 27
      }
-    },
-    "exit": {
-     "x": 15,
-     "y": 22,
-     "orientation": "s"
     },
     "hiding_spots": [
      {
-      "x": 3,
-      "y": 3,
-      "type_code": 4,
-      "type_id": "wardrobe",
-      "sprite_prefix": "obj_wardrobe",
-      "collision": false,
-      "states": [
-       "intact",
-       "checked",
-       "broken_clean",
-       "broken_bloody"
-      ]
-     },
-     {
-      "x": 6,
-      "y": 17,
-      "type_code": 5,
-      "type_id": "under_bed",
-      "sprite_prefix": "obj_under_bed",
-      "collision": false,
-      "states": [
-       "intact",
-       "checked",
-       "broken_clean",
-       "broken_bloody"
-      ]
-     },
-     {
-      "x": 15,
-      "y": 4,
-      "type_code": 6,
+      "x": 12,
+      "y": 7,
+      "type_code": 0,
       "type_id": "heavy_curtain",
       "sprite_prefix": "obj_heavy_curtain",
-      "collision": false,
-      "states": [
-       "intact",
-       "checked",
-       "broken_clean",
-       "broken_bloody"
-      ]
-     },
-     {
-      "x": 27,
-      "y": 10,
-      "type_code": 7,
-      "type_id": "hall_chest",
-      "sprite_prefix": "obj_hall_chest",
-      "collision": false,
-      "states": [
-       "intact",
-       "checked",
-       "broken_clean",
-       "broken_bloody"
-      ]
-     },
-     {
-      "x": 3,
-      "y": 11,
-      "type_code": 4,
-      "type_id": "wardrobe",
-      "sprite_prefix": "obj_wardrobe",
-      "collision": false,
-      "states": [
-       "intact",
-       "checked",
-       "broken_clean",
-       "broken_bloody"
-      ]
-     },
-     {
-      "x": 7,
-      "y": 19,
-      "type_code": 5,
-      "type_id": "under_bed",
-      "sprite_prefix": "obj_under_bed",
       "collision": false,
       "states": [
        "intact",
@@ -889,10 +1012,10 @@
      },
      {
       "x": 18,
-      "y": 11,
-      "type_code": 6,
-      "type_id": "heavy_curtain",
-      "sprite_prefix": "obj_heavy_curtain",
+      "y": 8,
+      "type_code": 0,
+      "type_id": "bear_rug",
+      "sprite_prefix": "obj_bear_rug",
       "collision": false,
       "states": [
        "intact",
@@ -902,9 +1025,23 @@
       ]
      },
      {
-      "x": 27,
-      "y": 18,
-      "type_code": 7,
+      "x": 1,
+      "y": 11,
+      "type_code": 0,
+      "type_id": "wardrobe",
+      "sprite_prefix": "obj_wardrobe",
+      "collision": false,
+      "states": [
+       "intact",
+       "checked",
+       "broken_clean",
+       "broken_bloody"
+      ]
+     },
+     {
+      "x": 28,
+      "y": 11,
+      "type_code": 0,
       "type_id": "hall_chest",
       "sprite_prefix": "obj_hall_chest",
       "collision": false,
@@ -916,9 +1053,23 @@
       ]
      },
      {
-      "x": 19,
-      "y": 5,
-      "type_code": 8,
+      "x": 8,
+      "y": 14,
+      "type_code": 0,
+      "type_id": "wardrobe",
+      "sprite_prefix": "obj_wardrobe",
+      "collision": false,
+      "states": [
+       "intact",
+       "checked",
+       "broken_clean",
+       "broken_bloody"
+      ]
+     },
+     {
+      "x": 5,
+      "y": 18,
+      "type_code": 0,
       "type_id": "bear_rug",
       "sprite_prefix": "obj_bear_rug",
       "collision": false,
@@ -930,11 +1081,53 @@
       ]
      },
      {
-      "x": 5,
-      "y": 8,
-      "type_code": 8,
-      "type_id": "bear_rug",
-      "sprite_prefix": "obj_bear_rug",
+      "x": 12,
+      "y": 19,
+      "type_code": 0,
+      "type_id": "heavy_curtain",
+      "sprite_prefix": "obj_heavy_curtain",
+      "collision": false,
+      "states": [
+       "intact",
+       "checked",
+       "broken_clean",
+       "broken_bloody"
+      ]
+     },
+     {
+      "x": 4,
+      "y": 23,
+      "type_code": 0,
+      "type_id": "under_bed",
+      "sprite_prefix": "obj_under_bed",
+      "collision": false,
+      "states": [
+       "intact",
+       "checked",
+       "broken_clean",
+       "broken_bloody"
+      ]
+     },
+     {
+      "x": 28,
+      "y": 23,
+      "type_code": 0,
+      "type_id": "under_bed",
+      "sprite_prefix": "obj_under_bed",
+      "collision": false,
+      "states": [
+       "intact",
+       "checked",
+       "broken_clean",
+       "broken_bloody"
+      ]
+     },
+     {
+      "x": 29,
+      "y": 25,
+      "type_code": 0,
+      "type_id": "hall_chest",
+      "sprite_prefix": "obj_hall_chest",
       "collision": false,
       "states": [
        "intact",
@@ -946,7 +1139,15 @@
     ],
     "props": [
      {
-      "x": 2,
+      "x": 13,
+      "y": 2,
+      "item": "item_dresser",
+      "w": 1,
+      "h": 1,
+      "collision": true
+     },
+     {
+      "x": 17,
       "y": 2,
       "item": "item_bookshelf",
       "w": 1,
@@ -954,88 +1155,64 @@
       "collision": true
      },
      {
-      "x": 6,
-      "y": 2,
-      "item": "item_bookshelf",
+      "x": 13,
+      "y": 5,
+      "item": "item_nightstand",
       "w": 1,
       "h": 1,
       "collision": true
      },
      {
-      "x": 11,
-      "y": 2,
-      "item": "item_table",
-      "w": 1,
-      "h": 1,
-      "collision": true
-     },
-     {
-      "x": 18,
-      "y": 2,
+      "x": 14,
+      "y": 5,
       "item": "item_floor_lamp",
       "w": 1,
       "h": 1,
       "collision": false
      },
      {
-      "x": 28,
-      "y": 3,
-      "item": "item_bookshelf",
-      "w": 1,
-      "h": 1,
-      "collision": true
-     },
-     {
-      "x": 2,
-      "y": 8,
-      "item": "item_table",
-      "w": 1,
-      "h": 1,
-      "collision": true
-     },
-     {
-      "x": 6,
-      "y": 11,
-      "item": "item_bookshelf",
-      "w": 1,
-      "h": 1,
-      "collision": true
-     },
-     {
-      "x": 11,
-      "y": 9,
-      "item": "item_table",
-      "w": 1,
-      "h": 1,
-      "collision": true
-     },
-     {
-      "x": 19,
-      "y": 9,
+      "x": 16,
+      "y": 5,
       "item": "item_floor_lamp",
       "w": 1,
       "h": 1,
       "collision": false
      },
      {
-      "x": 23,
-      "y": 8,
-      "item": "item_table",
+      "x": 17,
+      "y": 5,
+      "item": "item_nightstand",
       "w": 1,
       "h": 1,
       "collision": true
      },
      {
-      "x": 28,
-      "y": 12,
-      "item": "item_chair",
+      "x": 1,
+      "y": 7,
+      "item": "item_bookshelf",
       "w": 1,
       "h": 1,
-      "collision": false
+      "collision": true
      },
      {
       "x": 2,
-      "y": 17,
+      "y": 7,
+      "item": "item_bookshelf",
+      "w": 1,
+      "h": 1,
+      "collision": true
+     },
+     {
+      "x": 3,
+      "y": 7,
+      "item": "item_bookshelf",
+      "w": 1,
+      "h": 1,
+      "collision": true
+     },
+     {
+      "x": 4,
+      "y": 7,
       "item": "item_bookshelf",
       "w": 1,
       "h": 1,
@@ -1043,23 +1220,39 @@
      },
      {
       "x": 5,
-      "y": 20,
-      "item": "item_table",
-      "w": 1,
-      "h": 1,
-      "collision": true
-     },
-     {
-      "x": 11,
-      "y": 17,
+      "y": 7,
       "item": "item_bookshelf",
       "w": 1,
       "h": 1,
       "collision": true
      },
      {
+      "x": 6,
+      "y": 7,
+      "item": "item_bookshelf",
+      "w": 1,
+      "h": 1,
+      "collision": true
+     },
+     {
+      "x": 11,
+      "y": 7,
+      "item": "item_table",
+      "w": 1,
+      "h": 1,
+      "collision": true
+     },
+     {
+      "x": 17,
+      "y": 7,
+      "item": "item_fireplace",
+      "w": 2,
+      "h": 1,
+      "collision": true
+     },
+     {
       "x": 19,
-      "y": 18,
+      "y": 7,
       "item": "item_floor_lamp",
       "w": 1,
       "h": 1,
@@ -1067,31 +1260,7 @@
      },
      {
       "x": 23,
-      "y": 17,
-      "item": "item_table",
-      "w": 1,
-      "h": 1,
-      "collision": true
-     },
-     {
-      "x": 27,
-      "y": 20,
-      "item": "item_bookshelf",
-      "w": 1,
-      "h": 1,
-      "collision": true
-     },
-     {
-      "x": 23,
-      "y": 2,
-      "item": "item_dining_table",
-      "w": 2,
-      "h": 1,
-      "collision": true
-     },
-     {
-      "x": 23,
-      "y": 3,
+      "y": 7,
       "item": "item_dining_chair",
       "w": 1,
       "h": 1,
@@ -1099,96 +1268,8 @@
      },
      {
       "x": 24,
-      "y": 3,
-      "item": "item_dining_chair",
-      "w": 1,
-      "h": 1,
-      "collision": true
-     },
-     {
-      "x": 22,
-      "y": 2,
-      "item": "item_dining_chair",
-      "w": 1,
-      "h": 1,
-      "collision": true
-     },
-     {
-      "x": 25,
-      "y": 2,
-      "item": "item_dining_chair",
-      "w": 1,
-      "h": 1,
-      "collision": true
-     },
-     {
-      "x": 2,
-      "y": 5,
-      "item": "item_armchair",
-      "w": 1,
-      "h": 1,
-      "collision": true
-     },
-     {
-      "x": 13,
-      "y": 3,
-      "item": "item_armchair",
-      "w": 1,
-      "h": 1,
-      "collision": true
-     },
-     {
-      "x": 19,
-      "y": 3,
-      "item": "item_armchair",
-      "w": 1,
-      "h": 1,
-      "collision": true
-     },
-     {
-      "x": 7,
-      "y": 8,
-      "item": "item_armchair",
-      "w": 1,
-      "h": 1,
-      "collision": true
-     },
-     {
-      "x": 22,
-      "y": 20,
-      "item": "item_armchair",
-      "w": 1,
-      "h": 1,
-      "collision": true
-     },
-     {
-      "x": 17,
-      "y": 1,
-      "item": "item_fireplace",
-      "w": 2,
-      "h": 1,
-      "collision": true
-     },
-     {
-      "x": 10,
-      "y": 4,
-      "item": "item_sofa",
-      "w": 2,
-      "h": 1,
-      "collision": true
-     },
-     {
-      "x": 26,
       "y": 7,
-      "item": "item_kitchen_counter",
-      "w": 1,
-      "h": 1,
-      "collision": true
-     },
-     {
-      "x": 27,
-      "y": 7,
-      "item": "item_kitchen_counter",
+      "item": "item_dining_chair",
       "w": 1,
       "h": 1,
       "collision": true
@@ -1196,6 +1277,198 @@
      {
       "x": 28,
       "y": 7,
+      "item": "item_bookshelf",
+      "w": 1,
+      "h": 1,
+      "collision": true
+     },
+     {
+      "x": 23,
+      "y": 8,
+      "item": "item_dining_table",
+      "w": 2,
+      "h": 1,
+      "collision": true
+     },
+     {
+      "x": 25,
+      "y": 8,
+      "item": "item_dining_chair",
+      "w": 1,
+      "h": 1,
+      "collision": true
+     },
+     {
+      "x": 1,
+      "y": 9,
+      "item": "item_chair",
+      "w": 1,
+      "h": 1,
+      "collision": false
+     },
+     {
+      "x": 2,
+      "y": 9,
+      "item": "item_table",
+      "w": 1,
+      "h": 1,
+      "collision": true
+     },
+     {
+      "x": 3,
+      "y": 9,
+      "item": "item_chair",
+      "w": 1,
+      "h": 1,
+      "collision": false
+     },
+     {
+      "x": 14,
+      "y": 9,
+      "item": "item_armchair",
+      "w": 1,
+      "h": 1,
+      "collision": true
+     },
+     {
+      "x": 19,
+      "y": 9,
+      "item": "item_armchair",
+      "w": 1,
+      "h": 1,
+      "collision": true
+     },
+     {
+      "x": 23,
+      "y": 9,
+      "item": "item_dining_chair",
+      "w": 1,
+      "h": 1,
+      "collision": true
+     },
+     {
+      "x": 24,
+      "y": 9,
+      "item": "item_dining_chair",
+      "w": 1,
+      "h": 1,
+      "collision": true
+     },
+     {
+      "x": 6,
+      "y": 10,
+      "item": "item_armchair",
+      "w": 1,
+      "h": 1,
+      "collision": true
+     },
+     {
+      "x": 7,
+      "y": 10,
+      "item": "item_floor_lamp",
+      "w": 1,
+      "h": 1,
+      "collision": false
+     },
+     {
+      "x": 16,
+      "y": 10,
+      "item": "item_sofa",
+      "w": 2,
+      "h": 1,
+      "collision": true
+     },
+     {
+      "x": 1,
+      "y": 13,
+      "item": "item_bookshelf",
+      "w": 1,
+      "h": 1,
+      "collision": true
+     },
+     {
+      "x": 2,
+      "y": 13,
+      "item": "item_bookshelf",
+      "w": 1,
+      "h": 1,
+      "collision": true
+     },
+     {
+      "x": 3,
+      "y": 13,
+      "item": "item_bookshelf",
+      "w": 1,
+      "h": 1,
+      "collision": true
+     },
+     {
+      "x": 5,
+      "y": 13,
+      "item": "item_bookshelf",
+      "w": 1,
+      "h": 1,
+      "collision": true
+     },
+     {
+      "x": 6,
+      "y": 13,
+      "item": "item_bookshelf",
+      "w": 1,
+      "h": 1,
+      "collision": true
+     },
+     {
+      "x": 11,
+      "y": 13,
+      "item": "item_floor_lamp",
+      "w": 1,
+      "h": 1,
+      "collision": false
+     },
+     {
+      "x": 12,
+      "y": 13,
+      "item": "item_table",
+      "w": 1,
+      "h": 1,
+      "collision": true
+     },
+     {
+      "x": 18,
+      "y": 13,
+      "item": "item_table",
+      "w": 1,
+      "h": 1,
+      "collision": true
+     },
+     {
+      "x": 19,
+      "y": 13,
+      "item": "item_floor_lamp",
+      "w": 1,
+      "h": 1,
+      "collision": false
+     },
+     {
+      "x": 26,
+      "y": 13,
+      "item": "item_kitchen_counter",
+      "w": 1,
+      "h": 1,
+      "collision": true
+     },
+     {
+      "x": 27,
+      "y": 13,
+      "item": "item_kitchen_counter",
+      "w": 1,
+      "h": 1,
+      "collision": true
+     },
+     {
+      "x": 28,
+      "y": 13,
       "item": "item_kitchen_counter",
       "w": 1,
       "h": 1,
@@ -1203,7 +1476,7 @@
      },
      {
       "x": 29,
-      "y": 7,
+      "y": 13,
       "item": "item_kitchen_stove",
       "w": 1,
       "h": 1,
@@ -1211,7 +1484,127 @@
      },
      {
       "x": 3,
-      "y": 16,
+      "y": 14,
+      "item": "item_table",
+      "w": 1,
+      "h": 1,
+      "collision": true
+     },
+     {
+      "x": 23,
+      "y": 14,
+      "item": "item_table",
+      "w": 1,
+      "h": 1,
+      "collision": true
+     },
+     {
+      "x": 3,
+      "y": 15,
+      "item": "item_chair",
+      "w": 1,
+      "h": 1,
+      "collision": false
+     },
+     {
+      "x": 6,
+      "y": 15,
+      "item": "item_floor_lamp",
+      "w": 1,
+      "h": 1,
+      "collision": false
+     },
+     {
+      "x": 2,
+      "y": 17,
+      "item": "item_armchair",
+      "w": 1,
+      "h": 1,
+      "collision": true
+     },
+     {
+      "x": 11,
+      "y": 17,
+      "item": "item_armchair",
+      "w": 1,
+      "h": 1,
+      "collision": true
+     },
+     {
+      "x": 19,
+      "y": 17,
+      "item": "item_armchair",
+      "w": 1,
+      "h": 1,
+      "collision": true
+     },
+     {
+      "x": 28,
+      "y": 18,
+      "item": "item_chair",
+      "w": 1,
+      "h": 1,
+      "collision": false
+     },
+     {
+      "x": 1,
+      "y": 19,
+      "item": "item_bookshelf",
+      "w": 1,
+      "h": 1,
+      "collision": true
+     },
+     {
+      "x": 2,
+      "y": 19,
+      "item": "item_bookshelf",
+      "w": 1,
+      "h": 1,
+      "collision": true
+     },
+     {
+      "x": 29,
+      "y": 19,
+      "item": "item_bookshelf",
+      "w": 1,
+      "h": 1,
+      "collision": true
+     },
+     {
+      "x": 11,
+      "y": 21,
+      "item": "item_bookshelf",
+      "w": 1,
+      "h": 1,
+      "collision": true
+     },
+     {
+      "x": 12,
+      "y": 21,
+      "item": "item_bookshelf",
+      "w": 1,
+      "h": 1,
+      "collision": true
+     },
+     {
+      "x": 17,
+      "y": 21,
+      "item": "item_railing_v",
+      "w": 1,
+      "h": 1,
+      "collision": true
+     },
+     {
+      "x": 2,
+      "y": 22,
+      "item": "item_nightstand",
+      "w": 1,
+      "h": 1,
+      "collision": true
+     },
+     {
+      "x": 3,
+      "y": 22,
       "item": "item_bed_large",
       "w": 2,
       "h": 1,
@@ -1219,25 +1612,17 @@
       "extra_collision": [
        {
         "x": 3,
-        "y": 15
+        "y": 21
        },
        {
         "x": 4,
-        "y": 15
+        "y": 21
        }
       ]
      },
      {
-      "x": 2,
-      "y": 16,
-      "item": "item_nightstand",
-      "w": 1,
-      "h": 1,
-      "collision": true
-     },
-     {
       "x": 5,
-      "y": 16,
+      "y": 22,
       "item": "item_nightstand",
       "w": 1,
       "h": 1,
@@ -1245,23 +1630,23 @@
      },
      {
       "x": 8,
-      "y": 16,
+      "y": 22,
       "item": "item_dresser",
       "w": 1,
       "h": 1,
       "collision": true
      },
      {
-      "x": 8,
-      "y": 20,
-      "item": "item_vanity_mirror",
+      "x": 17,
+      "y": 22,
+      "item": "item_railing_v",
       "w": 1,
       "h": 1,
       "collision": true
      },
      {
       "x": 18,
-      "y": 16,
+      "y": 22,
       "item": "item_staircase",
       "w": 2,
       "h": 1,
@@ -1269,33 +1654,33 @@
       "extra_collision": [
        {
         "x": 18,
-        "y": 15
+        "y": 21
        },
        {
         "x": 19,
-        "y": 15
+        "y": 21
        }
       ]
      },
      {
-      "x": 17,
-      "y": 15,
-      "item": "item_railing_v",
+      "x": 23,
+      "y": 22,
+      "item": "item_table",
       "w": 1,
       "h": 1,
       "collision": true
      },
      {
-      "x": 17,
-      "y": 16,
-      "item": "item_railing_v",
+      "x": 27,
+      "y": 22,
+      "item": "item_nightstand",
       "w": 1,
       "h": 1,
       "collision": true
      },
      {
       "x": 28,
-      "y": 16,
+      "y": 22,
       "item": "item_bed_large",
       "w": 2,
       "h": 1,
@@ -1303,268 +1688,361 @@
       "extra_collision": [
        {
         "x": 28,
-        "y": 15
+        "y": 21
        },
        {
         "x": 29,
-        "y": 15
+        "y": 21
        }
       ]
      },
      {
-      "x": 27,
-      "y": 16,
-      "item": "item_nightstand",
+      "x": 11,
+      "y": 23,
+      "item": "item_table",
       "w": 1,
       "h": 1,
       "collision": true
      },
      {
       "x": 29,
-      "y": 18,
+      "y": 24,
       "item": "item_dresser",
       "w": 1,
       "h": 1,
       "collision": true
+     },
+     {
+      "x": 7,
+      "y": 25,
+      "item": "item_chair",
+      "w": 1,
+      "h": 1,
+      "collision": false
+     },
+     {
+      "x": 8,
+      "y": 25,
+      "item": "item_vanity_mirror",
+      "w": 1,
+      "h": 1,
+      "collision": true
+     },
+     {
+      "x": 19,
+      "y": 25,
+      "item": "item_floor_lamp",
+      "w": 1,
+      "h": 1,
+      "collision": false
+     },
+     {
+      "x": 22,
+      "y": 26,
+      "item": "item_armchair",
+      "w": 1,
+      "h": 1,
+      "collision": true
+     },
+     {
+      "x": 27,
+      "y": 26,
+      "item": "item_bookshelf",
+      "w": 1,
+      "h": 1,
+      "collision": true
+     },
+     {
+      "x": 1,
+      "y": 27,
+      "item": "item_floor_lamp",
+      "w": 1,
+      "h": 1,
+      "collision": false
      }
     ],
     "decor": [
      {
-      "x": 3,
-      "y": 0,
-      "item": "item_painting",
-      "layer": "wall",
-      "collision": false
-     },
-     {
-      "x": 7,
-      "y": 0,
-      "item": "item_wall_clock",
-      "layer": "wall",
+      "x": 14,
+      "y": 4,
+      "item": "item_chamber_seal",
+      "layer": "floor",
       "collision": false
      },
      {
       "x": 15,
-      "y": 0,
-      "item": "item_painting",
-      "layer": "wall",
+      "y": 4,
+      "item": "item_blood_drag",
+      "layer": "floor",
       "collision": false
      },
      {
-      "x": 23,
-      "y": 0,
-      "item": "item_painting",
-      "layer": "wall",
-      "collision": false
-     },
-     {
-      "x": 27,
-      "y": 0,
-      "item": "item_wall_clock",
-      "layer": "wall",
-      "collision": false
-     },
-     {
-      "x": 5,
+      "x": 15,
       "y": 5,
-      "item": "item_chair",
-      "layer": "object",
+      "item": "item_blood_drag",
+      "layer": "floor",
       "collision": false
      },
      {
       "x": 13,
-      "y": 5,
-      "item": "item_carpet",
-      "layer": "floor",
-      "w": 2,
-      "collision": false
-     },
-     {
-      "x": 25,
-      "y": 5,
-      "item": "item_chair",
-      "layer": "object",
-      "collision": false
-     },
-     {
-      "x": 4,
-      "y": 13,
-      "item": "item_wall_clock",
+      "y": 0,
+      "item": "item_chain_wall",
       "layer": "wall",
       "collision": false
      },
      {
       "x": 14,
-      "y": 13,
-      "item": "item_painting",
-      "layer": "wall",
-      "collision": false
-     },
-     {
-      "x": 26,
-      "y": 13,
-      "item": "item_painting",
-      "layer": "wall",
-      "collision": false
-     },
-     {
-      "x": 13,
-      "y": 16,
-      "item": "item_carpet",
-      "layer": "floor",
-      "w": 2,
-      "collision": false
-     },
-     {
-      "x": 5,
-      "y": 21,
-      "item": "item_floor_lamp",
-      "layer": "object",
-      "collision": false
-     },
-     {
-      "x": 25,
-      "y": 21,
-      "item": "item_wall_clock",
+      "y": 0,
+      "item": "item_claw_marks",
       "layer": "wall",
       "collision": false
      },
      {
       "x": 15,
-      "y": 21,
-      "item": "item_hanging_lamp",
-      "layer": "object",
-      "collision": false
-     },
-     {
-      "x": 8,
-      "y": 1,
-      "item": "item_vase",
-      "layer": "object",
-      "collision": false
-     },
-     {
-      "x": 20,
-      "y": 7,
-      "item": "item_vase",
-      "layer": "object",
-      "collision": false
-     },
-     {
-      "x": 10,
-      "y": 15,
-      "item": "item_vase",
-      "layer": "object",
-      "collision": false
-     },
-     {
-      "x": 29,
-      "y": 1,
-      "item": "item_vase",
-      "layer": "object",
-      "collision": false
-     },
-     {
-      "x": 8,
-      "y": 8,
-      "item": "item_grandfather_clock",
-      "layer": "object",
-      "collision": false
-     },
-     {
-      "x": 10,
-      "y": 7,
-      "item": "item_grandfather_clock",
-      "layer": "object",
-      "collision": false
-     },
-     {
-      "x": 20,
-      "y": 16,
-      "item": "item_grandfather_clock",
-      "layer": "object",
-      "collision": false
-     },
-     {
-      "x": 1,
-      "y": 1,
-      "item": "item_cobweb",
+      "y": 0,
+      "item": "item_painting",
       "layer": "wall",
       "collision": false
      },
      {
-      "x": 29,
-      "y": 15,
+      "x": 16,
+      "y": 0,
+      "item": "item_claw_marks",
+      "layer": "wall",
+      "collision": false
+     },
+     {
+      "x": 17,
+      "y": 0,
+      "item": "item_chain_wall",
+      "layer": "wall",
+      "collision": false
+     },
+     {
+      "x": 14,
+      "y": 6,
+      "item": "item_chamber_lamp",
+      "layer": "arrival_lamp",
+      "collision": false
+     },
+     {
+      "x": 16,
+      "y": 6,
+      "item": "item_chamber_lamp",
+      "layer": "arrival_lamp",
+      "collision": false
+     },
+     {
+      "x": 3,
+      "y": 6,
+      "item": "item_painting",
+      "layer": "wall",
+      "collision": false
+     },
+     {
+      "x": 6,
+      "y": 6,
+      "item": "item_wall_clock",
+      "layer": "wall",
+      "collision": false
+     },
+     {
+      "x": 25,
+      "y": 6,
+      "item": "item_painting",
+      "layer": "wall",
+      "collision": false
+     },
+     {
+      "x": 11,
+      "y": 6,
+      "item": "item_painting",
+      "layer": "wall",
+      "collision": false
+     },
+     {
+      "x": 3,
+      "y": 12,
+      "item": "item_painting",
+      "layer": "wall",
+      "collision": false
+     },
+     {
+      "x": 5,
+      "y": 12,
+      "item": "item_wall_clock",
+      "layer": "wall",
+      "collision": false
+     },
+     {
+      "x": 11,
+      "y": 12,
+      "item": "item_painting",
+      "layer": "wall",
+      "collision": false
+     },
+     {
+      "x": 19,
+      "y": 12,
+      "item": "item_painting",
+      "layer": "wall",
+      "collision": false
+     },
+     {
+      "x": 28,
+      "y": 12,
+      "item": "item_wall_clock",
+      "layer": "wall",
+      "collision": false
+     },
+     {
+      "x": 1,
+      "y": 20,
+      "item": "item_painting",
+      "layer": "wall",
+      "collision": false
+     },
+     {
+      "x": 12,
+      "y": 20,
+      "item": "item_painting",
+      "layer": "wall",
+      "collision": false
+     },
+     {
+      "x": 18,
+      "y": 20,
+      "item": "item_painting",
+      "layer": "wall",
+      "collision": false
+     },
+     {
+      "x": 25,
+      "y": 20,
+      "item": "item_wall_clock",
+      "layer": "wall",
+      "collision": false
+     },
+     {
+      "x": 8,
+      "y": 7,
       "item": "item_cobweb",
       "layer": "wall",
       "collision": false
      },
      {
       "x": 22,
-      "y": 7,
+      "y": 13,
       "item": "item_cobweb",
       "layer": "wall",
       "collision": false
      },
      {
-      "x": 1,
-      "y": 7,
-      "item": "item_cobweb",
-      "layer": "wall",
-      "collision": false
-     },
-     {
-      "x": 11,
-      "y": 0,
-      "item": "item_portrait_frame",
-      "layer": "wall",
-      "collision": false
-     },
-     {
-      "x": 25,
-      "y": 0,
-      "item": "item_portrait_frame",
-      "layer": "wall",
-      "collision": false
-     },
-     {
-      "x": 12,
-      "y": 6,
-      "item": "item_portrait_frame",
-      "layer": "wall",
-      "collision": false
-     },
-     {
-      "x": 18,
-      "y": 6,
-      "item": "item_portrait_frame",
-      "layer": "wall",
+      "x": 8,
+      "y": 11,
+      "item": "item_vase",
+      "layer": "object",
       "collision": false
      },
      {
       "x": 20,
-      "y": 0,
-      "item": "item_arch_window",
-      "layer": "wall",
+      "y": 7,
+      "item": "item_vase",
+      "layer": "object",
+      "collision": false
+     },
+     {
+      "x": 10,
+      "y": 21,
+      "item": "item_vase",
+      "layer": "object",
+      "collision": false
+     },
+     {
+      "x": 13,
+      "y": 7,
+      "item": "item_grandfather_clock",
+      "layer": "object",
+      "collision": false
+     },
+     {
+      "x": 20,
+      "y": 14,
+      "item": "item_grandfather_clock",
+      "layer": "object",
+      "collision": false
+     },
+     {
+      "x": 20,
+      "y": 22,
+      "item": "item_grandfather_clock",
+      "layer": "object",
       "collision": false
      },
      {
       "x": 15,
-      "y": 3,
+      "y": 27,
+      "item": "item_hanging_lamp",
+      "layer": "object",
+      "collision": false
+     },
+     {
+      "x": 16,
+      "y": 9,
+      "item": "item_carpet",
+      "layer": "floor",
+      "collision": false,
+      "w": 2
+     },
+     {
+      "x": 2,
+      "y": 10,
+      "item": "item_carpet",
+      "layer": "floor",
+      "collision": false,
+      "w": 2
+     },
+     {
+      "x": 13,
+      "y": 22,
+      "item": "item_carpet",
+      "layer": "floor",
+      "collision": false,
+      "w": 2
+     },
+     {
+      "x": 3,
+      "y": 24,
+      "item": "item_carpet",
+      "layer": "floor",
+      "collision": false,
+      "w": 2
+     },
+     {
+      "x": 24,
+      "y": 23,
+      "item": "item_carpet",
+      "layer": "floor",
+      "collision": false,
+      "w": 2
+     },
+     {
+      "x": 15,
+      "y": 9,
       "item": "item_grand_chandelier",
       "layer": "ceiling",
       "collision": false
      },
      {
       "x": 15,
-      "y": 11,
+      "y": 16,
       "item": "item_grand_chandelier",
       "layer": "ceiling",
       "collision": false
      },
      {
       "x": 15,
-      "y": 18,
+      "y": 24,
       "item": "item_grand_chandelier",
       "layer": "ceiling",
       "collision": false
@@ -1572,271 +2050,529 @@
     ],
     "key_candidates": [
      {
-      "x": 2,
-      "y": 4,
-      "allow_inside_hiding_spot": false
-     },
-     {
-      "x": 7,
-      "y": 4,
-      "allow_inside_hiding_spot": false
-     },
-     {
-      "x": 12,
-      "y": 4,
-      "allow_inside_hiding_spot": false
-     },
-     {
-      "x": 18,
-      "y": 4,
-      "allow_inside_hiding_spot": false
-     },
-     {
-      "x": 24,
-      "y": 4,
-      "allow_inside_hiding_spot": false
-     },
-     {
-      "x": 28,
+      "x": 3,
       "y": 8,
       "allow_inside_hiding_spot": false
      },
      {
-      "x": 2,
-      "y": 12,
-      "allow_inside_hiding_spot": false
-     },
-     {
-      "x": 7,
-      "y": 12,
-      "allow_inside_hiding_spot": false
-     },
-     {
       "x": 12,
-      "y": 12,
+      "y": 10,
+      "allow_inside_hiding_spot": false
+     },
+     {
+      "x": 25,
+      "y": 10,
+      "allow_inside_hiding_spot": false
+     },
+     {
+      "x": 8,
+      "y": 11,
       "allow_inside_hiding_spot": false
      },
      {
       "x": 18,
-      "y": 12,
+      "y": 11,
       "allow_inside_hiding_spot": false
      },
      {
-      "x": 24,
-      "y": 12,
+      "x": 13,
+      "y": 14,
       "allow_inside_hiding_spot": false
      },
      {
       "x": 28,
+      "y": 14,
+      "allow_inside_hiding_spot": false
+     },
+     {
+      "x": 7,
+      "y": 16,
+      "allow_inside_hiding_spot": false
+     },
+     {
+      "x": 12,
+      "y": 18,
+      "allow_inside_hiding_spot": false
+     },
+     {
+      "x": 24,
+      "y": 18,
+      "allow_inside_hiding_spot": false
+     },
+     {
+      "x": 8,
       "y": 19,
+      "allow_inside_hiding_spot": false
+     },
+     {
+      "x": 13,
+      "y": 23,
+      "allow_inside_hiding_spot": false
+     },
+     {
+      "x": 2,
+      "y": 24,
+      "allow_inside_hiding_spot": false
+     },
+     {
+      "x": 24,
+      "y": 25,
+      "allow_inside_hiding_spot": false
+     },
+     {
+      "x": 12,
+      "y": 26,
+      "allow_inside_hiding_spot": false
+     },
+     {
+      "x": 8,
+      "y": 27,
+      "allow_inside_hiding_spot": false
+     },
+     {
+      "x": 28,
+      "y": 27,
       "allow_inside_hiding_spot": false
      }
     ],
     "bot_spawn_candidates": [
      {
-      "x": 3,
-      "y": 4
-     },
-     {
-      "x": 13,
-      "y": 2
-     },
-     {
-      "x": 25,
-      "y": 3
+      "x": 2,
+      "y": 8
      },
      {
       "x": 5,
       "y": 9
      },
      {
-      "x": 17,
+      "x": 10,
       "y": 9
+     },
+     {
+      "x": 23,
+      "y": 11
+     },
+     {
+      "x": 17,
+      "y": 15
      },
      {
       "x": 27,
-      "y": 9
+      "y": 15
      },
      {
-      "x": 4,
+      "x": 2,
       "y": 18
      },
      {
-      "x": 13,
-      "y": 19
+      "x": 5,
+      "y": 24
      },
      {
       "x": 26,
-      "y": 19
-     }
-    ]
-   },
-   "architecture": {
-    "style": "victorian_old_mansion",
-    "layout": "asymmetric_wing_plan",
-    "description": "Mansion asimetris dengan sayap barat dan timur, aula pusat, galeri penghubung, ruang privat, dan koridor servis.",
-    "rooms": [
-     {
-      "id": "west_library",
-      "name": "Perpustakaan Barat",
-      "type": "library",
-      "bounds": {
-       "x": 1,
-       "y": 1,
-       "width": 8,
-       "height": 5
-      },
-      "style": "bookshelves_reading_nook"
+      "y": 24
      },
      {
-      "id": "grand_hall",
-      "name": "Aula Utama",
-      "type": "grand_hall",
-      "bounds": {
-       "x": 10,
-       "y": 1,
-       "width": 11,
-       "height": 5
-      },
-      "style": "open_formal_space"
-     },
-     {
-      "id": "east_dining",
-      "name": "Ruang Makan Formal",
-      "type": "dining",
-      "bounds": {
-       "x": 22,
-       "y": 1,
-       "width": 8,
-       "height": 5
-      },
-      "style": "formal_dining"
-     },
-     {
-      "id": "west_study",
-      "name": "Ruang Kerja",
-      "type": "study",
-      "bounds": {
-       "x": 1,
-       "y": 7,
-       "width": 8,
-       "height": 7
-      },
-      "style": "private_study"
-     },
-     {
-      "id": "central_gallery",
-      "name": "Galeri dan Foyer",
-      "type": "gallery",
-      "bounds": {
-       "x": 10,
-       "y": 7,
-       "width": 11,
-       "height": 7
-      },
-      "style": "connecting_gallery"
-     },
-     {
-      "id": "east_kitchen",
-      "name": "Dapur Lama",
-      "type": "kitchen",
-      "bounds": {
-       "x": 22,
-       "y": 7,
-       "width": 8,
-       "height": 7
-      },
-      "style": "service_kitchen"
-     },
-     {
-      "id": "west_bedroom",
-      "name": "Kamar Utama",
-      "type": "bedroom",
-      "bounds": {
-       "x": 1,
-       "y": 15,
-       "width": 8,
-       "height": 7
-      },
-      "style": "master_bedroom"
-     },
-     {
-      "id": "south_hall",
-      "name": "Aula Selatan dan Landing Tangga",
-      "type": "hall",
-      "bounds": {
-       "x": 10,
-       "y": 15,
-       "width": 11,
-       "height": 7
-      },
-      "style": "stair_landing"
-     },
-     {
-      "id": "east_guest",
-      "name": "Kamar Tamu dan Penyimpanan",
-      "type": "guest_room",
-      "bounds": {
-       "x": 22,
-       "y": 15,
-       "width": 8,
-       "height": 7
-      },
-      "style": "guest_storage"
+      "x": 13,
+      "y": 25
      }
     ],
-    "design_rules": [
-     "Furniture mengikuti fungsi ruangan.",
-     "Koridor dan pintu menghubungkan semua zona.",
-     "Jalur utama harus tetap dapat dilalui survivor, Jason, dan bot.",
-     "Dekorasi wall/floor tidak memakai collision kecuali ditentukan."
-    ]
+    "exit": {
+     "x": 15,
+     "y": 28,
+     "orientation": "s"
+    }
    },
-   "design_notes": [
-    "Tile grid memakai kode schema v2: 0 floor, 1 wall, 2 pintu horizontal, 3 pintu vertikal.",
-    "Bear Rug aktif sebagai hiding spot (tipe bear_rug terdaftar di SpotType).",
-    "tile_overrides = penggantian sprite tile visual saja (collision tetap dari kode tile).",
-    "Layer decor: floor, fx (animasi), wall, object, ceiling (digambar di atas karakter)."
-   ],
    "tile_overrides": [
     {
-     "x": 5,
-     "y": 0,
-     "region": "tile_map1_window"
+     "x": 13,
+     "y": 1,
+     "region": "tile_map1_chamber_floor"
+    },
+    {
+     "x": 14,
+     "y": 1,
+     "region": "tile_map1_chamber_floor"
+    },
+    {
+     "x": 15,
+     "y": 1,
+     "region": "tile_map1_chamber_floor"
+    },
+    {
+     "x": 16,
+     "y": 1,
+     "region": "tile_map1_chamber_floor"
+    },
+    {
+     "x": 17,
+     "y": 1,
+     "region": "tile_map1_chamber_floor"
     },
     {
      "x": 13,
-     "y": 0,
-     "region": "tile_map1_window"
+     "y": 2,
+     "region": "tile_map1_chamber_floor"
     },
     {
-     "x": 29,
-     "y": 0,
-     "region": "tile_map1_window"
+     "x": 14,
+     "y": 2,
+     "region": "tile_map1_chamber_floor"
     },
     {
-     "x": 1,
-     "y": 14,
-     "region": "tile_map1_window"
+     "x": 15,
+     "y": 2,
+     "region": "tile_map1_chamber_floor"
     },
     {
-     "x": 4,
+     "x": 16,
+     "y": 2,
+     "region": "tile_map1_chamber_floor"
+    },
+    {
+     "x": 17,
+     "y": 2,
+     "region": "tile_map1_chamber_floor"
+    },
+    {
+     "x": 13,
+     "y": 3,
+     "region": "tile_map1_chamber_floor"
+    },
+    {
+     "x": 14,
+     "y": 3,
+     "region": "tile_map1_chamber_floor"
+    },
+    {
+     "x": 15,
+     "y": 3,
+     "region": "tile_map1_chamber_floor"
+    },
+    {
+     "x": 16,
+     "y": 3,
+     "region": "tile_map1_chamber_floor"
+    },
+    {
+     "x": 17,
+     "y": 3,
+     "region": "tile_map1_chamber_floor"
+    },
+    {
+     "x": 13,
+     "y": 4,
+     "region": "tile_map1_chamber_floor"
+    },
+    {
+     "x": 14,
+     "y": 4,
+     "region": "tile_map1_chamber_floor"
+    },
+    {
+     "x": 15,
+     "y": 4,
+     "region": "tile_map1_chamber_floor"
+    },
+    {
+     "x": 16,
+     "y": 4,
+     "region": "tile_map1_chamber_floor"
+    },
+    {
+     "x": 17,
+     "y": 4,
+     "region": "tile_map1_chamber_floor"
+    },
+    {
+     "x": 13,
+     "y": 5,
+     "region": "tile_map1_chamber_floor"
+    },
+    {
+     "x": 14,
+     "y": 5,
+     "region": "tile_map1_chamber_floor"
+    },
+    {
+     "x": 15,
+     "y": 5,
+     "region": "tile_map1_chamber_floor"
+    },
+    {
+     "x": 16,
+     "y": 5,
+     "region": "tile_map1_chamber_floor"
+    },
+    {
+     "x": 17,
+     "y": 5,
+     "region": "tile_map1_chamber_floor"
+    },
+    {
+     "x": 12,
      "y": 6,
      "region": "tile_map1_window"
     },
     {
-     "x": 27,
-     "y": 14,
+     "x": 20,
+     "y": 6,
+     "region": "tile_map1_window"
+    },
+    {
+     "x": 23,
+     "y": 6,
+     "region": "tile_map1_window"
+    },
+    {
+     "x": 28,
+     "y": 6,
+     "region": "tile_map1_window"
+    },
+    {
+     "x": 3,
+     "y": 20,
+     "region": "tile_map1_window"
+    },
+    {
+     "x": 4,
+     "y": 20,
+     "region": "tile_map1_window"
+    },
+    {
+     "x": 28,
+     "y": 20,
+     "region": "tile_map1_window"
+    },
+    {
+     "x": 29,
+     "y": 20,
      "region": "tile_map1_window"
     }
-   ]
+   ],
+   "jason_arrival": {
+    "enabled": true,
+    "room_id": "jason_sealed_chamber",
+    "room_name": "Ruang Segel Utara",
+    "bounds": {
+     "x": 13,
+     "y": 1,
+     "w": 5,
+     "h": 5
+    },
+    "spawn_position": {
+     "x": 15,
+     "y": 3
+    },
+    "door": {
+     "x": 15,
+     "y": 6,
+     "material": "wood",
+     "type": "heavy_wooden_door",
+     "state": "locked",
+     "animation": "jason_break_door",
+     "final_state": "broken"
+    },
+    "sequence": {
+     "preparation_delay": 12.0,
+     "warning_duration": 5.0,
+     "door_break_duration": 3.0,
+     "allow_jason_exit_after_break": true
+    }
+   }
   },
   {
    "id": 2,
    "name": "Garasi & Bagasi",
    "width": 29,
-   "height": 21,
+   "height": 27,
    "tiles": [
+    [
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1
+    ],
+    [
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     0,
+     0,
+     0,
+     0,
+     0,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1
+    ],
+    [
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     0,
+     0,
+     0,
+     0,
+     0,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1
+    ],
+    [
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     0,
+     0,
+     0,
+     0,
+     0,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1
+    ],
+    [
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     0,
+     0,
+     0,
+     0,
+     0,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1
+    ],
+    [
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     0,
+     0,
+     0,
+     0,
+     0,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1
+    ],
     [
      1,
      1,
@@ -2491,25 +3227,20 @@
    ],
    "objects": {
     "spawns": {
+     "jason": {
+      "x": 14,
+      "y": 3
+     },
      "player": {
       "x": 3,
-      "y": 17
-     },
-     "jason": {
-      "x": 24,
-      "y": 3
+      "y": 23
      }
-    },
-    "exit": {
-     "x": 28,
-     "y": 16,
-     "orientation": "e"
     },
     "hiding_spots": [
      {
       "x": 4,
-      "y": 4,
-      "type_code": null,
+      "y": 10,
+      "type_code": 0,
       "type_id": "oil_barrel",
       "sprite_prefix": "obj_oil_barrel",
       "collision": false,
@@ -2522,8 +3253,8 @@
      },
      {
       "x": 14,
-      "y": 4,
-      "type_code": null,
+      "y": 10,
+      "type_code": 0,
       "type_id": "car_trunk",
       "sprite_prefix": "obj_car_trunk",
       "collision": false,
@@ -2535,9 +3266,51 @@
       ]
      },
      {
+      "x": 16,
+      "y": 12,
+      "type_code": 0,
+      "type_id": "tire_stack",
+      "sprite_prefix": "obj_tire_stack",
+      "collision": false,
+      "states": [
+       "intact",
+       "checked",
+       "broken_clean",
+       "broken_bloody"
+      ]
+     },
+     {
+      "x": 23,
+      "y": 14,
+      "type_code": 0,
+      "type_id": "oil_barrel",
+      "sprite_prefix": "obj_oil_barrel",
+      "collision": false,
+      "states": [
+       "intact",
+       "checked",
+       "broken_clean",
+       "broken_bloody"
+      ]
+     },
+     {
+      "x": 7,
+      "y": 16,
+      "type_code": 0,
+      "type_id": "mechanic_cabinet",
+      "sprite_prefix": "obj_mechanic_cabinet",
+      "collision": false,
+      "states": [
+       "intact",
+       "checked",
+       "broken_clean",
+       "broken_bloody"
+      ]
+     },
+     {
       "x": 4,
-      "y": 13,
-      "type_code": null,
+      "y": 19,
+      "type_code": 0,
       "type_id": "garage_crate",
       "sprite_prefix": "obj_garage_crate",
       "collision": false,
@@ -2550,8 +3323,8 @@
      },
      {
       "x": 13,
-      "y": 13,
-      "type_code": null,
+      "y": 19,
+      "type_code": 0,
       "type_id": "under_workbench",
       "sprite_prefix": "obj_under_workbench",
       "collision": false,
@@ -2563,11 +3336,11 @@
       ]
      },
      {
-      "x": 23,
-      "y": 8,
-      "type_code": null,
-      "type_id": "oil_barrel",
-      "sprite_prefix": "obj_oil_barrel",
+      "x": 17,
+      "y": 19,
+      "type_code": 0,
+      "type_id": "mechanic_cabinet",
+      "sprite_prefix": "obj_mechanic_cabinet",
       "collision": false,
       "states": [
        "intact",
@@ -2577,11 +3350,11 @@
       ]
      },
      {
-      "x": 24,
-      "y": 18,
-      "type_code": null,
-      "type_id": "garage_crate",
-      "sprite_prefix": "obj_garage_crate",
+      "x": 26,
+      "y": 19,
+      "type_code": 0,
+      "type_id": "tire_stack",
+      "sprite_prefix": "obj_tire_stack",
       "collision": false,
       "states": [
        "intact",
@@ -2592,8 +3365,8 @@
      },
      {
       "x": 15,
-      "y": 17,
-      "type_code": null,
+      "y": 23,
+      "type_code": 0,
       "type_id": "car_trunk",
       "sprite_prefix": "obj_car_trunk",
       "collision": false,
@@ -2606,8 +3379,8 @@
      },
      {
       "x": 25,
-      "y": 17,
-      "type_code": null,
+      "y": 23,
+      "type_code": 0,
       "type_id": "under_workbench",
       "sprite_prefix": "obj_under_workbench",
       "collision": false,
@@ -2619,53 +3392,11 @@
       ]
      },
      {
-      "x": 16,
-      "y": 6,
-      "type_code": 8,
-      "type_id": "tire_stack",
-      "sprite_prefix": "obj_tire_stack",
-      "collision": false,
-      "states": [
-       "intact",
-       "checked",
-       "broken_clean",
-       "broken_bloody"
-      ]
-     },
-     {
-      "x": 26,
-      "y": 13,
-      "type_code": 8,
-      "type_id": "tire_stack",
-      "sprite_prefix": "obj_tire_stack",
-      "collision": false,
-      "states": [
-       "intact",
-       "checked",
-       "broken_clean",
-       "broken_bloody"
-      ]
-     },
-     {
-      "x": 7,
-      "y": 10,
-      "type_code": 9,
-      "type_id": "mechanic_cabinet",
-      "sprite_prefix": "obj_mechanic_cabinet",
-      "collision": false,
-      "states": [
-       "intact",
-       "checked",
-       "broken_clean",
-       "broken_bloody"
-      ]
-     },
-     {
-      "x": 17,
-      "y": 13,
-      "type_code": 9,
-      "type_id": "mechanic_cabinet",
-      "sprite_prefix": "obj_mechanic_cabinet",
+      "x": 24,
+      "y": 24,
+      "type_code": 0,
+      "type_id": "garage_crate",
+      "sprite_prefix": "obj_garage_crate",
       "collision": false,
       "states": [
        "intact",
@@ -2677,8 +3408,64 @@
     ],
     "props": [
      {
+      "x": 9,
+      "y": 7,
+      "item": "item_parts_shelf",
+      "w": 1,
+      "h": 1,
+      "collision": true
+     },
+     {
+      "x": 10,
+      "y": 7,
+      "item": "item_parts_shelf",
+      "w": 1,
+      "h": 1,
+      "collision": true
+     },
+     {
+      "x": 16,
+      "y": 7,
+      "item": "item_bumper_pile",
+      "w": 1,
+      "h": 1,
+      "collision": true
+     },
+     {
+      "x": 21,
+      "y": 7,
+      "item": "item_parts_shelf",
+      "w": 1,
+      "h": 1,
+      "collision": true
+     },
+     {
+      "x": 22,
+      "y": 7,
+      "item": "item_parts_shelf",
+      "w": 1,
+      "h": 1,
+      "collision": true
+     },
+     {
+      "x": 26,
+      "y": 7,
+      "item": "item_mechanic_cabinet",
+      "w": 1,
+      "h": 1,
+      "collision": true
+     },
+     {
+      "x": 19,
+      "y": 8,
+      "item": "item_tool_trolley",
+      "w": 1,
+      "h": 1,
+      "collision": true
+     },
+     {
       "x": 3,
-      "y": 3,
+      "y": 9,
       "item": "item_vehicle",
       "w": 2,
       "h": 1,
@@ -2686,31 +3473,15 @@
      },
      {
       "x": 11,
-      "y": 3,
+      "y": 9,
       "item": "item_vehicle",
       "w": 2,
       "h": 1,
       "collision": true
      },
      {
-      "x": 3,
-      "y": 6,
-      "item": "item_tires",
-      "w": 1,
-      "h": 1,
-      "collision": true
-     },
-     {
-      "x": 13,
-      "y": 6,
-      "item": "item_tool_rack",
-      "w": 1,
-      "h": 1,
-      "collision": true
-     },
-     {
       "x": 21,
-      "y": 3,
+      "y": 9,
       "item": "item_spare_parts",
       "w": 1,
       "h": 1,
@@ -2718,15 +3489,87 @@
      },
      {
       "x": 24,
-      "y": 5,
+      "y": 11,
       "item": "item_oil_drum_stack",
       "w": 1,
       "h": 1,
       "collision": true
      },
      {
-      "x": 11,
+      "x": 3,
       "y": 12,
+      "item": "item_tires",
+      "w": 1,
+      "h": 1,
+      "collision": true
+     },
+     {
+      "x": 7,
+      "y": 12,
+      "item": "item_hydraulic_lift",
+      "w": 2,
+      "h": 1,
+      "collision": true
+     },
+     {
+      "x": 9,
+      "y": 12,
+      "item": "item_tool_trolley",
+      "w": 1,
+      "h": 1,
+      "collision": true
+     },
+     {
+      "x": 13,
+      "y": 12,
+      "item": "item_tool_rack",
+      "w": 1,
+      "h": 1,
+      "collision": true
+     },
+     {
+      "x": 1,
+      "y": 14,
+      "item": "item_wheel_stack",
+      "w": 1,
+      "h": 1,
+      "collision": true
+     },
+     {
+      "x": 16,
+      "y": 14,
+      "item": "item_wheel_stack_b",
+      "w": 1,
+      "h": 1,
+      "collision": true
+     },
+     {
+      "x": 9,
+      "y": 16,
+      "item": "item_mechanic_cabinet",
+      "w": 1,
+      "h": 1,
+      "collision": true
+     },
+     {
+      "x": 17,
+      "y": 16,
+      "item": "item_parts_shelf",
+      "w": 1,
+      "h": 1,
+      "collision": true
+     },
+     {
+      "x": 15,
+      "y": 17,
+      "item": "item_hydraulic_lift",
+      "w": 2,
+      "h": 1,
+      "collision": true
+     },
+     {
+      "x": 11,
+      "y": 18,
       "item": "item_workbench_tools",
       "w": 1,
       "h": 1,
@@ -2734,152 +3577,40 @@
      },
      {
       "x": 22,
-      "y": 12,
+      "y": 18,
       "item": "item_tires",
       "w": 1,
       "h": 1,
       "collision": true
      },
      {
+      "x": 10,
+      "y": 23,
+      "item": "item_bumper_pile",
+      "w": 1,
+      "h": 1,
+      "collision": true
+     },
+     {
       "x": 24,
-      "y": 17,
+      "y": 23,
       "item": "item_spare_parts",
       "w": 1,
       "h": 1,
       "collision": true
      },
      {
-      "x": 7,
-      "y": 6,
-      "item": "item_hydraulic_lift",
-      "w": 2,
-      "h": 1,
-      "collision": true
-     },
-     {
-      "x": 15,
-      "y": 11,
-      "item": "item_hydraulic_lift",
-      "w": 2,
-      "h": 1,
-      "collision": true
-     },
-     {
-      "x": 9,
-      "y": 6,
-      "item": "item_tool_trolley",
-      "w": 1,
-      "h": 1,
-      "collision": true
-     },
-     {
-      "x": 19,
-      "y": 2,
-      "item": "item_tool_trolley",
-      "w": 1,
-      "h": 1,
-      "collision": true
-     },
-     {
       "x": 14,
-      "y": 18,
+      "y": 24,
       "item": "item_tool_trolley",
       "w": 1,
       "h": 1,
       "collision": true
      },
      {
-      "x": 9,
-      "y": 1,
-      "item": "item_parts_shelf",
-      "w": 1,
-      "h": 1,
-      "collision": true
-     },
-     {
-      "x": 10,
-      "y": 1,
-      "item": "item_parts_shelf",
-      "w": 1,
-      "h": 1,
-      "collision": true
-     },
-     {
-      "x": 21,
-      "y": 1,
-      "item": "item_parts_shelf",
-      "w": 1,
-      "h": 1,
-      "collision": true
-     },
-     {
-      "x": 22,
-      "y": 1,
-      "item": "item_parts_shelf",
-      "w": 1,
-      "h": 1,
-      "collision": true
-     },
-     {
-      "x": 17,
-      "y": 10,
-      "item": "item_parts_shelf",
-      "w": 1,
-      "h": 1,
-      "collision": true
-     },
-     {
-      "x": 1,
-      "y": 8,
-      "item": "item_wheel_stack",
-      "w": 1,
-      "h": 1,
-      "collision": true
-     },
-     {
-      "x": 16,
-      "y": 8,
-      "item": "item_wheel_stack_b",
-      "w": 1,
-      "h": 1,
-      "collision": true
-     },
-     {
       "x": 19,
-      "y": 18,
+      "y": 24,
       "item": "item_wheel_stack",
-      "w": 1,
-      "h": 1,
-      "collision": true
-     },
-     {
-      "x": 16,
-      "y": 1,
-      "item": "item_bumper_pile",
-      "w": 1,
-      "h": 1,
-      "collision": true
-     },
-     {
-      "x": 10,
-      "y": 17,
-      "item": "item_bumper_pile",
-      "w": 1,
-      "h": 1,
-      "collision": true
-     },
-     {
-      "x": 9,
-      "y": 10,
-      "item": "item_mechanic_cabinet",
-      "w": 1,
-      "h": 1,
-      "collision": true
-     },
-     {
-      "x": 26,
-      "y": 1,
-      "item": "item_mechanic_cabinet",
       "w": 1,
       "h": 1,
       "collision": true
@@ -2888,235 +3619,656 @@
     "decor": [
      {
       "x": 4,
-      "y": 2,
+      "y": 8,
       "item": "item_hanging_lamp",
       "layer": "ceiling",
-      "w": 1,
-      "collision": false
+      "collision": false,
+      "w": 1
      },
      {
       "x": 15,
-      "y": 2,
+      "y": 8,
       "item": "item_wall_clock",
       "layer": "wall",
-      "w": 1,
-      "collision": false
+      "collision": false,
+      "w": 1
      },
      {
       "x": 23,
-      "y": 3,
+      "y": 9,
       "item": "item_painting",
       "layer": "wall",
-      "w": 1,
-      "collision": false
+      "collision": false,
+      "w": 1
      },
      {
       "x": 3,
-      "y": 16,
+      "y": 22,
       "item": "item_tool_rack",
       "layer": "object",
-      "w": 1,
-      "collision": false
+      "collision": false,
+      "w": 1
      },
      {
       "x": 24,
-      "y": 14,
+      "y": 20,
       "item": "item_floor_lamp",
       "layer": "object",
-      "w": 1,
-      "collision": false
+      "collision": false,
+      "w": 1
      },
      {
       "x": 10,
-      "y": 4,
+      "y": 10,
       "item": "item_shop_lamp",
       "layer": "ceiling",
       "collision": false
      },
      {
       "x": 22,
-      "y": 6,
-      "item": "item_shop_lamp",
-      "layer": "ceiling",
-      "collision": false
-     },
-     {
-      "x": 14,
       "y": 12,
       "item": "item_shop_lamp",
       "layer": "ceiling",
       "collision": false
      },
      {
+      "x": 14,
+      "y": 18,
+      "item": "item_shop_lamp",
+      "layer": "ceiling",
+      "collision": false
+     },
+     {
       "x": 5,
-      "y": 17,
+      "y": 23,
       "item": "item_shop_lamp",
       "layer": "ceiling",
       "collision": false
      },
      {
       "x": 20,
-      "y": 17,
+      "y": 23,
       "item": "item_shop_lamp",
       "layer": "ceiling",
       "collision": false
      },
      {
       "x": 11,
-      "y": 0,
+      "y": 6,
       "item": "item_garage_shutter",
       "layer": "wall",
       "collision": false
      },
      {
       "x": 24,
-      "y": 0,
+      "y": 6,
       "item": "item_garage_shutter",
       "layer": "wall",
+      "collision": false
+     },
+     {
+      "x": 13,
+      "y": 4,
+      "item": "item_chamber_seal",
+      "layer": "floor",
+      "collision": false
+     },
+     {
+      "x": 14,
+      "y": 4,
+      "item": "item_blood_drag",
+      "layer": "floor",
+      "collision": false
+     },
+     {
+      "x": 14,
+      "y": 5,
+      "item": "item_blood_drag",
+      "layer": "floor",
+      "collision": false
+     },
+     {
+      "x": 12,
+      "y": 0,
+      "item": "item_chain_wall",
+      "layer": "wall",
+      "collision": false
+     },
+     {
+      "x": 13,
+      "y": 0,
+      "item": "item_claw_marks",
+      "layer": "wall",
+      "collision": false
+     },
+     {
+      "x": 14,
+      "y": 0,
+      "item": "item_painting",
+      "layer": "wall",
+      "collision": false
+     },
+     {
+      "x": 15,
+      "y": 0,
+      "item": "item_claw_marks",
+      "layer": "wall",
+      "collision": false
+     },
+     {
+      "x": 16,
+      "y": 0,
+      "item": "item_chain_wall",
+      "layer": "wall",
+      "collision": false
+     },
+     {
+      "x": 13,
+      "y": 6,
+      "item": "item_chamber_lamp",
+      "layer": "arrival_lamp",
+      "collision": false
+     },
+     {
+      "x": 15,
+      "y": 6,
+      "item": "item_chamber_lamp",
+      "layer": "arrival_lamp",
       "collision": false
      }
     ],
     "key_candidates": [
      {
       "x": 2,
-      "y": 2,
+      "y": 8,
       "allow_inside_hiding_spot": false
      },
      {
       "x": 7,
-      "y": 3,
-      "allow_inside_hiding_spot": false
-     },
-     {
-      "x": 12,
-      "y": 5,
-      "allow_inside_hiding_spot": false
-     },
-     {
-      "x": 16,
-      "y": 7,
-      "allow_inside_hiding_spot": false
-     },
-     {
-      "x": 22,
-      "y": 7,
-      "allow_inside_hiding_spot": false
-     },
-     {
-      "x": 25,
       "y": 9,
       "allow_inside_hiding_spot": false
      },
      {
-      "x": 4,
+      "x": 13,
+      "y": 9,
+      "allow_inside_hiding_spot": false
+     },
+     {
+      "x": 12,
       "y": 11,
       "allow_inside_hiding_spot": false
      },
      {
-      "x": 10,
+      "x": 16,
       "y": 13,
       "allow_inside_hiding_spot": false
      },
      {
-      "x": 16,
+      "x": 22,
+      "y": 13,
+      "allow_inside_hiding_spot": false
+     },
+     {
+      "x": 25,
+      "y": 15,
+      "allow_inside_hiding_spot": false
+     },
+     {
+      "x": 4,
       "y": 17,
       "allow_inside_hiding_spot": false
      },
      {
-      "x": 22,
-      "y": 18,
+      "x": 10,
+      "y": 19,
+      "allow_inside_hiding_spot": false
+     },
+     {
+      "x": 16,
+      "y": 23,
       "allow_inside_hiding_spot": false
      },
      {
       "x": 26,
-      "y": 17,
+      "y": 23,
       "allow_inside_hiding_spot": false
      },
      {
-      "x": 13,
-      "y": 3,
+      "x": 22,
+      "y": 24,
       "allow_inside_hiding_spot": false
      }
     ],
     "bot_spawn_candidates": [
      {
-      "x": 6,
-      "y": 4
-     },
-     {
-      "x": 10,
-      "y": 4
-     },
-     {
-      "x": 15,
-      "y": 3
-     },
-     {
-      "x": 22,
-      "y": 3
-     },
-     {
-      "x": 24,
+      "x": 3,
       "y": 8
      },
      {
-      "x": 4,
-      "y": 17
-     },
-     {
-      "x": 11,
-      "y": 17
+      "x": 15,
+      "y": 9
      },
      {
       "x": 22,
-      "y": 17
+      "y": 9
+     },
+     {
+      "x": 6,
+      "y": 10
+     },
+     {
+      "x": 10,
+      "y": 10
+     },
+     {
+      "x": 24,
+      "y": 14
      },
      {
       "x": 25,
-      "y": 13
+      "y": 19
+     },
+     {
+      "x": 4,
+      "y": 23
+     },
+     {
+      "x": 11,
+      "y": 23
+     },
+     {
+      "x": 22,
+      "y": 23
      }
-    ]
-   },
-   "architecture": {
-    "style": "abandoned_motor_garage",
-    "layout": "L-shaped workshop with service wing",
-    "room_based": true
-   },
-   "design_notes": {
-    "theme": "Automotive repair garage, parking bay, parts room and mechanic office",
-    "key_frame_count_per_round": 3,
-    "key_spawn_rule": "Choose 3 unique reachable candidates per round.",
-    "bot_spawn_rule": "Choose 9 distinct candidates excluding player and Jason spawn."
+    ],
+    "exit": {
+     "x": 28,
+     "y": 22,
+     "orientation": "e"
+    }
    },
    "tile_overrides": [
     {
+     "x": 12,
+     "y": 1,
+     "region": "tile_map2_chamber_floor"
+    },
+    {
+     "x": 13,
+     "y": 1,
+     "region": "tile_map2_chamber_floor"
+    },
+    {
+     "x": 14,
+     "y": 1,
+     "region": "tile_map2_chamber_floor"
+    },
+    {
+     "x": 15,
+     "y": 1,
+     "region": "tile_map2_chamber_floor"
+    },
+    {
+     "x": 16,
+     "y": 1,
+     "region": "tile_map2_chamber_floor"
+    },
+    {
+     "x": 12,
+     "y": 2,
+     "region": "tile_map2_chamber_floor"
+    },
+    {
+     "x": 13,
+     "y": 2,
+     "region": "tile_map2_chamber_floor"
+    },
+    {
+     "x": 14,
+     "y": 2,
+     "region": "tile_map2_chamber_floor"
+    },
+    {
+     "x": 15,
+     "y": 2,
+     "region": "tile_map2_chamber_floor"
+    },
+    {
+     "x": 16,
+     "y": 2,
+     "region": "tile_map2_chamber_floor"
+    },
+    {
+     "x": 12,
+     "y": 3,
+     "region": "tile_map2_chamber_floor"
+    },
+    {
+     "x": 13,
+     "y": 3,
+     "region": "tile_map2_chamber_floor"
+    },
+    {
+     "x": 14,
+     "y": 3,
+     "region": "tile_map2_chamber_floor"
+    },
+    {
+     "x": 15,
+     "y": 3,
+     "region": "tile_map2_chamber_floor"
+    },
+    {
+     "x": 16,
+     "y": 3,
+     "region": "tile_map2_chamber_floor"
+    },
+    {
+     "x": 12,
+     "y": 4,
+     "region": "tile_map2_chamber_floor"
+    },
+    {
+     "x": 13,
+     "y": 4,
+     "region": "tile_map2_chamber_floor"
+    },
+    {
+     "x": 14,
+     "y": 4,
+     "region": "tile_map2_chamber_floor"
+    },
+    {
+     "x": 15,
+     "y": 4,
+     "region": "tile_map2_chamber_floor"
+    },
+    {
+     "x": 16,
+     "y": 4,
+     "region": "tile_map2_chamber_floor"
+    },
+    {
+     "x": 12,
+     "y": 5,
+     "region": "tile_map2_chamber_floor"
+    },
+    {
+     "x": 13,
+     "y": 5,
+     "region": "tile_map2_chamber_floor"
+    },
+    {
+     "x": 14,
+     "y": 5,
+     "region": "tile_map2_chamber_floor"
+    },
+    {
+     "x": 15,
+     "y": 5,
+     "region": "tile_map2_chamber_floor"
+    },
+    {
+     "x": 16,
+     "y": 5,
+     "region": "tile_map2_chamber_floor"
+    },
+    {
      "x": 7,
-     "y": 0,
+     "y": 6,
      "region": "tile_map2_shutter"
     },
     {
      "x": 8,
-     "y": 0,
+     "y": 6,
      "region": "tile_map2_shutter"
     },
     {
      "x": 20,
-     "y": 0,
+     "y": 6,
      "region": "tile_map2_shutter"
     },
     {
      "x": 21,
-     "y": 0,
+     "y": 6,
      "region": "tile_map2_shutter"
     }
-   ]
+   ],
+   "jason_arrival": {
+    "enabled": true,
+    "room_id": "jason_chamber",
+    "room_name": "Bilik Isolasi Garasi",
+    "bounds": {
+     "x": 12,
+     "y": 1,
+     "w": 5,
+     "h": 5
+    },
+    "spawn_position": {
+     "x": 14,
+     "y": 3
+    },
+    "door": {
+     "x": 14,
+     "y": 6,
+     "material": "shutter",
+     "type": "roll_shutter_door",
+     "state": "locked",
+     "animation": "jason_break_door",
+     "final_state": "broken"
+    },
+    "sequence": {
+     "preparation_delay": 12.0,
+     "warning_duration": 5.0,
+     "door_break_duration": 3.0,
+     "allow_jason_exit_after_break": true
+    }
+   }
   },
   {
    "id": 3,
    "name": "Ladang & Lumbung",
    "width": 31,
-   "height": 23,
+   "height": 29,
    "tiles": [
+    [
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1
+    ],
+    [
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     0,
+     0,
+     0,
+     0,
+     0,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1
+    ],
+    [
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     0,
+     0,
+     0,
+     0,
+     0,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1
+    ],
+    [
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     0,
+     0,
+     0,
+     0,
+     0,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1
+    ],
+    [
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     0,
+     0,
+     0,
+     0,
+     0,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1
+    ],
+    [
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     0,
+     0,
+     0,
+     0,
+     0,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1
+    ],
     [
      1,
      1,
@@ -3879,25 +5031,20 @@
    ],
    "objects": {
     "spawns": {
+     "jason": {
+      "x": 15,
+      "y": 3
+     },
      "player": {
       "x": 3,
-      "y": 18
-     },
-     "jason": {
-      "x": 26,
-      "y": 5
+      "y": 24
      }
-    },
-    "exit": {
-     "x": 15,
-     "y": 22,
-     "orientation": "s"
     },
     "hiding_spots": [
      {
       "x": 4,
-      "y": 5,
-      "type_code": null,
+      "y": 11,
+      "type_code": 0,
       "type_id": "hay_stack",
       "sprite_prefix": "obj_hay_stack",
       "collision": false,
@@ -3910,8 +5057,8 @@
      },
      {
       "x": 9,
-      "y": 5,
-      "type_code": null,
+      "y": 11,
+      "type_code": 0,
       "type_id": "harvest_crate",
       "sprite_prefix": "obj_harvest_crate",
       "collision": false,
@@ -3923,9 +5070,23 @@
       ]
      },
      {
+      "x": 17,
+      "y": 12,
+      "type_code": 0,
+      "type_id": "silo_gap",
+      "sprite_prefix": "obj_silo_gap",
+      "collision": false,
+      "states": [
+       "intact",
+       "checked",
+       "broken_clean",
+       "broken_bloody"
+      ]
+     },
+     {
       "x": 21,
-      "y": 6,
-      "type_code": null,
+      "y": 12,
+      "type_code": 0,
       "type_id": "farm_box",
       "sprite_prefix": "obj_farm_box",
       "collision": false,
@@ -3937,9 +5098,51 @@
       ]
      },
      {
+      "x": 12,
+      "y": 13,
+      "type_code": 0,
+      "type_id": "silo_gap",
+      "sprite_prefix": "obj_silo_gap",
+      "collision": false,
+      "states": [
+       "intact",
+       "checked",
+       "broken_clean",
+       "broken_bloody"
+      ]
+     },
+     {
       "x": 25,
-      "y": 9,
-      "type_code": null,
+      "y": 15,
+      "type_code": 0,
+      "type_id": "water_barrel",
+      "sprite_prefix": "obj_water_barrel",
+      "collision": false,
+      "states": [
+       "intact",
+       "checked",
+       "broken_clean",
+       "broken_bloody"
+      ]
+     },
+     {
+      "x": 7,
+      "y": 18,
+      "type_code": 0,
+      "type_id": "hay_wagon",
+      "sprite_prefix": "obj_hay_wagon",
+      "collision": false,
+      "states": [
+       "intact",
+       "checked",
+       "broken_clean",
+       "broken_bloody"
+      ]
+     },
+     {
+      "x": 26,
+      "y": 21,
+      "type_code": 0,
       "type_id": "water_barrel",
       "sprite_prefix": "obj_water_barrel",
       "collision": false,
@@ -3952,8 +5155,8 @@
      },
      {
       "x": 6,
-      "y": 17,
-      "type_code": null,
+      "y": 23,
+      "type_code": 0,
       "type_id": "hay_stack",
       "sprite_prefix": "obj_hay_stack",
       "collision": false,
@@ -3966,8 +5169,8 @@
      },
      {
       "x": 10,
-      "y": 18,
-      "type_code": null,
+      "y": 24,
+      "type_code": 0,
       "type_id": "harvest_crate",
       "sprite_prefix": "obj_harvest_crate",
       "collision": false,
@@ -3980,8 +5183,8 @@
      },
      {
       "x": 20,
-      "y": 18,
-      "type_code": null,
+      "y": 24,
+      "type_code": 0,
       "type_id": "farm_box",
       "sprite_prefix": "obj_farm_box",
       "collision": false,
@@ -3993,65 +5196,9 @@
       ]
      },
      {
-      "x": 26,
-      "y": 15,
-      "type_code": null,
-      "type_id": "water_barrel",
-      "sprite_prefix": "obj_water_barrel",
-      "collision": false,
-      "states": [
-       "intact",
-       "checked",
-       "broken_clean",
-       "broken_bloody"
-      ]
-     },
-     {
-      "x": 12,
-      "y": 7,
-      "type_code": 10,
-      "type_id": "silo_gap",
-      "sprite_prefix": "obj_silo_gap",
-      "collision": false,
-      "states": [
-       "intact",
-       "checked",
-       "broken_clean",
-       "broken_bloody"
-      ]
-     },
-     {
-      "x": 17,
-      "y": 6,
-      "type_code": 10,
-      "type_id": "silo_gap",
-      "sprite_prefix": "obj_silo_gap",
-      "collision": false,
-      "states": [
-       "intact",
-       "checked",
-       "broken_clean",
-       "broken_bloody"
-      ]
-     },
-     {
-      "x": 7,
-      "y": 12,
-      "type_code": 11,
-      "type_id": "hay_wagon",
-      "sprite_prefix": "obj_hay_wagon",
-      "collision": false,
-      "states": [
-       "intact",
-       "checked",
-       "broken_clean",
-       "broken_bloody"
-      ]
-     },
-     {
       "x": 23,
-      "y": 20,
-      "type_code": 11,
+      "y": 26,
+      "type_code": 0,
       "type_id": "hay_wagon",
       "sprite_prefix": "obj_hay_wagon",
       "collision": false,
@@ -4066,46 +5213,6 @@
     "props": [
      {
       "x": 3,
-      "y": 3,
-      "item": "item_sacks",
-      "w": 1,
-      "h": 1,
-      "collision": true
-     },
-     {
-      "x": 8,
-      "y": 3,
-      "item": "item_bucket",
-      "w": 1,
-      "h": 1,
-      "collision": false
-     },
-     {
-      "x": 4,
-      "y": 7,
-      "item": "item_farm_tools",
-      "w": 1,
-      "h": 1,
-      "collision": true
-     },
-     {
-      "x": 19,
-      "y": 4,
-      "item": "item_hay_bale",
-      "w": 1,
-      "h": 1,
-      "collision": true
-     },
-     {
-      "x": 25,
-      "y": 4,
-      "item": "item_cart",
-      "w": 1,
-      "h": 1,
-      "collision": true
-     },
-     {
-      "x": 20,
       "y": 9,
       "item": "item_sacks",
       "w": 1,
@@ -4113,48 +5220,64 @@
       "collision": true
      },
      {
-      "x": 5,
-      "y": 16,
-      "item": "item_hay_bale",
-      "w": 1,
-      "h": 1,
-      "collision": true
-     },
-     {
-      "x": 9,
-      "y": 18,
-      "item": "item_cart",
-      "w": 1,
-      "h": 1,
-      "collision": true
-     },
-     {
-      "x": 19,
-      "y": 16,
-      "item": "item_fence_h",
-      "w": 2,
-      "h": 1,
-      "collision": false
-     },
-     {
-      "x": 24,
-      "y": 17,
-      "item": "item_fence_v",
-      "w": 1,
-      "h": 2,
-      "collision": false
-     },
-     {
-      "x": 26,
-      "y": 19,
+      "x": 8,
+      "y": 9,
       "item": "item_bucket",
       "w": 1,
       "h": 1,
       "collision": false
      },
      {
-      "x": 12,
+      "x": 10,
+      "y": 9,
+      "item": "item_farmhouse_stove",
+      "w": 1,
+      "h": 1,
+      "collision": true
+     },
+     {
+      "x": 19,
       "y": 10,
+      "item": "item_hay_bale",
+      "w": 1,
+      "h": 1,
+      "collision": true
+     },
+     {
+      "x": 25,
+      "y": 10,
+      "item": "item_cart",
+      "w": 1,
+      "h": 1,
+      "collision": true
+     },
+     {
+      "x": 3,
+      "y": 13,
+      "item": "item_firewood_stack",
+      "w": 1,
+      "h": 1,
+      "collision": true
+     },
+     {
+      "x": 4,
+      "y": 13,
+      "item": "item_farm_tools",
+      "w": 1,
+      "h": 1,
+      "collision": true
+     },
+     {
+      "x": 20,
+      "y": 15,
+      "item": "item_sacks",
+      "w": 1,
+      "h": 1,
+      "collision": true
+     },
+     {
+      "x": 12,
+      "y": 16,
       "item": "item_windmill",
       "w": 2,
       "h": 1,
@@ -4162,17 +5285,25 @@
       "extra_collision": [
        {
         "x": 12,
-        "y": 9
+        "y": 15
        },
        {
         "x": 13,
-        "y": 9
+        "y": 15
        }
       ]
      },
      {
+      "x": 4,
+      "y": 18,
+      "item": "item_fence_gate_h",
+      "w": 1,
+      "h": 1,
+      "collision": true
+     },
+     {
       "x": 20,
-      "y": 12,
+      "y": 18,
       "item": "item_well",
       "w": 1,
       "h": 1,
@@ -4180,7 +5311,7 @@
      },
      {
       "x": 24,
-      "y": 12,
+      "y": 18,
       "item": "item_animal_trough",
       "w": 1,
       "h": 1,
@@ -4188,15 +5319,23 @@
      },
      {
       "x": 25,
-      "y": 12,
+      "y": 18,
       "item": "item_animal_trough",
       "w": 1,
       "h": 1,
       "collision": true
      },
      {
+      "x": 28,
+      "y": 18,
+      "item": "item_firewood_stack",
+      "w": 1,
+      "h": 1,
+      "collision": true
+     },
+     {
       "x": 10,
-      "y": 15,
+      "y": 21,
       "item": "item_harvest_rack",
       "w": 1,
       "h": 1,
@@ -4204,406 +5343,835 @@
      },
      {
       "x": 11,
-      "y": 15,
+      "y": 21,
       "item": "item_harvest_rack",
       "w": 1,
       "h": 1,
       "collision": true
      },
      {
-      "x": 10,
-      "y": 3,
-      "item": "item_farmhouse_stove",
+      "x": 5,
+      "y": 22,
+      "item": "item_hay_bale",
       "w": 1,
       "h": 1,
       "collision": true
      },
      {
-      "x": 3,
-      "y": 7,
-      "item": "item_firewood_stack",
-      "w": 1,
+      "x": 19,
+      "y": 22,
+      "item": "item_fence_h",
+      "w": 2,
       "h": 1,
-      "collision": true
-     },
-     {
-      "x": 28,
-      "y": 12,
-      "item": "item_firewood_stack",
-      "w": 1,
-      "h": 1,
-      "collision": true
-     },
-     {
-      "x": 4,
-      "y": 12,
-      "item": "item_fence_gate_h",
-      "w": 1,
-      "h": 1,
-      "collision": true
+      "collision": false
      },
      {
       "x": 21,
-      "y": 16,
+      "y": 22,
       "item": "item_fence_h_broken",
       "w": 1,
       "h": 1,
       "collision": true
+     },
+     {
+      "x": 24,
+      "y": 23,
+      "item": "item_fence_v",
+      "w": 1,
+      "h": 2,
+      "collision": false
+     },
+     {
+      "x": 9,
+      "y": 24,
+      "item": "item_cart",
+      "w": 1,
+      "h": 1,
+      "collision": true
+     },
+     {
+      "x": 26,
+      "y": 25,
+      "item": "item_bucket",
+      "w": 1,
+      "h": 1,
+      "collision": false
      }
     ],
     "decor": [
      {
       "x": 2,
-      "y": 12,
+      "y": 18,
       "item": "item_fence_h",
       "layer": "object",
-      "w": 2,
+      "collision": false,
+      "w": 2
+     },
+     {
+      "x": 13,
+      "y": 9,
+      "item": "item_farm_tools",
+      "layer": "object",
+      "collision": false,
+      "w": 1
+     },
+     {
+      "x": 17,
+      "y": 21,
+      "item": "item_fence_v",
+      "layer": "object",
+      "collision": false,
+      "w": 1
+     },
+     {
+      "x": 27,
+      "y": 19,
+      "item": "item_bucket",
+      "layer": "object",
+      "collision": false,
+      "w": 1
+     },
+     {
+      "x": 3,
+      "y": 26,
+      "item": "item_hanging_lamp",
+      "layer": "object",
+      "collision": false,
+      "w": 1
+     },
+     {
+      "x": 14,
+      "y": 4,
+      "item": "item_chamber_seal",
+      "layer": "floor",
+      "collision": false
+     },
+     {
+      "x": 15,
+      "y": 4,
+      "item": "item_blood_drag",
+      "layer": "floor",
+      "collision": false
+     },
+     {
+      "x": 15,
+      "y": 5,
+      "item": "item_blood_drag",
+      "layer": "floor",
       "collision": false
      },
      {
       "x": 13,
-      "y": 3,
-      "item": "item_farm_tools",
-      "layer": "object",
-      "w": 1,
+      "y": 0,
+      "item": "item_chain_wall",
+      "layer": "wall",
+      "collision": false
+     },
+     {
+      "x": 14,
+      "y": 0,
+      "item": "item_claw_marks",
+      "layer": "wall",
+      "collision": false
+     },
+     {
+      "x": 15,
+      "y": 0,
+      "item": "item_painting",
+      "layer": "wall",
+      "collision": false
+     },
+     {
+      "x": 16,
+      "y": 0,
+      "item": "item_claw_marks",
+      "layer": "wall",
       "collision": false
      },
      {
       "x": 17,
-      "y": 15,
-      "item": "item_fence_v",
-      "layer": "object",
-      "w": 1,
+      "y": 0,
+      "item": "item_chain_wall",
+      "layer": "wall",
       "collision": false
      },
      {
-      "x": 27,
-      "y": 13,
-      "item": "item_bucket",
-      "layer": "object",
-      "w": 1,
+      "x": 14,
+      "y": 6,
+      "item": "item_chamber_lamp",
+      "layer": "arrival_lamp",
       "collision": false
      },
      {
-      "x": 3,
-      "y": 20,
-      "item": "item_hanging_lamp",
-      "layer": "object",
-      "w": 1,
+      "x": 16,
+      "y": 6,
+      "item": "item_chamber_lamp",
+      "layer": "arrival_lamp",
       "collision": false
      }
     ],
     "key_candidates": [
      {
-      "x": 3,
-      "y": 4,
-      "allow_inside_hiding_spot": false
-     },
-     {
       "x": 9,
-      "y": 3,
+      "y": 9,
       "allow_inside_hiding_spot": false
      },
      {
-      "x": 13,
-      "y": 7,
+      "x": 3,
+      "y": 10,
       "allow_inside_hiding_spot": false
      },
      {
       "x": 19,
-      "y": 5,
+      "y": 11,
       "allow_inside_hiding_spot": false
      },
      {
       "x": 26,
-      "y": 6,
+      "y": 12,
       "allow_inside_hiding_spot": false
      },
      {
-      "x": 3,
+      "x": 13,
       "y": 13,
       "allow_inside_hiding_spot": false
      },
      {
-      "x": 14,
-      "y": 14,
+      "x": 3,
+      "y": 19,
       "allow_inside_hiding_spot": false
      },
      {
-      "x": 18,
-      "y": 16,
+      "x": 14,
+      "y": 20,
       "allow_inside_hiding_spot": false
      },
      {
       "x": 27,
-      "y": 14,
+      "y": 20,
+      "allow_inside_hiding_spot": false
+     },
+     {
+      "x": 18,
+      "y": 22,
       "allow_inside_hiding_spot": false
      },
      {
       "x": 9,
-      "y": 19,
+      "y": 25,
       "allow_inside_hiding_spot": false
      },
      {
       "x": 23,
-      "y": 19,
+      "y": 25,
       "allow_inside_hiding_spot": false
      },
      {
       "x": 15,
-      "y": 20,
+      "y": 26,
       "allow_inside_hiding_spot": false
      }
     ],
     "bot_spawn_candidates": [
      {
-      "x": 3,
-      "y": 4
+      "x": 12,
+      "y": 8
      },
      {
-      "x": 9,
-      "y": 3
-     },
-     {
-      "x": 19,
-      "y": 5
-     },
-     {
-      "x": 26,
-      "y": 6
-     },
-     {
-      "x": 5,
+      "x": 14,
       "y": 12
      },
      {
-      "x": 14,
-      "y": 15
+      "x": 12,
+      "y": 17
      },
      {
-      "x": 22,
-      "y": 14
-     },
-     {
-      "x": 27,
+      "x": 5,
       "y": 18
      },
      {
+      "x": 21,
+      "y": 20
+     },
+     {
+      "x": 22,
+      "y": 20
+     },
+     {
       "x": 14,
-      "y": 19
+      "y": 21
+     },
+     {
+      "x": 21,
+      "y": 23
+     },
+     {
+      "x": 27,
+      "y": 24
+     },
+     {
+      "x": 14,
+      "y": 25
      }
-    ]
-   },
-   "architecture": {
-    "style": "rural_farmstead",
-    "layout": "open compound with detached buildings and winding yard paths",
-    "room_based": true
-   },
-   "design_notes": {
-    "theme": "Abandoned rural farm with farmhouse, barn, storage shed, animal pen and fields",
-    "key_frame_count_per_round": 3,
-    "key_spawn_rule": "Choose 3 unique reachable candidates per round.",
-    "bot_spawn_rule": "Choose 9 distinct candidates excluding player and Jason spawn."
+    ],
+    "exit": {
+     "x": 15,
+     "y": 28,
+     "orientation": "s"
+    }
    },
    "tile_overrides": [
     {
+     "x": 13,
+     "y": 1,
+     "region": "tile_map3_chamber_floor"
+    },
+    {
+     "x": 14,
+     "y": 1,
+     "region": "tile_map3_chamber_floor"
+    },
+    {
+     "x": 15,
+     "y": 1,
+     "region": "tile_map3_chamber_floor"
+    },
+    {
+     "x": 16,
+     "y": 1,
+     "region": "tile_map3_chamber_floor"
+    },
+    {
+     "x": 17,
+     "y": 1,
+     "region": "tile_map3_chamber_floor"
+    },
+    {
+     "x": 13,
+     "y": 2,
+     "region": "tile_map3_chamber_floor"
+    },
+    {
+     "x": 14,
+     "y": 2,
+     "region": "tile_map3_chamber_floor"
+    },
+    {
+     "x": 15,
+     "y": 2,
+     "region": "tile_map3_chamber_floor"
+    },
+    {
+     "x": 16,
+     "y": 2,
+     "region": "tile_map3_chamber_floor"
+    },
+    {
+     "x": 17,
+     "y": 2,
+     "region": "tile_map3_chamber_floor"
+    },
+    {
+     "x": 13,
+     "y": 3,
+     "region": "tile_map3_chamber_floor"
+    },
+    {
+     "x": 14,
+     "y": 3,
+     "region": "tile_map3_chamber_floor"
+    },
+    {
+     "x": 15,
+     "y": 3,
+     "region": "tile_map3_chamber_floor"
+    },
+    {
+     "x": 16,
+     "y": 3,
+     "region": "tile_map3_chamber_floor"
+    },
+    {
+     "x": 17,
+     "y": 3,
+     "region": "tile_map3_chamber_floor"
+    },
+    {
+     "x": 13,
+     "y": 4,
+     "region": "tile_map3_chamber_floor"
+    },
+    {
+     "x": 14,
+     "y": 4,
+     "region": "tile_map3_chamber_floor"
+    },
+    {
+     "x": 15,
+     "y": 4,
+     "region": "tile_map3_chamber_floor"
+    },
+    {
+     "x": 16,
+     "y": 4,
+     "region": "tile_map3_chamber_floor"
+    },
+    {
+     "x": 17,
+     "y": 4,
+     "region": "tile_map3_chamber_floor"
+    },
+    {
+     "x": 13,
+     "y": 5,
+     "region": "tile_map3_chamber_floor"
+    },
+    {
+     "x": 14,
+     "y": 5,
+     "region": "tile_map3_chamber_floor"
+    },
+    {
+     "x": 15,
+     "y": 5,
+     "region": "tile_map3_chamber_floor"
+    },
+    {
+     "x": 16,
+     "y": 5,
+     "region": "tile_map3_chamber_floor"
+    },
+    {
+     "x": 17,
+     "y": 5,
+     "region": "tile_map3_chamber_floor"
+    },
+    {
      "x": 2,
-     "y": 10,
+     "y": 16,
      "region": "tile_map3_crop_rows_b"
     },
     {
      "x": 3,
-     "y": 10,
+     "y": 16,
      "region": "tile_map3_crop_rows_b"
     },
     {
      "x": 4,
-     "y": 10,
+     "y": 16,
      "region": "tile_map3_crop_rows_b"
     },
     {
      "x": 5,
-     "y": 10,
+     "y": 16,
      "region": "tile_map3_crop_rows_b"
     },
     {
      "x": 6,
-     "y": 10,
+     "y": 16,
      "region": "tile_map3_crop_rows_b"
     },
     {
      "x": 7,
-     "y": 10,
+     "y": 16,
      "region": "tile_map3_crop_rows_b"
     },
     {
      "x": 8,
-     "y": 10,
+     "y": 16,
      "region": "tile_map3_crop_rows_b"
     },
     {
      "x": 9,
-     "y": 10,
+     "y": 16,
      "region": "tile_map3_crop_rows_b"
     },
     {
      "x": 10,
-     "y": 10,
+     "y": 16,
      "region": "tile_map3_crop_rows_b"
     },
     {
      "x": 19,
-     "y": 19,
+     "y": 25,
      "region": "tile_map3_crop_rows_b"
     },
     {
      "x": 20,
-     "y": 19,
+     "y": 25,
      "region": "tile_map3_crop_rows_b"
     },
     {
      "x": 21,
-     "y": 19,
+     "y": 25,
      "region": "tile_map3_crop_rows_b"
     },
     {
      "x": 22,
-     "y": 19,
+     "y": 25,
      "region": "tile_map3_crop_rows_b"
     },
     {
      "x": 23,
-     "y": 19,
+     "y": 25,
      "region": "tile_map3_crop_rows_b"
     },
     {
      "x": 24,
-     "y": 19,
+     "y": 25,
      "region": "tile_map3_crop_rows_b"
     },
     {
      "x": 25,
-     "y": 19,
+     "y": 25,
      "region": "tile_map3_crop_rows_b"
     },
     {
      "x": 26,
-     "y": 19,
+     "y": 25,
      "region": "tile_map3_crop_rows_b"
     },
     {
      "x": 27,
-     "y": 19,
+     "y": 25,
      "region": "tile_map3_crop_rows_b"
     },
     {
      "x": 28,
-     "y": 19,
+     "y": 25,
      "region": "tile_map3_crop_rows_b"
     },
     {
      "x": 2,
-     "y": 11,
+     "y": 17,
      "region": "tile_map3_crop_rows_c"
     },
     {
      "x": 3,
-     "y": 11,
+     "y": 17,
      "region": "tile_map3_crop_rows_c"
     },
     {
      "x": 4,
-     "y": 11,
+     "y": 17,
      "region": "tile_map3_crop_rows_c"
     },
     {
      "x": 5,
-     "y": 11,
+     "y": 17,
      "region": "tile_map3_crop_rows_c"
     },
     {
      "x": 6,
-     "y": 11,
+     "y": 17,
      "region": "tile_map3_crop_rows_c"
     },
     {
      "x": 7,
-     "y": 11,
+     "y": 17,
      "region": "tile_map3_crop_rows_c"
     },
     {
      "x": 8,
-     "y": 11,
+     "y": 17,
      "region": "tile_map3_crop_rows_c"
     },
     {
      "x": 9,
-     "y": 11,
+     "y": 17,
      "region": "tile_map3_crop_rows_c"
     },
     {
      "x": 10,
-     "y": 11,
+     "y": 17,
      "region": "tile_map3_crop_rows_c"
     },
     {
      "x": 19,
-     "y": 20,
+     "y": 26,
      "region": "tile_map3_crop_rows_c"
     },
     {
      "x": 20,
-     "y": 20,
+     "y": 26,
      "region": "tile_map3_crop_rows_c"
     },
     {
      "x": 21,
-     "y": 20,
+     "y": 26,
      "region": "tile_map3_crop_rows_c"
     },
     {
      "x": 22,
-     "y": 20,
+     "y": 26,
      "region": "tile_map3_crop_rows_c"
     },
     {
      "x": 23,
-     "y": 20,
+     "y": 26,
      "region": "tile_map3_crop_rows_c"
     },
     {
      "x": 24,
-     "y": 20,
+     "y": 26,
      "region": "tile_map3_crop_rows_c"
     },
     {
      "x": 25,
-     "y": 20,
+     "y": 26,
      "region": "tile_map3_crop_rows_c"
     },
     {
      "x": 26,
-     "y": 20,
+     "y": 26,
      "region": "tile_map3_crop_rows_c"
     },
     {
      "x": 27,
-     "y": 20,
+     "y": 26,
      "region": "tile_map3_crop_rows_c"
     },
     {
      "x": 28,
-     "y": 20,
+     "y": 26,
      "region": "tile_map3_crop_rows_c"
     }
-   ]
+   ],
+   "jason_arrival": {
+    "enabled": true,
+    "room_id": "jason_chamber",
+    "room_name": "Lumbung Terkunci",
+    "bounds": {
+     "x": 13,
+     "y": 1,
+     "w": 5,
+     "h": 5
+    },
+    "spawn_position": {
+     "x": 15,
+     "y": 3
+    },
+    "door": {
+     "x": 15,
+     "y": 6,
+     "material": "barn",
+     "type": "barn_door",
+     "state": "locked",
+     "animation": "jason_break_door",
+     "final_state": "broken"
+    },
+    "sequence": {
+     "preparation_delay": 12.0,
+     "warning_duration": 5.0,
+     "door_break_duration": 3.0,
+     "allow_jason_exit_after_break": true
+    }
+   }
   },
   {
    "id": 4,
    "name": "Gudang Logistik",
    "width": 31,
-   "height": 21,
+   "height": 27,
    "tiles": [
+    [
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1
+    ],
+    [
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     0,
+     0,
+     0,
+     0,
+     0,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1
+    ],
+    [
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     0,
+     0,
+     0,
+     0,
+     0,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1
+    ],
+    [
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     0,
+     0,
+     0,
+     0,
+     0,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1
+    ],
+    [
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     0,
+     0,
+     0,
+     0,
+     0,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1
+    ],
+    [
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     0,
+     0,
+     0,
+     0,
+     0,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1
+    ],
     [
      1,
      1,
@@ -5300,25 +6868,20 @@
    ],
    "objects": {
     "spawns": {
+     "jason": {
+      "x": 15,
+      "y": 3
+     },
      "player": {
       "x": 3,
-      "y": 18
-     },
-     "jason": {
-      "x": 26,
-      "y": 4
+      "y": 24
      }
-    },
-    "exit": {
-     "x": 30,
-     "y": 9,
-     "orientation": "e"
     },
     "hiding_spots": [
      {
       "x": 4,
-      "y": 5,
-      "type_code": null,
+      "y": 11,
+      "type_code": 0,
       "type_id": "large_cardboard",
       "sprite_prefix": "obj_large_cardboard",
       "collision": false,
@@ -5331,8 +6894,8 @@
      },
      {
       "x": 14,
-      "y": 5,
-      "type_code": null,
+      "y": 11,
+      "type_code": 0,
       "type_id": "cargo_crate",
       "sprite_prefix": "obj_cargo_crate",
       "collision": false,
@@ -5344,9 +6907,23 @@
       ]
      },
      {
+      "x": 20,
+      "y": 11,
+      "type_code": 0,
+      "type_id": "shipping_container",
+      "sprite_prefix": "obj_shipping_container",
+      "collision": false,
+      "states": [
+       "intact",
+       "checked",
+       "broken_clean",
+       "broken_bloody"
+      ]
+     },
+     {
       "x": 24,
-      "y": 5,
-      "type_code": null,
+      "y": 11,
+      "type_code": 0,
       "type_id": "drum_barrel",
       "sprite_prefix": "obj_drum_barrel",
       "collision": false,
@@ -5358,51 +6935,9 @@
       ]
      },
      {
-      "x": 7,
-      "y": 14,
-      "type_code": null,
-      "type_id": "pallet_gap",
-      "sprite_prefix": "obj_pallet_gap",
-      "collision": false,
-      "states": [
-       "intact",
-       "checked",
-       "broken_clean",
-       "broken_bloody"
-      ]
-     },
-     {
-      "x": 14,
-      "y": 15,
-      "type_code": null,
-      "type_id": "large_cardboard",
-      "sprite_prefix": "obj_large_cardboard",
-      "collision": false,
-      "states": [
-       "intact",
-       "checked",
-       "broken_clean",
-       "broken_bloody"
-      ]
-     },
-     {
-      "x": 24,
-      "y": 15,
-      "type_code": null,
-      "type_id": "cargo_crate",
-      "sprite_prefix": "obj_cargo_crate",
-      "collision": false,
-      "states": [
-       "intact",
-       "checked",
-       "broken_clean",
-       "broken_bloody"
-      ]
-     },
-     {
       "x": 27,
-      "y": 7,
-      "type_code": null,
+      "y": 13,
+      "type_code": 0,
       "type_id": "drum_barrel",
       "sprite_prefix": "obj_drum_barrel",
       "collision": false,
@@ -5415,38 +6950,10 @@
      },
      {
       "x": 6,
-      "y": 10,
-      "type_code": null,
+      "y": 16,
+      "type_code": 0,
       "type_id": "pallet_gap",
       "sprite_prefix": "obj_pallet_gap",
-      "collision": false,
-      "states": [
-       "intact",
-       "checked",
-       "broken_clean",
-       "broken_bloody"
-      ]
-     },
-     {
-      "x": 26,
-      "y": 16,
-      "type_code": 12,
-      "type_id": "shrink_wrap_pallet",
-      "sprite_prefix": "obj_shrink_wrap_pallet",
-      "collision": false,
-      "states": [
-       "intact",
-       "checked",
-       "broken_clean",
-       "broken_bloody"
-      ]
-     },
-     {
-      "x": 9,
-      "y": 13,
-      "type_code": 12,
-      "type_id": "shrink_wrap_pallet",
-      "sprite_prefix": "obj_shrink_wrap_pallet",
       "collision": false,
       "states": [
        "intact",
@@ -5457,8 +6964,8 @@
      },
      {
       "x": 1,
-      "y": 13,
-      "type_code": 13,
+      "y": 19,
+      "type_code": 0,
       "type_id": "shipping_container",
       "sprite_prefix": "obj_shipping_container",
       "collision": false,
@@ -5470,11 +6977,67 @@
       ]
      },
      {
-      "x": 20,
-      "y": 5,
-      "type_code": 13,
-      "type_id": "shipping_container",
-      "sprite_prefix": "obj_shipping_container",
+      "x": 9,
+      "y": 19,
+      "type_code": 0,
+      "type_id": "shrink_wrap_pallet",
+      "sprite_prefix": "obj_shrink_wrap_pallet",
+      "collision": false,
+      "states": [
+       "intact",
+       "checked",
+       "broken_clean",
+       "broken_bloody"
+      ]
+     },
+     {
+      "x": 7,
+      "y": 20,
+      "type_code": 0,
+      "type_id": "pallet_gap",
+      "sprite_prefix": "obj_pallet_gap",
+      "collision": false,
+      "states": [
+       "intact",
+       "checked",
+       "broken_clean",
+       "broken_bloody"
+      ]
+     },
+     {
+      "x": 14,
+      "y": 21,
+      "type_code": 0,
+      "type_id": "large_cardboard",
+      "sprite_prefix": "obj_large_cardboard",
+      "collision": false,
+      "states": [
+       "intact",
+       "checked",
+       "broken_clean",
+       "broken_bloody"
+      ]
+     },
+     {
+      "x": 24,
+      "y": 21,
+      "type_code": 0,
+      "type_id": "cargo_crate",
+      "sprite_prefix": "obj_cargo_crate",
+      "collision": false,
+      "states": [
+       "intact",
+       "checked",
+       "broken_clean",
+       "broken_bloody"
+      ]
+     },
+     {
+      "x": 26,
+      "y": 22,
+      "type_code": 0,
+      "type_id": "shrink_wrap_pallet",
+      "sprite_prefix": "obj_shrink_wrap_pallet",
       "collision": false,
       "states": [
        "intact",
@@ -5487,23 +7050,15 @@
     "props": [
      {
       "x": 3,
-      "y": 3,
+      "y": 9,
       "item": "item_storage_rack",
       "w": 1,
       "h": 1,
       "collision": true
      },
      {
-      "x": 5,
-      "y": 4,
-      "item": "item_cardboard_stack",
-      "w": 1,
-      "h": 1,
-      "collision": true
-     },
-     {
       "x": 13,
-      "y": 3,
+      "y": 9,
       "item": "item_cargo_rack",
       "w": 1,
       "h": 1,
@@ -5511,7 +7066,7 @@
      },
      {
       "x": 16,
-      "y": 3,
+      "y": 9,
       "item": "item_container",
       "w": 2,
       "h": 1,
@@ -5519,15 +7074,47 @@
      },
      {
       "x": 22,
-      "y": 3,
+      "y": 9,
       "item": "item_cargo_rack",
       "w": 1,
       "h": 1,
       "collision": true
      },
      {
+      "x": 23,
+      "y": 9,
+      "item": "item_cargo_rack_b",
+      "w": 1,
+      "h": 1,
+      "collision": true
+     },
+     {
+      "x": 26,
+      "y": 9,
+      "item": "item_cargo_rack_b",
+      "w": 1,
+      "h": 1,
+      "collision": true
+     },
+     {
+      "x": 28,
+      "y": 9,
+      "item": "item_cargo_rack_b",
+      "w": 1,
+      "h": 1,
+      "collision": true
+     },
+     {
+      "x": 5,
+      "y": 10,
+      "item": "item_cardboard_stack",
+      "w": 1,
+      "h": 1,
+      "collision": true
+     },
+     {
       "x": 25,
-      "y": 5,
+      "y": 11,
       "item": "item_industrial_drum",
       "w": 1,
       "h": 1,
@@ -5535,23 +7122,39 @@
      },
      {
       "x": 13,
-      "y": 8,
+      "y": 14,
       "item": "item_pallet_stack",
       "w": 1,
       "h": 1,
       "collision": true
      },
      {
+      "x": 18,
+      "y": 14,
+      "item": "item_shrink_wrap_pallet",
+      "w": 1,
+      "h": 1,
+      "collision": true
+     },
+     {
       "x": 22,
-      "y": 8,
+      "y": 14,
       "item": "item_cardboard_stack",
       "w": 1,
       "h": 1,
       "collision": true
      },
      {
+      "x": 16,
+      "y": 19,
+      "item": "item_forklift",
+      "w": 2,
+      "h": 1,
+      "collision": true
+     },
+     {
       "x": 4,
-      "y": 14,
+      "y": 20,
       "item": "item_container",
       "w": 2,
       "h": 1,
@@ -5559,7 +7162,7 @@
      },
      {
       "x": 12,
-      "y": 14,
+      "y": 20,
       "item": "item_trolley",
       "w": 1,
       "h": 1,
@@ -5567,71 +7170,31 @@
      },
      {
       "x": 22,
-      "y": 14,
+      "y": 20,
       "item": "item_pallet_stack",
       "w": 1,
       "h": 1,
       "collision": true
      },
      {
-      "x": 26,
-      "y": 15,
-      "item": "item_industrial_drum",
-      "w": 1,
-      "h": 1,
-      "collision": true
-     },
-     {
-      "x": 16,
-      "y": 13,
-      "item": "item_forklift",
-      "w": 2,
-      "h": 1,
-      "collision": true
-     },
-     {
       "x": 22,
-      "y": 15,
+      "y": 21,
       "item": "item_industrial_scale",
       "w": 1,
       "h": 1,
       "collision": true
      },
      {
-      "x": 23,
-      "y": 3,
-      "item": "item_cargo_rack_b",
-      "w": 1,
-      "h": 1,
-      "collision": true
-     },
-     {
       "x": 26,
-      "y": 3,
-      "item": "item_cargo_rack_b",
+      "y": 21,
+      "item": "item_industrial_drum",
       "w": 1,
       "h": 1,
       "collision": true
      },
      {
       "x": 28,
-      "y": 3,
-      "item": "item_cargo_rack_b",
-      "w": 1,
-      "h": 1,
-      "collision": true
-     },
-     {
-      "x": 28,
-      "y": 15,
-      "item": "item_shrink_wrap_pallet",
-      "w": 1,
-      "h": 1,
-      "collision": true
-     },
-     {
-      "x": 18,
-      "y": 8,
+      "y": 21,
       "item": "item_shrink_wrap_pallet",
       "w": 1,
       "h": 1,
@@ -5641,346 +7204,755 @@
     "decor": [
      {
       "x": 9,
-      "y": 3,
+      "y": 9,
       "item": "item_wall_clock",
       "layer": "wall",
-      "w": 1,
-      "collision": false
+      "collision": false,
+      "w": 1
      },
      {
       "x": 17,
-      "y": 2,
+      "y": 8,
       "item": "item_hanging_lamp",
       "layer": "object",
-      "w": 1,
-      "collision": false
+      "collision": false,
+      "w": 1
      },
      {
       "x": 27,
-      "y": 3,
+      "y": 9,
       "item": "item_painting",
       "layer": "wall",
-      "w": 1,
-      "collision": false
+      "collision": false,
+      "w": 1
      },
      {
       "x": 17,
-      "y": 15,
+      "y": 21,
       "item": "item_trolley",
       "layer": "object",
-      "w": 1,
-      "collision": false
+      "collision": false,
+      "w": 1
      },
      {
       "x": 5,
-      "y": 18,
+      "y": 24,
       "item": "item_floor_lamp",
       "layer": "object",
-      "w": 1,
-      "collision": false
+      "collision": false,
+      "w": 1
      },
      {
       "x": 5,
-      "y": 2,
+      "y": 8,
       "item": "item_shipping_manifest_board",
       "layer": "wall",
       "collision": false
      },
      {
       "x": 13,
-      "y": 2,
+      "y": 8,
       "item": "item_safety_sign",
       "layer": "wall",
       "collision": false
      },
      {
       "x": 22,
-      "y": 2,
+      "y": 8,
       "item": "item_safety_sign",
       "layer": "wall",
       "collision": false
      },
      {
       "x": 30,
-      "y": 8,
+      "y": 14,
       "item": "item_safety_sign_exit",
       "layer": "wall",
       "collision": false
      },
      {
       "x": 20,
-      "y": 17,
+      "y": 23,
       "item": "item_shipping_manifest_board",
       "layer": "wall",
       "collision": false
      },
      {
       "x": 6,
-      "y": 9,
+      "y": 15,
       "item": "item_warehouse_lamp",
       "layer": "ceiling",
       "collision": false
      },
      {
       "x": 15,
-      "y": 9,
+      "y": 15,
       "item": "item_warehouse_lamp",
       "layer": "ceiling",
       "collision": false
      },
      {
       "x": 25,
-      "y": 9,
+      "y": 15,
       "item": "item_warehouse_lamp",
       "layer": "ceiling",
       "collision": false
      },
      {
       "x": 15,
-      "y": 18,
+      "y": 24,
       "item": "item_warehouse_lamp",
       "layer": "ceiling",
       "collision": false
      },
      {
       "x": 5,
-      "y": 4,
+      "y": 10,
       "item": "item_warehouse_lamp",
       "layer": "ceiling",
+      "collision": false
+     },
+     {
+      "x": 14,
+      "y": 4,
+      "item": "item_chamber_seal",
+      "layer": "floor",
+      "collision": false
+     },
+     {
+      "x": 15,
+      "y": 4,
+      "item": "item_blood_drag",
+      "layer": "floor",
+      "collision": false
+     },
+     {
+      "x": 15,
+      "y": 5,
+      "item": "item_blood_drag",
+      "layer": "floor",
+      "collision": false
+     },
+     {
+      "x": 13,
+      "y": 0,
+      "item": "item_chain_wall",
+      "layer": "wall",
+      "collision": false
+     },
+     {
+      "x": 14,
+      "y": 0,
+      "item": "item_claw_marks",
+      "layer": "wall",
+      "collision": false
+     },
+     {
+      "x": 15,
+      "y": 0,
+      "item": "item_painting",
+      "layer": "wall",
+      "collision": false
+     },
+     {
+      "x": 16,
+      "y": 0,
+      "item": "item_claw_marks",
+      "layer": "wall",
+      "collision": false
+     },
+     {
+      "x": 17,
+      "y": 0,
+      "item": "item_chain_wall",
+      "layer": "wall",
+      "collision": false
+     },
+     {
+      "x": 14,
+      "y": 6,
+      "item": "item_chamber_lamp",
+      "layer": "arrival_lamp",
+      "collision": false
+     },
+     {
+      "x": 16,
+      "y": 6,
+      "item": "item_chamber_lamp",
+      "layer": "arrival_lamp",
       "collision": false
      }
     ],
     "key_candidates": [
      {
       "x": 3,
-      "y": 4,
+      "y": 10,
       "allow_inside_hiding_spot": false
      },
      {
       "x": 9,
-      "y": 4,
+      "y": 10,
+      "allow_inside_hiding_spot": false
+     },
+     {
+      "x": 17,
+      "y": 10,
       "allow_inside_hiding_spot": false
      },
      {
       "x": 13,
-      "y": 6,
-      "allow_inside_hiding_spot": false
-     },
-     {
-      "x": 17,
-      "y": 4,
+      "y": 12,
       "allow_inside_hiding_spot": false
      },
      {
       "x": 23,
-      "y": 6,
+      "y": 12,
       "allow_inside_hiding_spot": false
      },
      {
       "x": 27,
-      "y": 8,
+      "y": 14,
       "allow_inside_hiding_spot": false
      },
      {
       "x": 4,
-      "y": 11,
+      "y": 17,
       "allow_inside_hiding_spot": false
      },
      {
       "x": 14,
-      "y": 11,
+      "y": 17,
       "allow_inside_hiding_spot": false
      },
      {
       "x": 22,
-      "y": 11,
+      "y": 17,
       "allow_inside_hiding_spot": false
      },
      {
       "x": 6,
-      "y": 18,
+      "y": 24,
       "allow_inside_hiding_spot": false
      },
      {
       "x": 17,
-      "y": 18,
+      "y": 24,
       "allow_inside_hiding_spot": false
      },
      {
       "x": 26,
-      "y": 18,
+      "y": 24,
       "allow_inside_hiding_spot": false
      }
     ],
     "bot_spawn_candidates": [
      {
-      "x": 3,
-      "y": 4
-     },
-     {
-      "x": 6,
-      "y": 5
+      "x": 9,
+      "y": 8
      },
      {
       "x": 13,
-      "y": 4
-     },
-     {
-      "x": 17,
-      "y": 5
+      "y": 10
      },
      {
       "x": 23,
-      "y": 4
+      "y": 10
+     },
+     {
+      "x": 6,
+      "y": 11
+     },
+     {
+      "x": 17,
+      "y": 11
      },
      {
       "x": 27,
-      "y": 6
+      "y": 12
      },
      {
       "x": 4,
-      "y": 10
+      "y": 16
      },
      {
       "x": 14,
-      "y": 10
+      "y": 16
+     },
+     {
+      "x": 15,
+      "y": 16
      },
      {
       "x": 24,
-      "y": 10
+      "y": 16
      }
-    ]
-   },
-   "architecture": {
-    "style": "industrial_distribution_warehouse",
-    "layout": "U-shaped storage aisles around central sorting floor",
-    "room_based": true
-   },
-   "design_notes": {
-    "theme": "Large logistics warehouse with loading dock, cargo racks, sorting zone and office",
-    "key_frame_count_per_round": 3,
-    "key_spawn_rule": "Choose 3 unique reachable candidates per round.",
-    "bot_spawn_rule": "Choose 9 distinct candidates excluding player and Jason spawn."
+    ],
+    "exit": {
+     "x": 30,
+     "y": 15,
+     "orientation": "e"
+    }
    },
    "tile_overrides": [
     {
+     "x": 13,
+     "y": 1,
+     "region": "tile_map4_chamber_floor"
+    },
+    {
+     "x": 14,
+     "y": 1,
+     "region": "tile_map4_chamber_floor"
+    },
+    {
+     "x": 15,
+     "y": 1,
+     "region": "tile_map4_chamber_floor"
+    },
+    {
+     "x": 16,
+     "y": 1,
+     "region": "tile_map4_chamber_floor"
+    },
+    {
+     "x": 17,
+     "y": 1,
+     "region": "tile_map4_chamber_floor"
+    },
+    {
+     "x": 13,
+     "y": 2,
+     "region": "tile_map4_chamber_floor"
+    },
+    {
+     "x": 14,
+     "y": 2,
+     "region": "tile_map4_chamber_floor"
+    },
+    {
+     "x": 15,
+     "y": 2,
+     "region": "tile_map4_chamber_floor"
+    },
+    {
+     "x": 16,
+     "y": 2,
+     "region": "tile_map4_chamber_floor"
+    },
+    {
+     "x": 17,
+     "y": 2,
+     "region": "tile_map4_chamber_floor"
+    },
+    {
+     "x": 13,
+     "y": 3,
+     "region": "tile_map4_chamber_floor"
+    },
+    {
+     "x": 14,
+     "y": 3,
+     "region": "tile_map4_chamber_floor"
+    },
+    {
+     "x": 15,
+     "y": 3,
+     "region": "tile_map4_chamber_floor"
+    },
+    {
+     "x": 16,
+     "y": 3,
+     "region": "tile_map4_chamber_floor"
+    },
+    {
+     "x": 17,
+     "y": 3,
+     "region": "tile_map4_chamber_floor"
+    },
+    {
+     "x": 13,
+     "y": 4,
+     "region": "tile_map4_chamber_floor"
+    },
+    {
+     "x": 14,
+     "y": 4,
+     "region": "tile_map4_chamber_floor"
+    },
+    {
+     "x": 15,
+     "y": 4,
+     "region": "tile_map4_chamber_floor"
+    },
+    {
+     "x": 16,
+     "y": 4,
+     "region": "tile_map4_chamber_floor"
+    },
+    {
+     "x": 17,
+     "y": 4,
+     "region": "tile_map4_chamber_floor"
+    },
+    {
+     "x": 13,
+     "y": 5,
+     "region": "tile_map4_chamber_floor"
+    },
+    {
+     "x": 14,
+     "y": 5,
+     "region": "tile_map4_chamber_floor"
+    },
+    {
+     "x": 15,
+     "y": 5,
+     "region": "tile_map4_chamber_floor"
+    },
+    {
+     "x": 16,
+     "y": 5,
+     "region": "tile_map4_chamber_floor"
+    },
+    {
+     "x": 17,
+     "y": 5,
+     "region": "tile_map4_chamber_floor"
+    },
+    {
      "x": 2,
-     "y": 0,
+     "y": 6,
      "region": "tile_map4_dock_door"
     },
     {
      "x": 3,
-     "y": 0,
+     "y": 6,
      "region": "tile_map4_dock_door"
     },
     {
      "x": 4,
-     "y": 0,
+     "y": 6,
      "region": "tile_map4_dock_door"
     },
     {
      "x": 22,
-     "y": 0,
+     "y": 6,
      "region": "tile_map4_dock_door"
     },
     {
      "x": 23,
-     "y": 0,
+     "y": 6,
      "region": "tile_map4_dock_door"
     },
     {
      "x": 24,
-     "y": 0,
+     "y": 6,
      "region": "tile_map4_dock_door"
     },
     {
      "x": 2,
-     "y": 1,
+     "y": 7,
      "region": "tile_map4_dock_platform"
     },
     {
      "x": 3,
-     "y": 1,
+     "y": 7,
      "region": "tile_map4_dock_platform"
     },
     {
      "x": 4,
-     "y": 1,
+     "y": 7,
      "region": "tile_map4_dock_platform"
     },
     {
      "x": 22,
-     "y": 1,
+     "y": 7,
      "region": "tile_map4_dock_platform"
     },
     {
      "x": 23,
-     "y": 1,
+     "y": 7,
      "region": "tile_map4_dock_platform"
     },
     {
      "x": 24,
-     "y": 1,
+     "y": 7,
      "region": "tile_map4_dock_platform"
     },
     {
      "x": 21,
-     "y": 13,
+     "y": 19,
      "region": "tile_map4_conveyor_h"
     },
     {
      "x": 22,
-     "y": 13,
+     "y": 19,
      "region": "tile_map4_conveyor_h"
     },
     {
      "x": 23,
-     "y": 13,
+     "y": 19,
      "region": "tile_map4_conveyor_h"
     },
     {
      "x": 24,
-     "y": 13,
+     "y": 19,
      "region": "tile_map4_conveyor_h"
     },
     {
      "x": 25,
-     "y": 13,
+     "y": 19,
      "region": "tile_map4_conveyor_h"
     },
     {
      "x": 26,
-     "y": 13,
+     "y": 19,
      "region": "tile_map4_conveyor_h"
     },
     {
      "x": 27,
-     "y": 10,
+     "y": 16,
      "region": "tile_map4_conveyor_v"
     },
     {
      "x": 27,
-     "y": 11,
+     "y": 17,
      "region": "tile_map4_conveyor_v"
     },
     {
      "x": 27,
-     "y": 12,
+     "y": 18,
      "region": "tile_map4_conveyor_v"
     },
     {
      "x": 27,
-     "y": 13,
+     "y": 19,
      "region": "tile_map4_conveyor_v"
     }
-   ]
+   ],
+   "jason_arrival": {
+    "enabled": true,
+    "room_id": "jason_chamber",
+    "room_name": "Sel Kontainer Baja",
+    "bounds": {
+     "x": 13,
+     "y": 1,
+     "w": 5,
+     "h": 5
+    },
+    "spawn_position": {
+     "x": 15,
+     "y": 3
+    },
+    "door": {
+     "x": 15,
+     "y": 6,
+     "material": "steel",
+     "type": "steel_vault_door",
+     "state": "locked",
+     "animation": "jason_break_door",
+     "final_state": "broken"
+    },
+    "sequence": {
+     "preparation_delay": 12.0,
+     "warning_duration": 5.0,
+     "door_break_duration": 3.0,
+     "allow_jason_exit_after_break": true
+    }
+   }
   },
   {
    "id": 5,
    "name": "Ruang Bawah Tanah",
    "width": 29,
-   "height": 23,
+   "height": 29,
    "tiles": [
+    [
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1
+    ],
+    [
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     0,
+     0,
+     0,
+     0,
+     0,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1
+    ],
+    [
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     0,
+     0,
+     0,
+     0,
+     0,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1
+    ],
+    [
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     0,
+     0,
+     0,
+     0,
+     0,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1
+    ],
+    [
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     0,
+     0,
+     0,
+     0,
+     0,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1
+    ],
+    [
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     0,
+     0,
+     0,
+     0,
+     0,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1
+    ],
     [
      1,
      1,
@@ -6697,41 +8669,22 @@
    ],
    "objects": {
     "spawns": {
+     "jason": {
+      "x": 14,
+      "y": 3
+     },
      "player": {
       "x": 4,
-      "y": 19
-     },
-     "jason": {
-      "x": 23,
-      "y": 4
+      "y": 25
      }
-    },
-    "exit": {
-     "x": 14,
-     "y": 22,
-     "orientation": "s"
     },
     "hiding_spots": [
      {
       "x": 4,
-      "y": 5,
-      "type_code": null,
+      "y": 11,
+      "type_code": 0,
       "type_id": "metal_locker",
       "sprite_prefix": "obj_metal_locker",
-      "collision": false,
-      "states": [
-       "intact",
-       "checked",
-       "broken_clean",
-       "broken_bloody"
-      ]
-     },
-     {
-      "x": 8,
-      "y": 6,
-      "type_code": null,
-      "type_id": "under_cot",
-      "sprite_prefix": "obj_under_cot",
       "collision": false,
       "states": [
        "intact",
@@ -6742,8 +8695,8 @@
      },
      {
       "x": 20,
-      "y": 5,
-      "type_code": null,
+      "y": 11,
+      "type_code": 0,
       "type_id": "tarp_curtain",
       "sprite_prefix": "obj_tarp_curtain",
       "collision": false,
@@ -6755,37 +8708,9 @@
       ]
      },
      {
-      "x": 24,
-      "y": 7,
-      "type_code": null,
-      "type_id": "basement_drum",
-      "sprite_prefix": "obj_basement_drum",
-      "collision": false,
-      "states": [
-       "intact",
-       "checked",
-       "broken_clean",
-       "broken_bloody"
-      ]
-     },
-     {
-      "x": 5,
-      "y": 17,
-      "type_code": null,
-      "type_id": "metal_locker",
-      "sprite_prefix": "obj_metal_locker",
-      "collision": false,
-      "states": [
-       "intact",
-       "checked",
-       "broken_clean",
-       "broken_bloody"
-      ]
-     },
-     {
-      "x": 9,
-      "y": 16,
-      "type_code": null,
+      "x": 8,
+      "y": 12,
+      "type_code": 0,
       "type_id": "under_cot",
       "sprite_prefix": "obj_under_cot",
       "collision": false,
@@ -6797,37 +8722,9 @@
       ]
      },
      {
-      "x": 19,
-      "y": 17,
-      "type_code": null,
-      "type_id": "tarp_curtain",
-      "sprite_prefix": "obj_tarp_curtain",
-      "collision": false,
-      "states": [
-       "intact",
-       "checked",
-       "broken_clean",
-       "broken_bloody"
-      ]
-     },
-     {
-      "x": 24,
-      "y": 18,
-      "type_code": null,
-      "type_id": "basement_drum",
-      "sprite_prefix": "obj_basement_drum",
-      "collision": false,
-      "states": [
-       "intact",
-       "checked",
-       "broken_clean",
-       "broken_bloody"
-      ]
-     },
-     {
       "x": 11,
-      "y": 6,
-      "type_code": 14,
+      "y": 12,
+      "type_code": 0,
       "type_id": "pipe_recess",
       "sprite_prefix": "obj_pipe_recess",
       "collision": false,
@@ -6840,8 +8737,8 @@
      },
      {
       "x": 25,
-      "y": 6,
-      "type_code": 14,
+      "y": 12,
+      "type_code": 0,
       "type_id": "pipe_recess",
       "sprite_prefix": "obj_pipe_recess",
       "collision": false,
@@ -6853,9 +8750,23 @@
       ]
      },
      {
-      "x": 10,
-      "y": 10,
-      "type_code": 15,
+      "x": 24,
+      "y": 13,
+      "type_code": 0,
+      "type_id": "basement_drum",
+      "sprite_prefix": "obj_basement_drum",
+      "collision": false,
+      "states": [
+       "intact",
+       "checked",
+       "broken_clean",
+       "broken_bloody"
+      ]
+     },
+     {
+      "x": 24,
+      "y": 14,
+      "type_code": 0,
       "type_id": "utility_cabinet",
       "sprite_prefix": "obj_utility_cabinet",
       "collision": false,
@@ -6867,11 +8778,67 @@
       ]
      },
      {
-      "x": 24,
-      "y": 8,
-      "type_code": 15,
+      "x": 10,
+      "y": 16,
+      "type_code": 0,
       "type_id": "utility_cabinet",
       "sprite_prefix": "obj_utility_cabinet",
+      "collision": false,
+      "states": [
+       "intact",
+       "checked",
+       "broken_clean",
+       "broken_bloody"
+      ]
+     },
+     {
+      "x": 9,
+      "y": 22,
+      "type_code": 0,
+      "type_id": "under_cot",
+      "sprite_prefix": "obj_under_cot",
+      "collision": false,
+      "states": [
+       "intact",
+       "checked",
+       "broken_clean",
+       "broken_bloody"
+      ]
+     },
+     {
+      "x": 5,
+      "y": 23,
+      "type_code": 0,
+      "type_id": "metal_locker",
+      "sprite_prefix": "obj_metal_locker",
+      "collision": false,
+      "states": [
+       "intact",
+       "checked",
+       "broken_clean",
+       "broken_bloody"
+      ]
+     },
+     {
+      "x": 19,
+      "y": 23,
+      "type_code": 0,
+      "type_id": "tarp_curtain",
+      "sprite_prefix": "obj_tarp_curtain",
+      "collision": false,
+      "states": [
+       "intact",
+       "checked",
+       "broken_clean",
+       "broken_bloody"
+      ]
+     },
+     {
+      "x": 24,
+      "y": 24,
+      "type_code": 0,
+      "type_id": "basement_drum",
+      "sprite_prefix": "obj_basement_drum",
       "collision": false,
       "states": [
        "intact",
@@ -6884,71 +8851,47 @@
     "props": [
      {
       "x": 3,
-      "y": 3,
+      "y": 9,
       "item": "item_storage_rack",
       "w": 1,
       "h": 1,
       "collision": true
      },
      {
-      "x": 7,
-      "y": 4,
-      "item": "item_pipes",
-      "w": 1,
-      "h": 1,
-      "collision": false
-     },
-     {
       "x": 18,
-      "y": 3,
+      "y": 9,
       "item": "item_iron_bed",
       "w": 1,
       "h": 1,
       "collision": true
      },
      {
+      "x": 7,
+      "y": 10,
+      "item": "item_pipes",
+      "w": 1,
+      "h": 1,
+      "collision": false
+     },
+     {
       "x": 23,
-      "y": 4,
+      "y": 10,
       "item": "item_valve",
       "w": 1,
       "h": 1,
       "collision": false
      },
      {
-      "x": 4,
-      "y": 16,
-      "item": "item_industrial_drum",
+      "x": 12,
+      "y": 12,
+      "item": "item_pipe_junction",
       "w": 1,
       "h": 1,
       "collision": true
-     },
-     {
-      "x": 8,
-      "y": 17,
-      "item": "item_cables",
-      "w": 1,
-      "h": 1,
-      "collision": false
-     },
-     {
-      "x": 19,
-      "y": 16,
-      "item": "item_storage_rack",
-      "w": 1,
-      "h": 1,
-      "collision": true
-     },
-     {
-      "x": 23,
-      "y": 18,
-      "item": "item_bucket",
-      "w": 1,
-      "h": 1,
-      "collision": false
      },
      {
       "x": 13,
-      "y": 7,
+      "y": 13,
       "item": "item_pipes",
       "w": 1,
       "h": 1,
@@ -6956,7 +8899,15 @@
      },
      {
       "x": 15,
-      "y": 12,
+      "y": 18,
+      "item": "item_industrial_drum",
+      "w": 1,
+      "h": 1,
+      "collision": true
+     },
+     {
+      "x": 4,
+      "y": 22,
       "item": "item_industrial_drum",
       "w": 1,
       "h": 1,
@@ -6964,7 +8915,7 @@
      },
      {
       "x": 10,
-      "y": 16,
+      "y": 22,
       "item": "item_boiler",
       "w": 1,
       "h": 1,
@@ -6972,13 +8923,45 @@
       "extra_collision": [
        {
         "x": 10,
-        "y": 15
+        "y": 21
        }
       ]
      },
      {
+      "x": 19,
+      "y": 22,
+      "item": "item_storage_rack",
+      "w": 1,
+      "h": 1,
+      "collision": true
+     },
+     {
+      "x": 8,
+      "y": 23,
+      "item": "item_cables",
+      "w": 1,
+      "h": 1,
+      "collision": false
+     },
+     {
+      "x": 23,
+      "y": 24,
+      "item": "item_bucket",
+      "w": 1,
+      "h": 1,
+      "collision": false
+     },
+     {
+      "x": 8,
+      "y": 25,
+      "item": "item_laundry_basket",
+      "w": 1,
+      "h": 1,
+      "collision": true
+     },
+     {
       "x": 9,
-      "y": 19,
+      "y": 25,
       "item": "item_washing_machine",
       "w": 1,
       "h": 1,
@@ -6986,24 +8969,8 @@
      },
      {
       "x": 10,
-      "y": 19,
+      "y": 25,
       "item": "item_washing_machine",
-      "w": 1,
-      "h": 1,
-      "collision": true
-     },
-     {
-      "x": 8,
-      "y": 19,
-      "item": "item_laundry_basket",
-      "w": 1,
-      "h": 1,
-      "collision": true
-     },
-     {
-      "x": 12,
-      "y": 6,
-      "item": "item_pipe_junction",
       "w": 1,
       "h": 1,
       "collision": true
@@ -7012,155 +8979,210 @@
     "decor": [
      {
       "x": 5,
-      "y": 2,
+      "y": 8,
       "item": "item_hanging_lamp",
       "layer": "object",
-      "w": 1,
-      "collision": false
+      "collision": false,
+      "w": 1
      },
      {
       "x": 21,
-      "y": 2,
+      "y": 8,
       "item": "item_hanging_lamp",
       "layer": "object",
-      "w": 1,
-      "collision": false
+      "collision": false,
+      "w": 1
      },
      {
       "x": 4,
-      "y": 12,
+      "y": 18,
       "item": "item_valve",
       "layer": "object",
-      "w": 1,
-      "collision": false
+      "collision": false,
+      "w": 1
      },
      {
       "x": 24,
-      "y": 12,
+      "y": 18,
       "item": "item_cables",
       "layer": "object",
-      "w": 1,
-      "collision": false
+      "collision": false,
+      "w": 1
      },
      {
       "x": 14,
-      "y": 19,
+      "y": 25,
       "item": "item_wall_clock",
       "layer": "wall",
-      "w": 1,
-      "collision": false
+      "collision": false,
+      "w": 1
      },
      {
       "x": 20,
-      "y": 2,
+      "y": 8,
       "item": "item_electrical_panel",
       "layer": "wall",
       "collision": false
      },
      {
       "x": 22,
-      "y": 2,
+      "y": 8,
       "item": "item_electrical_panel",
       "layer": "wall",
       "collision": false
      },
      {
       "x": 24,
-      "y": 2,
+      "y": 8,
       "item": "item_emergency_lamp",
       "layer": "wall",
       "collision": false
      },
      {
       "x": 12,
-      "y": 14,
+      "y": 20,
       "item": "item_emergency_lamp",
       "layer": "wall",
       "collision": false
      },
      {
       "x": 12,
-      "y": 2,
+      "y": 8,
       "item": "item_vent_grate",
       "layer": "wall",
       "collision": false
      },
      {
       "x": 14,
-      "y": 2,
+      "y": 8,
       "item": "item_iron_ladder",
       "layer": "wall",
       "collision": false
      },
      {
       "x": 13,
-      "y": 10,
+      "y": 16,
       "item": "item_vent_grate_floor",
       "layer": "floor",
       "collision": false
      },
      {
       "x": 7,
-      "y": 11,
+      "y": 17,
       "item": "fx_water_leak",
       "layer": "fx",
       "collision": false
      },
      {
       "x": 7,
-      "y": 10,
+      "y": 16,
       "item": "fx_water_drip",
       "layer": "fx",
       "collision": false
      },
      {
       "x": 20,
-      "y": 13,
+      "y": 19,
       "item": "fx_water_leak",
       "layer": "fx",
       "collision": false
      },
      {
       "x": 20,
-      "y": 12,
+      "y": 18,
       "item": "fx_water_drip",
       "layer": "fx",
+      "collision": false
+     },
+     {
+      "x": 13,
+      "y": 4,
+      "item": "item_chamber_seal",
+      "layer": "floor",
+      "collision": false
+     },
+     {
+      "x": 14,
+      "y": 4,
+      "item": "item_blood_drag",
+      "layer": "floor",
+      "collision": false
+     },
+     {
+      "x": 14,
+      "y": 5,
+      "item": "item_blood_drag",
+      "layer": "floor",
+      "collision": false
+     },
+     {
+      "x": 12,
+      "y": 0,
+      "item": "item_chain_wall",
+      "layer": "wall",
+      "collision": false
+     },
+     {
+      "x": 13,
+      "y": 0,
+      "item": "item_claw_marks",
+      "layer": "wall",
+      "collision": false
+     },
+     {
+      "x": 14,
+      "y": 0,
+      "item": "item_painting",
+      "layer": "wall",
+      "collision": false
+     },
+     {
+      "x": 15,
+      "y": 0,
+      "item": "item_claw_marks",
+      "layer": "wall",
+      "collision": false
+     },
+     {
+      "x": 16,
+      "y": 0,
+      "item": "item_chain_wall",
+      "layer": "wall",
+      "collision": false
+     },
+     {
+      "x": 13,
+      "y": 6,
+      "item": "item_chamber_lamp",
+      "layer": "arrival_lamp",
+      "collision": false
+     },
+     {
+      "x": 15,
+      "y": 6,
+      "item": "item_chamber_lamp",
+      "layer": "arrival_lamp",
       "collision": false
      }
     ],
     "key_candidates": [
      {
-      "x": 3,
-      "y": 4,
+      "x": 8,
+      "y": 9,
       "allow_inside_hiding_spot": false
      },
      {
-      "x": 8,
-      "y": 3,
+      "x": 3,
+      "y": 10,
       "allow_inside_hiding_spot": false
      },
      {
       "x": 13,
-      "y": 4,
+      "y": 10,
       "allow_inside_hiding_spot": false
      },
      {
       "x": 18,
-      "y": 4,
-      "allow_inside_hiding_spot": false
-     },
-     {
-      "x": 24,
-      "y": 5,
-      "allow_inside_hiding_spot": false
-     },
-     {
-      "x": 4,
-      "y": 11,
-      "allow_inside_hiding_spot": false
-     },
-     {
-      "x": 14,
       "y": 10,
       "allow_inside_hiding_spot": false
      },
@@ -7170,134 +9192,271 @@
       "allow_inside_hiding_spot": false
      },
      {
-      "x": 5,
-      "y": 19,
+      "x": 14,
+      "y": 16,
       "allow_inside_hiding_spot": false
      },
      {
-      "x": 12,
-      "y": 19,
+      "x": 4,
+      "y": 17,
       "allow_inside_hiding_spot": false
      },
      {
-      "x": 20,
-      "y": 19,
+      "x": 24,
+      "y": 17,
       "allow_inside_hiding_spot": false
      },
      {
       "x": 25,
-      "y": 18,
+      "y": 24,
+      "allow_inside_hiding_spot": false
+     },
+     {
+      "x": 5,
+      "y": 25,
+      "allow_inside_hiding_spot": false
+     },
+     {
+      "x": 12,
+      "y": 25,
+      "allow_inside_hiding_spot": false
+     },
+     {
+      "x": 20,
+      "y": 25,
       "allow_inside_hiding_spot": false
      }
     ],
     "bot_spawn_candidates": [
      {
-      "x": 4,
-      "y": 4
-     },
-     {
-      "x": 8,
-      "y": 4
-     },
-     {
-      "x": 18,
-      "y": 4
-     },
-     {
-      "x": 24,
-      "y": 5
+      "x": 11,
+      "y": 8
      },
      {
       "x": 4,
-      "y": 11
-     },
-     {
-      "x": 14,
       "y": 10
      },
      {
-      "x": 23,
+      "x": 8,
+      "y": 10
+     },
+     {
+      "x": 18,
       "y": 11
+     },
+     {
+      "x": 19,
+      "y": 14
+     },
+     {
+      "x": 3,
+      "y": 17
+     },
+     {
+      "x": 23,
+      "y": 17
      },
      {
       "x": 5,
       "y": 19
      },
      {
+      "x": 7,
+      "y": 22
+     },
+     {
       "x": 19,
-      "y": 19
+      "y": 25
      }
-    ]
-   },
-   "architecture": {
-    "style": "old_stone_basement",
-    "layout": "irregular branching corridors with utility chambers",
-    "room_based": true
-   },
-   "design_notes": {
-    "theme": "Old mansion basement with boiler room, laundry, storage, pipe corridor and staff quarters",
-    "key_frame_count_per_round": 3,
-    "key_spawn_rule": "Choose 3 unique reachable candidates per round.",
-    "bot_spawn_rule": "Choose 9 distinct candidates excluding player and Jason spawn."
+    ],
+    "exit": {
+     "x": 14,
+     "y": 28,
+     "orientation": "s"
+    }
    },
    "tile_overrides": [
     {
+     "x": 12,
+     "y": 1,
+     "region": "tile_map5_chamber_floor"
+    },
+    {
+     "x": 13,
+     "y": 1,
+     "region": "tile_map5_chamber_floor"
+    },
+    {
+     "x": 14,
+     "y": 1,
+     "region": "tile_map5_chamber_floor"
+    },
+    {
+     "x": 15,
+     "y": 1,
+     "region": "tile_map5_chamber_floor"
+    },
+    {
+     "x": 16,
+     "y": 1,
+     "region": "tile_map5_chamber_floor"
+    },
+    {
+     "x": 12,
+     "y": 2,
+     "region": "tile_map5_chamber_floor"
+    },
+    {
+     "x": 13,
+     "y": 2,
+     "region": "tile_map5_chamber_floor"
+    },
+    {
+     "x": 14,
+     "y": 2,
+     "region": "tile_map5_chamber_floor"
+    },
+    {
+     "x": 15,
+     "y": 2,
+     "region": "tile_map5_chamber_floor"
+    },
+    {
+     "x": 16,
+     "y": 2,
+     "region": "tile_map5_chamber_floor"
+    },
+    {
+     "x": 12,
+     "y": 3,
+     "region": "tile_map5_chamber_floor"
+    },
+    {
+     "x": 13,
+     "y": 3,
+     "region": "tile_map5_chamber_floor"
+    },
+    {
+     "x": 14,
+     "y": 3,
+     "region": "tile_map5_chamber_floor"
+    },
+    {
+     "x": 15,
+     "y": 3,
+     "region": "tile_map5_chamber_floor"
+    },
+    {
      "x": 16,
      "y": 3,
-     "region": "tile_map5_wall_pipe_v"
+     "region": "tile_map5_chamber_floor"
+    },
+    {
+     "x": 12,
+     "y": 4,
+     "region": "tile_map5_chamber_floor"
+    },
+    {
+     "x": 13,
+     "y": 4,
+     "region": "tile_map5_chamber_floor"
+    },
+    {
+     "x": 14,
+     "y": 4,
+     "region": "tile_map5_chamber_floor"
+    },
+    {
+     "x": 15,
+     "y": 4,
+     "region": "tile_map5_chamber_floor"
     },
     {
      "x": 16,
      "y": 4,
+     "region": "tile_map5_chamber_floor"
+    },
+    {
+     "x": 12,
+     "y": 5,
+     "region": "tile_map5_chamber_floor"
+    },
+    {
+     "x": 13,
+     "y": 5,
+     "region": "tile_map5_chamber_floor"
+    },
+    {
+     "x": 14,
+     "y": 5,
+     "region": "tile_map5_chamber_floor"
+    },
+    {
+     "x": 15,
+     "y": 5,
+     "region": "tile_map5_chamber_floor"
+    },
+    {
+     "x": 16,
+     "y": 5,
+     "region": "tile_map5_chamber_floor"
+    },
+    {
+     "x": 16,
+     "y": 9,
      "region": "tile_map5_wall_pipe_v"
     },
     {
      "x": 16,
-     "y": 7,
+     "y": 10,
+     "region": "tile_map5_wall_pipe_v"
+    },
+    {
+     "x": 16,
+     "y": 13,
      "region": "tile_map5_wall_pipe_v"
     },
     {
      "x": 10,
-     "y": 4,
+     "y": 10,
      "region": "tile_map5_wall_pipe_v"
     },
     {
      "x": 10,
-     "y": 6,
+     "y": 12,
      "region": "tile_map5_wall_pipe_v"
     }
-   ]
+   ],
+   "jason_arrival": {
+    "enabled": true,
+    "room_id": "jason_chamber",
+    "room_name": "Sel Besi Bawah Tanah",
+    "bounds": {
+     "x": 12,
+     "y": 1,
+     "w": 5,
+     "h": 5
+    },
+    "spawn_position": {
+     "x": 14,
+     "y": 3
+    },
+    "door": {
+     "x": 14,
+     "y": 6,
+     "material": "iron",
+     "type": "iron_gate_door",
+     "state": "locked",
+     "animation": "jason_break_door",
+     "final_state": "broken"
+    },
+    "sequence": {
+     "preparation_delay": 12.0,
+     "warning_duration": 5.0,
+     "door_break_duration": 3.0,
+     "allow_jason_exit_after_break": true
+    }
+   }
   }
- ],
- "hiding_spot_extension_notes": {
-  "runtime_supported_types_from_zip": [
-   "wardrobe",
-   "under_bed",
-   "heavy_curtain",
-   "hall_chest",
-   "oil_barrel",
-   "car_trunk",
-   "garage_crate",
-   "under_workbench",
-   "hay_stack",
-   "harvest_crate",
-   "farm_box",
-   "water_barrel",
-   "large_cardboard",
-   "cargo_crate",
-   "drum_barrel",
-   "pallet_gap",
-   "metal_locker",
-   "under_cot",
-   "tarp_curtain",
-   "basement_drum"
-  ],
-  "new_spots_are_planned_only": true,
-  "integration_required": [
-   "add enum entry to SpotType",
-   "add catalog entry to assets/hiding_spots.json",
-   "create four state sprites in assets/atlases/items.atlas",
-   "add map-specific type assignment in MapData/MapDefinition if type_code lookup is used"
-  ]
- }
+ ]
 }

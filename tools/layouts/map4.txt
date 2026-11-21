@@ -1,0 +1,127 @@
+id: 4
+name: Gudang Logistik
+room: Sel Kontainer Baja
+legend:
+  A spot large_cardboard
+  B spot cargo_crate
+  C spot drum_barrel
+  D prop item_industrial_drum w=1 h=1 col=1
+  F spot pallet_gap
+  G prop item_cargo_rack w=1 h=1 col=1
+  H spot shrink_wrap_pallet
+  I spot shipping_container
+  L prop item_forklift w=2 h=1 col=1
+  N prop item_container w=2 h=1 col=1
+  S prop item_storage_rack w=1 h=1 col=1
+  a prop item_industrial_scale w=1 h=1 col=1
+  g prop item_cargo_rack_b w=1 h=1 col=1
+  p prop item_pallet_stack w=1 h=1 col=1
+  q prop item_cardboard_stack w=1 h=1 col=1
+  r prop item_trolley w=1 h=1 col=0
+  y prop item_shrink_wrap_pallet w=1 h=1 col=1
+grid:
+###############################
+#############.....#############
+#############.....#############
+#############..J..#############
+#############.....#############
+#############.....#############
+###############X###############
+#.............................#
+#.#######b.####=########=######
+#.#S....#..#.G..N~.#..Gg..g.g.#
+#.#K.q..#K.#.b...K.#...b......#
+#.#.A.b.#.....B..b.#I...CD....#
+#.#.....#..#.K.....#...K...b..#
+#.###=###..#.......#.......C..#
+#..........#.p....y...q....K..#
+#.............................E
+#...b.F....#..bb...#....b.....#
+#...K......#..K....#..K.......#
+#..........#...=...#....=.....#
+#I.......H......L~.#..........#
+#...N~.F...#r......#..p.......#
+#..........#..A.......a.B.D.y.#
+#..........#.......#......H...#
+#.####=#######=#######=######.#
+#..P..K..........K........K...#
+#.............................#
+###############################
+decor:
+  wall item_wall_clock 9 9 1
+  object item_hanging_lamp 17 8 1
+  wall item_painting 27 9 1
+  object item_trolley 17 21 1
+  object item_floor_lamp 5 24 1
+  wall item_shipping_manifest_board 5 8
+  wall item_safety_sign 13 8
+  wall item_safety_sign 22 8
+  wall item_safety_sign_exit 30 14
+  wall item_shipping_manifest_board 20 23
+  ceiling item_warehouse_lamp 6 15
+  ceiling item_warehouse_lamp 15 15
+  ceiling item_warehouse_lamp 25 15
+  ceiling item_warehouse_lamp 15 24
+  ceiling item_warehouse_lamp 5 10
+  floor item_chamber_seal 14 4
+  floor item_blood_drag 15 4
+  floor item_blood_drag 15 5
+  wall item_chain_wall 13 0
+  wall item_claw_marks 14 0
+  wall item_painting 15 0
+  wall item_claw_marks 16 0
+  wall item_chain_wall 17 0
+  arrival_lamp item_chamber_lamp 14 6
+  arrival_lamp item_chamber_lamp 16 6
+overrides:
+  tile_map4_chamber_floor 13 1
+  tile_map4_chamber_floor 14 1
+  tile_map4_chamber_floor 15 1
+  tile_map4_chamber_floor 16 1
+  tile_map4_chamber_floor 17 1
+  tile_map4_chamber_floor 13 2
+  tile_map4_chamber_floor 14 2
+  tile_map4_chamber_floor 15 2
+  tile_map4_chamber_floor 16 2
+  tile_map4_chamber_floor 17 2
+  tile_map4_chamber_floor 13 3
+  tile_map4_chamber_floor 14 3
+  tile_map4_chamber_floor 15 3
+  tile_map4_chamber_floor 16 3
+  tile_map4_chamber_floor 17 3
+  tile_map4_chamber_floor 13 4
+  tile_map4_chamber_floor 14 4
+  tile_map4_chamber_floor 15 4
+  tile_map4_chamber_floor 16 4
+  tile_map4_chamber_floor 17 4
+  tile_map4_chamber_floor 13 5
+  tile_map4_chamber_floor 14 5
+  tile_map4_chamber_floor 15 5
+  tile_map4_chamber_floor 16 5
+  tile_map4_chamber_floor 17 5
+  tile_map4_dock_door 2 6
+  tile_map4_dock_door 3 6
+  tile_map4_dock_door 4 6
+  tile_map4_dock_door 22 6
+  tile_map4_dock_door 23 6
+  tile_map4_dock_door 24 6
+  tile_map4_dock_platform 2 7
+  tile_map4_dock_platform 3 7
+  tile_map4_dock_platform 4 7
+  tile_map4_dock_platform 22 7
+  tile_map4_dock_platform 23 7
+  tile_map4_dock_platform 24 7
+  tile_map4_conveyor_h 21 19
+  tile_map4_conveyor_h 22 19
+  tile_map4_conveyor_h 23 19
+  tile_map4_conveyor_h 24 19
+  tile_map4_conveyor_h 25 19
+  tile_map4_conveyor_h 26 19
+  tile_map4_conveyor_v 27 16
+  tile_map4_conveyor_v 27 17
+  tile_map4_conveyor_v 27 18
+  tile_map4_conveyor_v 27 19
+exit:
+  dir=e
+arrival:
+  room=jason_chamber material=steel type=steel_vault_door prep=12 warn=5 brk=3 bounds=13,1,5,5

@@ -36,7 +36,10 @@ for m in maps:
             g = reg(d['item']); put(g, d['x'] * TILE + (TILE - g.width) // 2 if g.width < TILE else d['x'] * TILE, d['y'] * TILE + TILE - g.height)
     for l in ('floor', 'fx'): drawdec(l)
     e = o['exit']; put(reg('exit_locked_' + ('e' if e.get('orientation') in ('e', 'w') else 's')), e['x'] * TILE, e['y'] * TILE)
-    drawdec('wall')
+    drawdec('wall'); drawdec('arrival_lamp')
+    ja = m.get('jason_arrival')
+    if ja and ja.get('enabled'):
+        dd = ja['door']; g = reg(f"door_arrival_{dd['material']}_closed"); put(g, dd['x'] * TILE + (TILE - g.width) // 2, dd['y'] * TILE + TILE - g.height)
     objs = []
     for p in o['props']: objs.append(((p['y'] + 1) * TILE - 4 , 'p', p))
     for d in dec:

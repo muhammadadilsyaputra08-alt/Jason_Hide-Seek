@@ -1,0 +1,135 @@
+id: 1
+name: Aula Rumah Tua
+room: Ruang Segel Utara
+legend:
+  1 spot wardrobe
+  2 spot under_bed
+  3 spot heavy_curtain
+  4 spot hall_chest
+  5 spot bear_rug
+  A prop item_armchair w=1 h=1 col=1
+  B prop item_bookshelf w=1 h=1 col=1
+  F prop item_sofa w=2 h=1 col=1
+  M prop item_dining_table w=2 h=1 col=1
+  T prop item_table w=1 h=1 col=1
+  U prop item_staircase w=2 h=1 col=1 up=1
+  Y prop item_fireplace w=2 h=1 col=1
+  Z prop item_bed_large w=2 h=1 col=1 up=1
+  c prop item_chair w=1 h=1 col=0
+  d prop item_dresser w=1 h=1 col=1
+  h prop item_dining_chair w=1 h=1 col=1
+  k prop item_kitchen_counter w=1 h=1 col=1
+  l prop item_floor_lamp w=1 h=1 col=0
+  m prop item_vanity_mirror w=1 h=1 col=1
+  n prop item_nightstand w=1 h=1 col=1
+  o prop item_kitchen_stove w=1 h=1 col=1
+  } prop item_railing_v w=1 h=1 col=1
+grid:
+###############################
+#############.....#############
+#############d...B#############
+#############..J..#############
+#############.....#############
+#############nl.ln#############
+###############X###############
+#BBBBBB..#.T3....Y~l.#.hh...B.#
+#.bK#....#..#..~..5..#.M~h#...#
+#cTc.b...|b...A....A.#.hh.#.~.#
+#...#.Al.#..K...F~...|...K....#
+#1......K#........K..#.b....4.#
+#######=#######=########=######
+#BBB.BB..#.lT.....Tl.#....kkko#
+#..T....1#...K.~.....#.T.~..K.#
+#..c..l..#.~.....b.~.#.....b..#
+#.##.#.K.|......~....|.~......#
+#.A......#.A.~.~...A.#...##.#.#
+#.b..5...#..K....~...#..K...c.#
+#BB.....K#..3........#.......B#
+######=########=#########=#####
+#..~~....#.BB....}~~.#......~~#
+#.nZ~n..d#.......}U~.#.T.~.nZ~#
+#...2..~.#.T.K.~.....#......2.#
+#.K..b...|.......~...|....b..d#
+#...~..cm#...b.~...l.#..K....4#
+#.~...~..#..K....#.#.#A....B..#
+#l......K#.....P.....#......K.#
+###############E###############
+decor:
+  floor item_chamber_seal 14 4
+  floor item_blood_drag 15 4
+  floor item_blood_drag 15 5
+  wall item_chain_wall 13 0
+  wall item_claw_marks 14 0
+  wall item_painting 15 0
+  wall item_claw_marks 16 0
+  wall item_chain_wall 17 0
+  arrival_lamp item_chamber_lamp 14 6
+  arrival_lamp item_chamber_lamp 16 6
+  wall item_painting 3 6
+  wall item_wall_clock 6 6
+  wall item_painting 25 6
+  wall item_painting 11 6
+  wall item_painting 3 12
+  wall item_wall_clock 5 12
+  wall item_painting 11 12
+  wall item_painting 19 12
+  wall item_wall_clock 28 12
+  wall item_painting 1 20
+  wall item_painting 12 20
+  wall item_painting 18 20
+  wall item_wall_clock 25 20
+  wall item_cobweb 8 7
+  wall item_cobweb 22 13
+  object item_vase 8 11
+  object item_vase 20 7
+  object item_vase 10 21
+  object item_grandfather_clock 13 7
+  object item_grandfather_clock 20 14
+  object item_grandfather_clock 20 22
+  object item_hanging_lamp 15 27
+  floor item_carpet 16 9 2
+  floor item_carpet 2 10 2
+  floor item_carpet 13 22 2
+  floor item_carpet 3 24 2
+  floor item_carpet 24 23 2
+  ceiling item_grand_chandelier 15 9
+  ceiling item_grand_chandelier 15 16
+  ceiling item_grand_chandelier 15 24
+overrides:
+  tile_map1_chamber_floor 13 1
+  tile_map1_chamber_floor 14 1
+  tile_map1_chamber_floor 15 1
+  tile_map1_chamber_floor 16 1
+  tile_map1_chamber_floor 17 1
+  tile_map1_chamber_floor 13 2
+  tile_map1_chamber_floor 14 2
+  tile_map1_chamber_floor 15 2
+  tile_map1_chamber_floor 16 2
+  tile_map1_chamber_floor 17 2
+  tile_map1_chamber_floor 13 3
+  tile_map1_chamber_floor 14 3
+  tile_map1_chamber_floor 15 3
+  tile_map1_chamber_floor 16 3
+  tile_map1_chamber_floor 17 3
+  tile_map1_chamber_floor 13 4
+  tile_map1_chamber_floor 14 4
+  tile_map1_chamber_floor 15 4
+  tile_map1_chamber_floor 16 4
+  tile_map1_chamber_floor 17 4
+  tile_map1_chamber_floor 13 5
+  tile_map1_chamber_floor 14 5
+  tile_map1_chamber_floor 15 5
+  tile_map1_chamber_floor 16 5
+  tile_map1_chamber_floor 17 5
+  tile_map1_window 12 6
+  tile_map1_window 20 6
+  tile_map1_window 23 6
+  tile_map1_window 28 6
+  tile_map1_window 3 20
+  tile_map1_window 4 20
+  tile_map1_window 28 20
+  tile_map1_window 29 20
+exit:
+  dir=s
+arrival:
+  room=jason_sealed_chamber material=wood type=heavy_wooden_door prep=12 warn=5 brk=3 bounds=13,1,5,5

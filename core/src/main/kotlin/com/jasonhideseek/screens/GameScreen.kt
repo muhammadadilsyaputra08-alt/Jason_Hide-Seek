@@ -96,7 +96,7 @@ class GameScreen(private val game: JasonGame) : ScreenAdapter() {
             game.setScreen(ResultScreen(game, world.summary())); return
         }
 
-        if (!world.jasonMode) drawMiniCam()
+        if (!world.jasonMode && world.miniCamOnline) drawMiniCam()
         drawWorld(dt)
         drawUi()
     }
@@ -162,13 +162,17 @@ class GameScreen(private val game: JasonGame) : ScreenAdapter() {
         world.gore.renderPools(batch)
         drawExit()
         tiles.renderDecor(batch, "wall")
+        tiles.renderArrivalDoor(batch, world.arrival, time)
+        tiles.renderDecor(batch, "arrival_lamp", time, world.arrival?.lampOn(time) ?: true)
 
         drawList.clear()
         drawList.addAll(world.spots)
         drawList.addAll(world.gore.corpses)
         for (p in map.props) if (p.layer == "object") drawList.add(p)
         for (s in world.survivors) if (s.status == SurvivorStatus.ALIVE) drawList.add(s)
-        if (world.jasonMode || world.phase != Phase.COUNTDOWN) drawList.add(world.jason)   // Jason tak terlihat saat survivor mencari tempat sembunyi
+        // Jason di ruang terkunci hanya terlihat bila ada garis pandang (pintu tertutup = tidak terlihat)
+        val jf = world.focus
+        if (world.jasonMode || world.phase != Phase.COUNTDOWN || (world.arrival != null && map.lineClear(jf.x, jf.y, world.jason.x, world.jason.y))) drawList.add(world.jason)
         drawList.sortWith(byDepth)
         for (o in drawList) drawObject(o, tr, tg, tb)
         tiles.renderDecor(batch, "ceiling")   // chandelier / lampu gantung di atas karakter
@@ -435,6 +439,8 @@ class GameScreen(private val game: JasonGame) : ScreenAdapter() {
         if (!world.jasonMode) {
             batch.draw(a.region("ui_icon_tension_eye"), rx, h - pad - 16f)
             bar("ui_bar_tension_frame", "ui_bar_tension_fill", rx + 24f, h - pad - 12f, world.tension)
+        }
+        if (!world.jasonMode && world.miniCamOnline) {
             batch.draw(fboRegion, mx + 3f, my + 3f, GameConfig.MINICAM_W.toFloat(), GameConfig.MINICAM_H.toFloat())
             batch.draw(a.region("ui_minicam_frame"), mx, my)
             batch.draw(a.frame("ui_minicam_rec", time, 2f), mx + 4f, my + 55f)
@@ -449,6 +455,9 @@ class GameScreen(private val game: JasonGame) : ScreenAdapter() {
                 rtext("${b.title} ${Math.ceil(left.toDouble()).toInt()}s", w - pad, ry, Color(1f, 0.5f, 0.5f, 1f)); ry -= 12f
             }
         }
+
+        // ---- Hitungan lolos / hidup (game berlanjut setelah pemain kabur) ----
+        center("Lolos ${world.escapedCount}  |  Hidup ${world.survivorsAlive}  |  Gugur ${world.eliminatedCount}  (dari ${world.survivors.size})", 20f, Color.LIGHT_GRAY)
 
         // ---- Kanan-bawah: stamina di atas tombol Sprint ----
         if (!world.spectating) {

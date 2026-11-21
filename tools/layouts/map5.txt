@@ -1,0 +1,113 @@
+id: 5
+name: Ruang Bawah Tanah
+room: Sel Besi Bawah Tanah
+legend:
+  % prop item_pipes w=1 h=1 col=0
+  A prop item_pipe_junction w=1 h=1 col=1
+  B spot metal_locker
+  C spot under_cot
+  D prop item_industrial_drum w=1 h=1 col=1
+  F spot tarp_curtain
+  G spot basement_drum
+  H spot pipe_recess
+  I prop item_iron_bed w=1 h=1 col=1
+  L spot utility_cabinet
+  Q prop item_boiler w=1 h=1 col=1 up=1
+  S prop item_storage_rack w=1 h=1 col=1
+  W prop item_washing_machine w=1 h=1 col=1
+  j prop item_laundry_basket w=1 h=1 col=1
+  u prop item_bucket w=1 h=1 col=0
+  v prop item_valve w=1 h=1 col=0
+  w prop item_cables w=1 h=1 col=0
+grid:
+#############################
+############.....############
+############.....############
+############..J..############
+############.....############
+############.....############
+##############X##############
+#...........................#
+#.#########b~.~.###########.#
+#.#S..#.K.#.....#.I.......#.#
+#.#Kb.#%b.#..K..#.K..~.v..#.#
+#.#.B.|.........|.b.F...K.#.#
+#.#...#.C.#HA.~.#........H#.#
+#.#...#...#..%..#..~..~.G.#.#
+#.####=.###.~...#..b....L.#.#
+#..............~.###.######.#
+#....~~.~.L.~.K.............#
+#.~bK.~~.........~..~..bK...#
+#..~..~..~..~..D...~..~...~.#
+#....b.......~..............#
+#..####=####...~.####=##.##.#
+#..#......~#.....#....#...#.#
+#..#D.~b.CQ#.~.~.#.S..#.~.#.#
+#..#.B..w..|.......F..|...#.#
+#..####=####..~..#....#uGK#.#
+#..#PK..jWW#K....#.bK.#...#.#
+#..#########..~~.##########.#
+#...........................#
+##############E##############
+decor:
+  object item_hanging_lamp 5 8 1
+  object item_hanging_lamp 21 8 1
+  object item_valve 4 18 1
+  object item_cables 24 18 1
+  wall item_wall_clock 14 25 1
+  wall item_electrical_panel 20 8
+  wall item_electrical_panel 22 8
+  wall item_emergency_lamp 24 8
+  wall item_emergency_lamp 12 20
+  wall item_vent_grate 12 8
+  wall item_iron_ladder 14 8
+  floor item_vent_grate_floor 13 16
+  fx fx_water_leak 7 17
+  fx fx_water_drip 7 16
+  fx fx_water_leak 20 19
+  fx fx_water_drip 20 18
+  floor item_chamber_seal 13 4
+  floor item_blood_drag 14 4
+  floor item_blood_drag 14 5
+  wall item_chain_wall 12 0
+  wall item_claw_marks 13 0
+  wall item_painting 14 0
+  wall item_claw_marks 15 0
+  wall item_chain_wall 16 0
+  arrival_lamp item_chamber_lamp 13 6
+  arrival_lamp item_chamber_lamp 15 6
+overrides:
+  tile_map5_chamber_floor 12 1
+  tile_map5_chamber_floor 13 1
+  tile_map5_chamber_floor 14 1
+  tile_map5_chamber_floor 15 1
+  tile_map5_chamber_floor 16 1
+  tile_map5_chamber_floor 12 2
+  tile_map5_chamber_floor 13 2
+  tile_map5_chamber_floor 14 2
+  tile_map5_chamber_floor 15 2
+  tile_map5_chamber_floor 16 2
+  tile_map5_chamber_floor 12 3
+  tile_map5_chamber_floor 13 3
+  tile_map5_chamber_floor 14 3
+  tile_map5_chamber_floor 15 3
+  tile_map5_chamber_floor 16 3
+  tile_map5_chamber_floor 12 4
+  tile_map5_chamber_floor 13 4
+  tile_map5_chamber_floor 14 4
+  tile_map5_chamber_floor 15 4
+  tile_map5_chamber_floor 16 4
+  tile_map5_chamber_floor 12 5
+  tile_map5_chamber_floor 13 5
+  tile_map5_chamber_floor 14 5
+  tile_map5_chamber_floor 15 5
+  tile_map5_chamber_floor 16 5
+  tile_map5_wall_pipe_v 16 9
+  tile_map5_wall_pipe_v 16 10
+  tile_map5_wall_pipe_v 16 13
+  tile_map5_wall_pipe_v 10 10
+  tile_map5_wall_pipe_v 10 12
+exit:
+  dir=s
+arrival:
+  room=jason_chamber material=iron type=iron_gate_door prep=12 warn=5 brk=3 bounds=12,1,5,5

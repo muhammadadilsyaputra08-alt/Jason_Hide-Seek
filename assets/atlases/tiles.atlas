@@ -402,3 +402,38 @@ tile_map5_wall_pipe_v
   orig: 32, 32
   offset: 0, 0
   index: -1
+tile_map1_chamber_floor
+  rotate: false
+  xy: 2, 160
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+tile_map2_chamber_floor
+  rotate: false
+  xy: 36, 160
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+tile_map3_chamber_floor
+  rotate: false
+  xy: 70, 160
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+tile_map4_chamber_floor
+  rotate: false
+  xy: 104, 160
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+tile_map5_chamber_floor
+  rotate: false
+  xy: 138, 160
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1

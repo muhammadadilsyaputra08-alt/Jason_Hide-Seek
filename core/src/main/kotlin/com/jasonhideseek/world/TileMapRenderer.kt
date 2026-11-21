@@ -39,6 +39,10 @@ class TileMapRenderer(private val map: MapDefinition, private val assets: Assets
                 if (t == 0 && map.tileAt(c, r - 1) == 1) batch.draw(shadow, x, y + TILE - 8f)
                 continue
             }
+            val ar = map.arrival
+            if (ar != null && map.chamberDoorOpen && c == ar.doorCol && r == ar.doorRow) {
+                batch.draw(floors[0], x, y); continue   // pintu hancur: lantai terbuka (debris digambar renderArrivalDoor)
+            }
             if (t == 1) {
                 batch.draw(if (map.tileAt(c, r + 1) == 1) wallTop else wallFace, x, y)
                 continue
@@ -63,11 +67,21 @@ class TileMapRenderer(private val map: MapDefinition, private val assets: Assets
      * dan "ceiling" (chandelier/lampu gantung; digambar di atas karakter).
      * Region beranimasi (lebih dari satu frame bernama sama) diputar 6 fps; sprite lebih sempit dari 1 sel diratakan di tengah.
      */
-    fun renderDecor(batch: SpriteBatch, layer: String, time: Float = 0f) {
+    /** Sprite pintu ruang kedatangan sesuai tahap (getar saat WARNING/BREAKING; debris permanen setelah hancur). */
+    fun renderArrivalDoor(batch: SpriteBatch, seq: ArrivalSequence?, time: Float) {
+        val d = map.arrival ?: return
+        val name = seq?.doorRegion() ?: "door_arrival_${d.material}_closed"
+        val reg = assets.region(name)
+        val x = d.doorCol * TILE.toFloat() + (TILE - reg.regionWidth) / 2f + (seq?.shakeX(time) ?: 0f)
+        batch.draw(reg, x, (map.tilesH - 1 - d.doorRow) * TILE.toFloat())
+    }
+
+    fun renderDecor(batch: SpriteBatch, layer: String, time: Float = 0f, lampOn: Boolean = true) {
         for (p in map.props) {
             if (p.layer != layer) continue
             val frames = assets.framesOrNull(p.item)
-            val reg = if (frames != null && frames.size > 1) frames[((time * 6f).toInt() + p.col * 3 + p.row) % frames.size]
+            val reg = if (layer == "arrival_lamp" && frames != null && frames.size > 1) frames[if (lampOn) 0 else 1]
+                      else if (frames != null && frames.size > 1) frames[((time * 6f).toInt() + p.col * 3 + p.row) % frames.size]
                       else assets.region(p.item)
             val offX = if (reg.regionWidth < TILE) (TILE - reg.regionWidth) / 2f else 0f
             batch.draw(reg, p.col * TILE.toFloat() + offX, (map.tilesH - 1 - p.row) * TILE.toFloat())

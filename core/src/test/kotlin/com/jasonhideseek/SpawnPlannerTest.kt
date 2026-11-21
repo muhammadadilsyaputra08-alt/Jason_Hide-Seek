@@ -22,12 +22,12 @@ class SpawnPlannerTest {
             repeat(20) { seed ->
                 val plan = SpawnPlanner.plan(m, Random(seed.toLong()), 10)
                 assertEquals(10, plan.survivors.size)
-                assertTrue(plan.jason in reach)
+                assertTrue("map ${m.id}: Jason harus di ruang kedatangan", m.arrival!!.inChamber(m.colOf(plan.jason.x), m.rowOf(plan.jason.y)))
                 plan.survivors.forEach { assertTrue("map ${m.id}: reachable", it in reach) }
                 assertTrue(plan.survivors.map { it.x to it.y }.toSet().size == 10)
                 firsts.add("${plan.jason.x},${plan.jason.y}")
             }
-            assertTrue("map ${m.id}: Jason spawn varies", firsts.size > 1)
+            assertEquals("map ${m.id}: Jason spawn tetap (bukan acak)", 1, firsts.size)
         }
     }
 }

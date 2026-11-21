@@ -10,8 +10,14 @@ import org.junit.Assert.assertNull
 import org.junit.Test
 
 class MatchRulesTest {
-    @Test fun playerEscapedWins() =
-        assertEquals(MatchResult.PLAYER_ESCAPED, MatchRules.evaluate(ESCAPED, 0, 5, false))
+    @Test fun playerEscapeDoesNotEndRound() =
+        assertNull(MatchRules.evaluate(ESCAPED, 0, 3, false))
+
+    @Test fun playerEscapedResultWhenAllOthersDone() =
+        assertEquals(MatchResult.PLAYER_ESCAPED, MatchRules.evaluate(ESCAPED, 2, 0, false))
+
+    @Test fun playerEscapedResultWhenTimeUp() =
+        assertEquals(MatchResult.PLAYER_ESCAPED, MatchRules.evaluate(ESCAPED, 1, 2, true))
 
     @Test fun playerEliminatedMatchContinues() =
         assertNull(MatchRules.evaluate(ELIMINATED, 0, 3, false))

@@ -9,7 +9,7 @@ class SpawnPlan(val survivors: List<Vector2>, val jason: Vector2)
 
 /**
  * Titik spawn: Jason dan semua survivor, selalu di lantai yang terhubung ke pintu keluar.
- * Jason acak. Survivor memprioritaskan `bot_spawn_candidates` map (diacak) bila valid, lalu fallback ke
+ * Jason: titik di Ruang Kedatangan bila map punya, jika tidak acak. Survivor memprioritaskan `bot_spawn_candidates` map (diacak) bila valid, lalu fallback ke
  * lantai terjangkau lain (acak) bila kandidat tidak cukup atau terlalu dekat Jason / satu sama lain.
  */
 object SpawnPlanner {
@@ -19,7 +19,7 @@ object SpawnPlanner {
                 Math.hypot((t.x - map.exitApproach.x).toDouble(), (t.y - map.exitApproach.y).toDouble()) > 40.0
         }.toMutableList()
         pool.shuffle(rng)
-        val jason = pool[0]
+        val jason = if (map.arrival != null) map.jasonSpawn else pool[0]   // ruang kedatangan: Jason tidak acak
         val cand = map.botSpawnCandidates.toHashSet()
         val order = ArrayList<Vector2>(pool.size)
         order.addAll(pool.filter { it in cand })       // kandidat JSON lebih dulu (pool sudah diacak)

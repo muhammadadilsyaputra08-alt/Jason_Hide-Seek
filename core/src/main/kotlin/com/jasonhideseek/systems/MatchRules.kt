@@ -28,13 +28,13 @@ object MatchRules {
      * @return hasil jika pertandingan harus berakhir, null jika berlanjut
      */
     fun evaluate(player: SurvivorStatus, botsEscaped: Int, aliveTotal: Int, timeUp: Boolean): MatchResult? {
-        if (player == SurvivorStatus.ESCAPED) return MatchResult.PLAYER_ESCAPED
-        // Survivor yang kabur tidak mengakhiri ronde: yang lain boleh menyusul selama pintu terbuka & waktu masih ada.
-        if (aliveTotal == 0) return if (botsEscaped > 0) MatchResult.SURVIVORS_ESCAPED else MatchResult.JASON_WINS
-        if (timeUp) {
-            return if (player == SurvivorStatus.ELIMINATED && botsEscaped > 0) MatchResult.SURVIVORS_ESCAPED
-            else MatchResult.TIMES_UP
+        // Pemain kabur TIDAK mengakhiri ronde: bot masih bisa menyusul sampai semua selesai (kabur/tereliminasi) atau waktu habis.
+        if (aliveTotal > 0 && !timeUp) return null
+        return when {
+            player == SurvivorStatus.ESCAPED -> MatchResult.PLAYER_ESCAPED
+            botsEscaped > 0 -> MatchResult.SURVIVORS_ESCAPED
+            aliveTotal == 0 -> MatchResult.JASON_WINS
+            else -> MatchResult.TIMES_UP
         }
-        return null
     }
 }

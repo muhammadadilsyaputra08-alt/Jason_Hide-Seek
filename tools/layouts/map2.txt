@@ -1,0 +1,108 @@
+id: 2
+name: Garasi & Bagasi
+room: Bilik Isolasi Garasi
+legend:
+  A spot oil_barrel
+  B spot car_trunk
+  C spot garage_crate
+  D spot under_workbench
+  F spot tire_stack
+  G spot mechanic_cabinet
+  L prop item_hydraulic_lift w=2 h=1 col=1
+  O prop item_oil_drum_stack w=1 h=1 col=1
+  R prop item_tool_rack w=1 h=1 col=1
+  V prop item_vehicle w=2 h=1 col=1
+  W prop item_workbench_tools w=1 h=1 col=1
+  a prop item_mechanic_cabinet w=1 h=1 col=1
+  e prop item_wheel_stack w=1 h=1 col=1
+  g prop item_parts_shelf w=1 h=1 col=1
+  i prop item_wheel_stack_b w=1 h=1 col=1
+  j prop item_tool_trolley w=1 h=1 col=1
+  s prop item_spare_parts w=1 h=1 col=1
+  t prop item_tires w=1 h=1 col=1
+  y prop item_bumper_pile w=1 h=1 col=1
+grid:
+#############################
+############.....############
+############.....############
+############..J..############
+############.....############
+############.....############
+##############X##############
+#........gg.....y.#..gg...a##
+#.Kb..............#j.......##
+#..V~..K...V~K.b..#..sb....##
+#...A.b...b...B...#........##
+#...........K.....|.....O...#
+#..t...L~j...R..F.#.........#
+#...............K.#...K.....#
+#e..............i.#....Ab...#
+#####.#=######=####......K..#
+#......G#a.......g#.........#
+#...K...#......L~.|.........#
+#.......#..W......#...t.....#
+#...C...#.K..D...G#......bF.#
+#.......|.........#.........#
+#.......####=#######.#=######
+#.......#...................E
+#..Pb...#.yb...BK.....b.sDK.#
+#.......#.....j....e..K.C...#
+######......................#
+#############################
+decor:
+  ceiling item_hanging_lamp 4 8 1
+  wall item_wall_clock 15 8 1
+  wall item_painting 23 9 1
+  object item_tool_rack 3 22 1
+  object item_floor_lamp 24 20 1
+  ceiling item_shop_lamp 10 10
+  ceiling item_shop_lamp 22 12
+  ceiling item_shop_lamp 14 18
+  ceiling item_shop_lamp 5 23
+  ceiling item_shop_lamp 20 23
+  wall item_garage_shutter 11 6
+  wall item_garage_shutter 24 6
+  floor item_chamber_seal 13 4
+  floor item_blood_drag 14 4
+  floor item_blood_drag 14 5
+  wall item_chain_wall 12 0
+  wall item_claw_marks 13 0
+  wall item_painting 14 0
+  wall item_claw_marks 15 0
+  wall item_chain_wall 16 0
+  arrival_lamp item_chamber_lamp 13 6
+  arrival_lamp item_chamber_lamp 15 6
+overrides:
+  tile_map2_chamber_floor 12 1
+  tile_map2_chamber_floor 13 1
+  tile_map2_chamber_floor 14 1
+  tile_map2_chamber_floor 15 1
+  tile_map2_chamber_floor 16 1
+  tile_map2_chamber_floor 12 2
+  tile_map2_chamber_floor 13 2
+  tile_map2_chamber_floor 14 2
+  tile_map2_chamber_floor 15 2
+  tile_map2_chamber_floor 16 2
+  tile_map2_chamber_floor 12 3
+  tile_map2_chamber_floor 13 3
+  tile_map2_chamber_floor 14 3
+  tile_map2_chamber_floor 15 3
+  tile_map2_chamber_floor 16 3
+  tile_map2_chamber_floor 12 4
+  tile_map2_chamber_floor 13 4
+  tile_map2_chamber_floor 14 4
+  tile_map2_chamber_floor 15 4
+  tile_map2_chamber_floor 16 4
+  tile_map2_chamber_floor 12 5
+  tile_map2_chamber_floor 13 5
+  tile_map2_chamber_floor 14 5
+  tile_map2_chamber_floor 15 5
+  tile_map2_chamber_floor 16 5
+  tile_map2_shutter 7 6
+  tile_map2_shutter 8 6
+  tile_map2_shutter 20 6
+  tile_map2_shutter 21 6
+exit:
+  dir=e
+arrival:
+  room=jason_chamber material=shutter type=roll_shutter_door prep=12 warn=5 brk=3 bounds=12,1,5,5

@@ -12,6 +12,8 @@ import com.jasonhideseek.entities.SurvivorBot
 import com.jasonhideseek.entities.SurvivorStatus
 import com.jasonhideseek.game.JasonGame
 import com.jasonhideseek.ui.TouchControls
+import com.jasonhideseek.world.ArrivalSequence
+import com.jasonhideseek.world.ArrivalStage
 import com.jasonhideseek.world.ExitOrientation
 import com.jasonhideseek.world.ExitState
 import com.jasonhideseek.world.HidingSpot
@@ -32,7 +34,7 @@ enum class ContextAction { NONE, HIDE, LEAVE, EXIT, ATTACK }
 
 /** Simulasi satu pertandingan: fase, survivor, Key Frame, pintu keluar, spectator, dan hasil akhir. */
 class GameWorld(game: JasonGame, private val mapIndex: Int, val jasonMode: Boolean = false) {
-    val map = MapRepository.load(mapIndex)
+    val map = MapRepository.load(mapIndex).also { it.resetChamber() }
     val rng = Random()
     val sound = game.sound
     val gore = GoreAndDebrisSystem(game.assets, rng)
@@ -45,6 +47,11 @@ class GameWorld(game: JasonGame, private val mapIndex: Int, val jasonMode: Boole
     val player = Player(spawnPlan.survivors[0].x, spawnPlan.survivors[0].y)
     val jason = JasonEntity(spawnPlan.jason.x, spawnPlan.jason.y, JasonDecisionEngine(rng), rng)
     val buffs = JasonBuffs(rng)
+    /** Linimasa pintu Ruang Kedatangan Jason (null bila map tanpa ruang). */
+    val arrival: ArrivalSequence? = map.arrival?.let { ArrivalSequence(it) }
+    private var lastArrivalStage = ArrivalStage.LOCKED
+    /** Mini camera Jason aktif hanya setelah Jason mulai bergerak (keluar dari ruang). */
+    val miniCamOnline get() = jason.state != JasonState.COUNTDOWN_LOCKED
     val effect = MapEffect.forMap(mapIndex)
     val feed = ArrayList<FeedItem>()
     /** Status efek map. */
@@ -111,7 +118,7 @@ class GameWorld(game: JasonGame, private val mapIndex: Int, val jasonMode: Boole
     val survivorsAlive get() = survivors.count { it.alive }
     val escapedCount get() = survivors.count { it.status == SurvivorStatus.ESCAPED }
     val eliminatedCount get() = survivors.count { it.status == SurvivorStatus.ELIMINATED }
-    val spectating get() = !jasonMode && !player.alive && player.status == SurvivorStatus.ELIMINATED
+    val spectating get() = !jasonMode && !player.alive && (player.status == SurvivorStatus.ELIMINATED || player.status == SurvivorStatus.ESCAPED)
 
     /** Survivor yang menjadi fokus kamera utama. */
     val focus: com.jasonhideseek.entities.Character get() = if (jasonMode) jason else if (spectating) (spectateTarget ?: player) else player
@@ -190,10 +197,13 @@ class GameWorld(game: JasonGame, private val mapIndex: Int, val jasonMode: Boole
 
         elapsed += dt
         phaseRemaining -= dt
+        if (phase == Phase.COUNTDOWN) updateArrival(dt)
         if (phase == Phase.COUNTDOWN && phaseRemaining <= 0f) {
             phase = Phase.ESCAPE
             phaseRemaining = GameConfig.ESCAPE_TIME
+            if (arrival != null && arrival.stage != ArrivalStage.BROKEN) { arrival.update(1000f); onArrivalStage(ArrivalStage.BROKEN) }
             jason.release()
+            if (arrival != null) showBanner("Jason keluar dari ruangannya!", FeedKind.KILL)
             sound.play("alert", 0.9f)
             showBanner(if (jasonMode) "Jason dilepas - buru semua survivor!" else "Cari 3 Key Frame - hanya pemegang kunci utuh yang bisa keluar!", FeedKind.INFO)
         }
@@ -237,6 +247,27 @@ class GameWorld(game: JasonGame, private val mapIndex: Int, val jasonMode: Boole
         updateTension()
         sound.updateHeartbeat(dt, tension)
         evaluateRound()
+    }
+
+    /** Linimasa pintu dimulai agar selesai tepat saat countdown berakhir. */
+    private fun updateArrival(dt: Float) {
+        val a = arrival ?: return
+        if (GameConfig.COUNTDOWN_TIME - phaseRemaining < GameConfig.COUNTDOWN_TIME - a.def.totalDuration) return
+        a.update(dt)
+        val st = a.stage
+        if (st != lastArrivalStage) onArrivalStage(st)
+    }
+
+    private fun onArrivalStage(st: ArrivalStage) {
+        lastArrivalStage = st
+        val d = map.arrival ?: return
+        val x = map.cellCenter(d.doorCol, d.doorRow).x; val y = map.cellCenter(d.doorCol, d.doorRow).y
+        when (st) {
+            ArrivalStage.WARNING -> { sound.playAt("door_locked", x, y, 1f); sound.playAt("creak", x, y, 1f); showBanner("Ada sesuatu menggedor dari balik pintu...", FeedKind.INFO) }
+            ArrivalStage.BREAKING -> { jason.breakingDoor = true; sound.playAt("break", x, y, 1f); sound.emitNoise(x, y, 260f) }
+            ArrivalStage.BROKEN -> { map.openChamberDoor(); sound.playAt("break", x, y, 1f); sound.emitNoise(x, y, 320f) }
+            ArrivalStage.LOCKED -> {}
+        }
     }
 
     private fun updateEffects(dt: Float) {

@@ -1,0 +1,139 @@
+id: 3
+name: Ladang & Lumbung
+room: Lumbung Terkunci
+legend:
+  ! prop item_fence_v w=1 h=2 col=0
+  + prop item_fence_gate_h w=1 h=1 col=1
+  - prop item_fence_h w=2 h=1 col=0
+  A spot hay_stack
+  B spot harvest_crate
+  C prop item_cart w=1 h=1 col=1
+  D spot farm_box
+  F spot water_barrel
+  G spot silo_gap
+  H prop item_hay_bale w=1 h=1 col=1
+  I spot hay_wagon
+  Q prop item_windmill w=2 h=1 col=1 up=1
+  R prop item_harvest_rack w=1 h=1 col=1
+  _ prop item_fence_h_broken w=1 h=1 col=1
+  f prop item_farm_tools w=1 h=1 col=1
+  k prop item_firewood_stack w=1 h=1 col=1
+  o prop item_farmhouse_stove w=1 h=1 col=1
+  r prop item_animal_trough w=1 h=1 col=1
+  u prop item_bucket w=1 h=1 col=0
+  x prop item_well w=1 h=1 col=1
+  z prop item_sacks w=1 h=1 col=1
+grid:
+###############################
+#############.....#############
+#############.....#############
+#############..J..#############
+#############.....#############
+#############.....#############
+###############X###############
+#........................######
+#.##########b~...~............#
+#.#z...#uKo#....~.###########.#
+#.#K.~.#...#...~..#H...#.C..#.#
+#.#.A..|.B....~...#K...#....#.#
+#.##########..b~.G#..D.#..K.#.#
+#.#kf..|...#GK....|....|....#.#
+#.#....#...#...~..####=######.#
+#.####=#####~~....#.z..|.F..#.#
+#...........Q~.~..#....#....#.#
+#.~.........b...~.####.######.#
+#...+b.I.~.~..~.....x...rr..k.#
+#..K............~.~...........#
+#.~.####.####.K.....~bb.~..K..#
+#.~.#.....RR#.b.~.........F...#
+#.~.#H.~.~..#.....K-~_...~..~.#
+#...#.A.......~......b..!.....#
+##.P#....CB.#...~.~.D......b..#
+##..#....K..#.b........K..u...#
+##..#########..K.~~.~~.I.~..~.#
+#.............................#
+###############E###############
+decor:
+  object item_fence_h 2 18 2
+  object item_farm_tools 13 9 1
+  object item_fence_v 17 21 1
+  object item_bucket 27 19 1
+  object item_hanging_lamp 3 26 1
+  floor item_chamber_seal 14 4
+  floor item_blood_drag 15 4
+  floor item_blood_drag 15 5
+  wall item_chain_wall 13 0
+  wall item_claw_marks 14 0
+  wall item_painting 15 0
+  wall item_claw_marks 16 0
+  wall item_chain_wall 17 0
+  arrival_lamp item_chamber_lamp 14 6
+  arrival_lamp item_chamber_lamp 16 6
+overrides:
+  tile_map3_chamber_floor 13 1
+  tile_map3_chamber_floor 14 1
+  tile_map3_chamber_floor 15 1
+  tile_map3_chamber_floor 16 1
+  tile_map3_chamber_floor 17 1
+  tile_map3_chamber_floor 13 2
+  tile_map3_chamber_floor 14 2
+  tile_map3_chamber_floor 15 2
+  tile_map3_chamber_floor 16 2
+  tile_map3_chamber_floor 17 2
+  tile_map3_chamber_floor 13 3
+  tile_map3_chamber_floor 14 3
+  tile_map3_chamber_floor 15 3
+  tile_map3_chamber_floor 16 3
+  tile_map3_chamber_floor 17 3
+  tile_map3_chamber_floor 13 4
+  tile_map3_chamber_floor 14 4
+  tile_map3_chamber_floor 15 4
+  tile_map3_chamber_floor 16 4
+  tile_map3_chamber_floor 17 4
+  tile_map3_chamber_floor 13 5
+  tile_map3_chamber_floor 14 5
+  tile_map3_chamber_floor 15 5
+  tile_map3_chamber_floor 16 5
+  tile_map3_chamber_floor 17 5
+  tile_map3_crop_rows_b 2 16
+  tile_map3_crop_rows_b 3 16
+  tile_map3_crop_rows_b 4 16
+  tile_map3_crop_rows_b 5 16
+  tile_map3_crop_rows_b 6 16
+  tile_map3_crop_rows_b 7 16
+  tile_map3_crop_rows_b 8 16
+  tile_map3_crop_rows_b 9 16
+  tile_map3_crop_rows_b 10 16
+  tile_map3_crop_rows_b 19 25
+  tile_map3_crop_rows_b 20 25
+  tile_map3_crop_rows_b 21 25
+  tile_map3_crop_rows_b 22 25
+  tile_map3_crop_rows_b 23 25
+  tile_map3_crop_rows_b 24 25
+  tile_map3_crop_rows_b 25 25
+  tile_map3_crop_rows_b 26 25
+  tile_map3_crop_rows_b 27 25
+  tile_map3_crop_rows_b 28 25
+  tile_map3_crop_rows_c 2 17
+  tile_map3_crop_rows_c 3 17
+  tile_map3_crop_rows_c 4 17
+  tile_map3_crop_rows_c 5 17
+  tile_map3_crop_rows_c 6 17
+  tile_map3_crop_rows_c 7 17
+  tile_map3_crop_rows_c 8 17
+  tile_map3_crop_rows_c 9 17
+  tile_map3_crop_rows_c 10 17
+  tile_map3_crop_rows_c 19 26
+  tile_map3_crop_rows_c 20 26
+  tile_map3_crop_rows_c 21 26
+  tile_map3_crop_rows_c 22 26
+  tile_map3_crop_rows_c 23 26
+  tile_map3_crop_rows_c 24 26
+  tile_map3_crop_rows_c 25 26
+  tile_map3_crop_rows_c 26 26
+  tile_map3_crop_rows_c 27 26
+  tile_map3_crop_rows_c 28 26
+exit:
+  dir=s
+arrival:
+  room=jason_chamber material=barn type=barn_door prep=12 warn=5 brk=3 bounds=13,1,5,5

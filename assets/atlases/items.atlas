@@ -1,5 +1,5 @@
 items.png
-size: 1024,512
+size: 1024,1024
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
@@ -1924,6 +1924,188 @@ obj_utility_cabinet_broken_clean
 obj_utility_cabinet_broken_bloody
   rotate: false
   xy: 546, 392
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+door_arrival_wood_closed
+  rotate: false
+  xy: 2, 432
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+door_arrival_wood_cracked
+  rotate: false
+  xy: 36, 432
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+door_arrival_wood_broken
+  rotate: false
+  xy: 70, 432
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+door_arrival_wood_debris
+  rotate: false
+  xy: 104, 432
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+door_arrival_shutter_closed
+  rotate: false
+  xy: 138, 432
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+door_arrival_shutter_cracked
+  rotate: false
+  xy: 172, 432
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+door_arrival_shutter_broken
+  rotate: false
+  xy: 206, 432
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+door_arrival_shutter_debris
+  rotate: false
+  xy: 240, 432
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+door_arrival_barn_closed
+  rotate: false
+  xy: 274, 432
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+door_arrival_barn_cracked
+  rotate: false
+  xy: 308, 432
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+door_arrival_barn_broken
+  rotate: false
+  xy: 342, 432
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+door_arrival_barn_debris
+  rotate: false
+  xy: 376, 432
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+door_arrival_steel_closed
+  rotate: false
+  xy: 410, 432
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+door_arrival_steel_cracked
+  rotate: false
+  xy: 444, 432
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+door_arrival_steel_broken
+  rotate: false
+  xy: 478, 432
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+door_arrival_steel_debris
+  rotate: false
+  xy: 512, 432
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+door_arrival_iron_closed
+  rotate: false
+  xy: 546, 432
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+door_arrival_iron_cracked
+  rotate: false
+  xy: 580, 432
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+door_arrival_iron_broken
+  rotate: false
+  xy: 614, 432
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+door_arrival_iron_debris
+  rotate: false
+  xy: 648, 432
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+item_chamber_seal
+  rotate: false
+  xy: 682, 432
+  size: 96, 96
+  orig: 96, 96
+  offset: 0, 0
+  index: -1
+item_chamber_lamp
+  rotate: false
+  xy: 780, 432
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: 0
+item_chamber_lamp
+  rotate: false
+  xy: 814, 432
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: 1
+item_chain_wall
+  rotate: false
+  xy: 848, 432
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+item_claw_marks
+  rotate: false
+  xy: 882, 432
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+item_blood_drag
+  rotate: false
+  xy: 916, 432
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
